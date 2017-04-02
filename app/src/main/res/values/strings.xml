@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Convocation</string>
+    <string name="app_title">IITK Convocation \'17</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_maps">Map</string>
+
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyAcRBR_oZDQmCl6AqaAe_9JXHjl--LbNCUj
+    </string>
+</resources>

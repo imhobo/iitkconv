@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_schedule"
+            android:icon="@drawable/ic_schedule"
+            android:title="Schedule"/>
+        <item
+            android:id="@+id/nav_announce"
+            android:icon="@drawable/ic_announcement"
+            android:title="Announcements"/>
+        <item
+            android:id="@+id/nav_awards"
+            android:icon="@drawable/ic_star"
+            android:title="Awards and Honors"/>
+        <item
+            android:id="@+id/nav_grad"
+            android:icon="@drawable/ic_graduate"
+            android:title="Graduating Students"/>
+        <item
+            android:id="@+id/nav_honorary"
+            android:icon="@drawable/ic_hon"
+            android:title="Honorary Degrees"/>
+        <item
+            android:id="@+id/nav_webcast"
+            android:icon="@drawable/ic_livetv"
+            android:title="Webcast"/>
+        <item
+            android:id="@+id/nav_map"
+            android:icon="@drawable/ic_map"
+            android:title="Map"/>
+        <item
+            android:id="@+id/nav_nostalgia"
+            android:icon="@drawable/ic_photo"
+            android:title="Nostalgia"/>
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_contact"
+                android:icon="@drawable/ic_contact"
+                android:title="Contact Us"/>
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_info"
+                android:title="About Us"/>
+        </menu>
+    </item>
+
+</menu>
