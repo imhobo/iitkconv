@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //For Pulkit
         else if (id == R.id.nav_nostalgia)
         {
-
+            startDrawerActivity(GalleryActivity.class,1);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

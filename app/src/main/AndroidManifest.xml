@@ -52,6 +52,12 @@
             android:label="@string/title_activity_maps">
         </activity>
 
+        <activity
+            android:name=".GalleryActivity"
+            android:label="Nostalgia">
+        </activity>
+
+
         <!--
      Set custom default icon. This is used when no icon is set for incoming notification messages.
      See README(https://goo.gl/l4GJaQ) for more.

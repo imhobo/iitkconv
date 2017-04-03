@@ -79,18 +79,18 @@ public class GalleryActivity extends AppCompatActivity
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),3);
         recyclerView.setLayoutManager(layoutManager);
 
-        ArrayList<CreateList> createLists = prepareData();
-        MyAdapter adapter = new MyAdapter(getApplicationContext(), createLists);
+        ArrayList<CreateGalleryList> createLists = prepareData();
+        MyGalleryAdapter adapter = new MyGalleryAdapter(getApplicationContext(), createLists);
         recyclerView.setAdapter(adapter);
 
 
     }
 
-    private ArrayList<CreateList> prepareData(){
+    private ArrayList<CreateGalleryList> prepareData(){
 
-        ArrayList<CreateList> theimage = new ArrayList<>();
+        ArrayList<CreateGalleryList> theimage = new ArrayList<>();
         for(int i = 0; i< image_ids.length; i++){
-            CreateList createList = new CreateList();
+            CreateGalleryList createList = new CreateGalleryList();
             createList.setImage_ID(image_ids[i]);
             theimage.add(createList);
         }
