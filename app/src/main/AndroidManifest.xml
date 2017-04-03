@@ -51,12 +51,10 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps">
         </activity>
-
         <activity
             android:name=".GalleryActivity"
             android:label="Nostalgia">
         </activity>
-
 
         <!--
      Set custom default icon. This is used when no icon is set for incoming notification messages.
@@ -81,15 +79,21 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-
-
-        <service
-            android:name=".MyFirebaseInstanceIdService">
+        <service android:name=".MyFirebaseInstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
 
+        <activity
+            android:name=".WebcastActivity"
+            android:label="@string/title_activity_webcast"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.aps.iitconv.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>
