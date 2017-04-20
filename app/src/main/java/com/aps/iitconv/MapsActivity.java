@@ -1,5 +1,6 @@
 package com.aps.iitconv;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
@@ -7,9 +8,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.ui.IconGenerator;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -38,15 +44,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        IconGenerator iconFactory = new IconGenerator(this);
+
+
+        Map<LatLng,String> places = new HashMap<>();
+
+        places.put(new LatLng(26.507527, 80.234566),"Visitor's Hostel");
+        places.put(new LatLng(26.512941, 80.235817),"Auditorium");
+        places.put(new LatLng(26.510820, 80.234165),"LH 18,19,20");
+        places.put(new LatLng(26.505257, 80.233660),"Health Centre");
+        places.put(new LatLng(26.510784, 80.246734),"IIT Gate");
+        places.put(new LatLng(26.505290, 80.227989),"Hall 8");
+        places.put(new LatLng(26.505717, 80.226873),"Hall 10,11");
+
+
+        for (Map.Entry<LatLng, String> pair : places.entrySet())
+            addIcon(iconFactory,pair.getValue(),pair.getKey());
+
 
         LatLng iitk = new LatLng(26.512439, 80.232882);
-        mMap.addMarker(new MarkerOptions().position(iitk).title("IIT Kanpur"));
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(iitk).zoom(16).build();
+                .target(iitk).zoom(14).build();
         googleMap.animateCamera(CameraUpdateFactory
                 .newCameraPosition(cameraPosition));
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMapToolbarEnabled(true);
 
+    }
+
+    private void addIcon(IconGenerator iconFactory, CharSequence text, LatLng position) {
+        iconFactory.setColor(Color.YELLOW);
+        iconFactory.setTextAppearance(R.style.iconGenText);
+
+
+        MarkerOptions markerOptions = new MarkerOptions().
+                icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(text))).
+                position(position).
+                anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
+
+        mMap.addMarker(markerOptions);
     }
 }

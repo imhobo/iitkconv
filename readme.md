@@ -1,1 +1,2 @@
-Official Android App for IIT Kanpur Convocation 2017.
+# iitkconv
+Official IIT Kanpur Convocation App for 2017.
