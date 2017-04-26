@@ -1,5 +1,7 @@
 package com.aps.iitconv;
 
+import android.support.design.widget.TabLayout;
+
 /**
  * Created by imhobo on 31/3/17.
  */
@@ -7,38 +9,36 @@ package com.aps.iitconv;
 
 public class Table_Awards
 {
-    private int id;
+
     private String roll;
     private String name;
     private String award;
     private String description;
-    private String branch;
+    private String program;
+    private String dept;
     private String comment;
     private String year;
 
 
-    public Table_Awards(int id, String roll, String name, String award, String description, String branch, String comment, String year)
+    public Table_Awards(String roll, String name, String award, String description, String program, String dept, String comment, String year)
     {
-        this.id = id;
+
         this.roll = roll;
         this.name= name;
         this.award = award;
         this.description = description;
-        this.branch = branch;
+        this.program = program;
+        this.dept = dept;
         this.comment = comment;
         this.year = year;
 
     }
 
-    public int getId()
+    public Table_Awards()
     {
-        return id;
+
     }
 
-    public void setId(int id)
-    {
-        this.id = id;
-    }
 
     public String getRoll()
     {
@@ -80,14 +80,24 @@ public class Table_Awards
         this.description = description;
     }
 
-    public String getBranch()
+    public String getProgram()
     {
-        return branch;
+        return program;
     }
 
-    public void setBranch(String branch)
+    public void setProgram(String program)
     {
-        this.branch = branch;
+        this.program = program;
+    }
+
+    public String getDept()
+    {
+        return dept;
+    }
+
+    public void setDept(String dept)
+    {
+        this.dept = dept;
     }
 
     public String getComment()

@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +56,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //Receive messages from GCM Firebase
+        Bundle b = getIntent().getExtras();
+        if(b != null)
+        {
+            String message = null;
+            message = b.getString("message");
+            if(message != null)
+            {
+                Log.d("GCM Message",message);
+                DBHandler_Grad db = DBHandler_Grad.getInstance(this);
+                db.addAnnouncement(db.sqldb, message);
+                startDrawerActivity(CardViewActivity.class,2);
+            }
+
+        }
+        //---------------------------------------
 
     }
 
@@ -104,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         else if (id == R.id.nav_announce)
         {
-            startDrawerActivity(CardViewActivity.class,1);
+            startDrawerActivity(CardViewActivity.class,2);
 
         }
 
@@ -122,8 +139,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         else if (id == R.id.nav_honorary)
         {
-
+            startDrawerActivity(CardViewActivity.class,5);
         }
+
 
         // For Ankit
         else if (id == R.id.nav_map)
@@ -142,6 +160,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             startDrawerActivity(GalleryActivity.class,1);
         }
+
+        else if (id == R.id.nav_useful)
+        {
+            startDrawerActivity(CardViewActivity.class,9);
+        }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

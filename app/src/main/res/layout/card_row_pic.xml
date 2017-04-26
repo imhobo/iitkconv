@@ -3,12 +3,13 @@
               xmlns:card_view="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+
               android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="fill_parent"
-        android:layout_height="100dp"
+        android:layout_height="140dp"
         android:layout_gravity="center"
         android:layout_margin="5dp"
         android:foreground="?android:attr/selectableItemBackground"
@@ -27,33 +28,56 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageViewp1"
+                    android:id="@+id/imageView"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/abc_btn_radio_to_on_mtrl_015"/>
+                    android:src="@drawable/ic_graduate"/>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_weight="2"
-                    android:layout_gravity="center_vertical"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/textViewpic1"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:textStyle="bold"/>
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textViewpic1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_weight="1"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/textViewpic2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:gravity="right"/>
+
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/textViewpic2"
-                        android:layout_width="match_parent"
+                        android:id="@+id/textViewpic3"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:layout_below="@+id/textViewpic1"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:id="@+id/textViewpic4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textSize="11sp"
                         />
+
                 </LinearLayout>
             </LinearLayout>
 

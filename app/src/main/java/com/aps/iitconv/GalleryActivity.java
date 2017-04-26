@@ -3,6 +3,7 @@ package com.aps.iitconv;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -73,12 +74,21 @@ public class GalleryActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.imageGallery);
-//        recyclerView.setHasFixedSize(true);
+        //Clearing the existing UI
+        //frameLayout.removeAllViews();
 
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),3);
+        //getLayoutInflater().inflate(R.layout.card_view_generic, frameLayout);
+        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.imageGallery);
+        recyclerView.setHasFixedSize(true);
+
+
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(GalleryActivity.this,3);
         recyclerView.setLayoutManager(layoutManager);
 
+/*
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(GalleryActivity.this);
+        recyclerView.setLayoutManager(mLayoutManager);
+*/
         ArrayList<CreateGalleryList> createLists = prepareData();
         MyGalleryAdapter adapter = new MyGalleryAdapter(getApplicationContext(), createLists);
         recyclerView.setAdapter(adapter);

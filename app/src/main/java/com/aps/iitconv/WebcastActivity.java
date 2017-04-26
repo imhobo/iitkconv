@@ -1,5 +1,6 @@
 package com.aps.iitconv;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -42,9 +43,15 @@ public class WebcastActivity extends AppCompatActivity implements YouTubePlayer.
         //System controls will appear automatically
         mPlayer.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
 
-        if (!wasRestored) {
-            //player.cueVideo("9rLZYyMbJic");
-            mPlayer.loadVideo("9rLZYyMbJic");
+        SharedPreferences mPrefs = getApplicationContext().getSharedPreferences("lastDataFetch", MODE_PRIVATE);
+        String url = mPrefs.getString("FetchWebcast", String.valueOf(1));
+
+        if (!wasRestored)
+        {
+            if(url.equals("1"))
+                player.cueVideo("9rLZYyMbJic");
+            else
+                mPlayer.loadVideo(parseLink(url));
         }
         else
         {
@@ -58,5 +65,12 @@ public class WebcastActivity extends AppCompatActivity implements YouTubePlayer.
         mPlayer = null;
     }
 
+    protected String parseLink(String url)
+    {
+        String result;
+        //32 characters before youtube links reach "v="
+        result = url.substring(32);
+        return result;
+    }
 
 }

@@ -3,14 +3,34 @@ package com.aps.iitconv;
 /**
  * Created by imhobo on 31/3/17.
  */
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.Toast;
+import android.content.res.AssetManager;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class DBHandler_Grad extends SQLiteOpenHelper
@@ -20,30 +40,71 @@ public class DBHandler_Grad extends SQLiteOpenHelper
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "Database";
 
-    private static SQLiteDatabase db = null;
+    public static SQLiteDatabase sqldb = null;
 
     //Table 1 and Table 2 resp.
     private static final String TABLE_GRAD = "Table_Grad_Students";
     private static final String TABLE_AWARDS = "Table_Awards";
+    private static final String TABLE_SCHEDULE = "Table_Schedule";
+    private static final String TABLE_ANNOUNCEMENTS = "Table_Announcements";
+    private static final String TABLE_CONTACTS = "Table_Contacts";
+    private static final String TABLE_GUESTS = "Table_Guests";
+    private static final String TABLE_IMAGES = "Table_Images";
 
     // Table1 Columns names
-    private static final String T1_KEY_ID = "id";
+
     private static final String T1_KEY_ROLL = "roll";
     private static final String T1_KEY_NAME = "name";
     private static final String T1_KEY_ADVISERS = "advisers";
     private static final String T1_KEY_DESCRIPTION = "desc";
-    private static final String T1_KEY_BRANCH = "branch";
     private static final String T1_KEY_DEPT = "dept";
+    private static final String T1_KEY_PROGRAM = "program";
+
 
     // Table2 Columns names
-    private static final String T2_KEY_ID = "id";
+
     private static final String T2_KEY_ROLL = "roll";
     private static final String T2_KEY_NAME = "name";
     private static final String T2_KEY_AWARD = "award";
     private static final String T2_KEY_DESCRIPTION = "desc";
-    private static final String T2_KEY_BRANCH = "branch";
+    private static final String T2_KEY_DEPT = "dept";
+    private static final String T2_KEY_PROGRAM = "program";
     private static final String T2_KEY_COMMENT = "comment";
     private static final String T2_KEY_YEAR = "year";
+
+    // Table3 Columns names
+
+    private static final String T3_KEY_EVENT = "event";
+    private static final String T3_KEY_VENUE = "venue";
+    private static final String T3_KEY_DATE = "date";
+    private static final String T3_KEY_TIME = "time";
+
+    // Table4 Columns names
+
+    private static final String T4_KEY_TITLE = "title";
+
+
+    // Table5 Columns names
+
+    private static final String T5_KEY_NAME = "name";
+    private static final String T5_KEY_NUMBER = "number";
+    private static final String T5_KEY_TRANSPORT = "transport";
+
+
+    // Table6 Columns names
+
+    private static final String T6_KEY_NAME = "name";
+    private static final String T6_KEY_TITLE = "title";
+    private static final String T6_KEY_YEAR = "year";
+    private static final String T6_KEY_PICTURE = "picture";
+    private static final String T6_KEY_DESCRIPTION = "description";
+    private static final String T6_KEY_TYPE = "type";
+
+    // Table7 Columns names
+
+    private static final String T7_KEY_NAME = "name";
+    private static final String T7_KEY_IMAGE = "image";
+
 
 
 
@@ -69,36 +130,62 @@ public class DBHandler_Grad extends SQLiteOpenHelper
     {
 
         String CREATE_TABLE_1 = "CREATE TABLE " + TABLE_GRAD + "("
-        + T1_KEY_ID + " INTEGER PRIMARY KEY," + T1_KEY_ROLL + " TEXT,"
-        + T1_KEY_NAME + " TEXT," + T1_KEY_BRANCH + " TEXT," + T1_KEY_DEPT + " TEXT," + T1_KEY_ADVISERS + " TEXT," + T1_KEY_DESCRIPTION + " TEXT)";
+        + T1_KEY_ROLL + " TEXT," + T1_KEY_NAME + " TEXT," + T1_KEY_DEPT + " TEXT," + T1_KEY_PROGRAM + " TEXT," + T1_KEY_ADVISERS + " TEXT," + T1_KEY_DESCRIPTION + " TEXT)";
 
         db.execSQL(CREATE_TABLE_1);
 
-        String CREATE_TABLE_2 = "CREATE TABLE " + TABLE_AWARDS + "("
-                + T2_KEY_ID + " INTEGER PRIMARY KEY," + T2_KEY_ROLL + " TEXT,"
-                + T2_KEY_NAME + " TEXT," + T2_KEY_AWARD + " TEXT," + T2_KEY_DESCRIPTION + " TEXT," + T2_KEY_BRANCH + " TEXT," + T2_KEY_COMMENT + " TEXT," + T2_KEY_YEAR + " TEXT)";
+        String CREATE_TABLE_2 = "CREATE TABLE " + TABLE_AWARDS + "(" + T2_KEY_ROLL + " TEXT,"
+                + T2_KEY_NAME + " TEXT," + T2_KEY_AWARD + " TEXT," + T2_KEY_DESCRIPTION + " TEXT," + T2_KEY_DEPT + " TEXT," + T2_KEY_PROGRAM + " TEXT," + T2_KEY_COMMENT + " TEXT," + T2_KEY_YEAR + " TEXT)";
 
         db.execSQL(CREATE_TABLE_2);
+
+
+        String CREATE_TABLE_3 = "CREATE TABLE " + TABLE_SCHEDULE + "(" + T3_KEY_EVENT + " TEXT,"
+                + T3_KEY_VENUE + " TEXT," + T3_KEY_DATE + " TEXT," + T3_KEY_TIME + " TEXT)";
+
+        db.execSQL(CREATE_TABLE_3);
+
+
+        String CREATE_TABLE_4 = "CREATE TABLE " + TABLE_ANNOUNCEMENTS + "(" + T4_KEY_TITLE + " TEXT)";
+        db.execSQL(CREATE_TABLE_4);
+
+        String CREATE_TABLE_5 = "CREATE TABLE " + TABLE_CONTACTS + "(" + T5_KEY_NAME + " TEXT,"
+                + T5_KEY_NUMBER + " TEXT," + T5_KEY_TRANSPORT + " TEXT)";
+
+        db.execSQL(CREATE_TABLE_5);
+
+        String CREATE_TABLE_6 = "CREATE TABLE " + TABLE_GUESTS + "(" + T6_KEY_NAME + " TEXT,"
+                + T6_KEY_TITLE + " TEXT," + T6_KEY_YEAR + " TEXT,"+ T6_KEY_PICTURE + " TEXT," + T6_KEY_TYPE + " TEXT," +  T6_KEY_DESCRIPTION + " TEXT)";
+
+        db.execSQL(CREATE_TABLE_6);
+
+
+        String CREATE_TABLE_7 = "CREATE TABLE " + TABLE_IMAGES + "(" + T7_KEY_NAME + " TEXT," + T7_KEY_IMAGE + " BLOB)";
+
+        db.execSQL(CREATE_TABLE_7);
 
 
 
         //Write code for inserting all students data in the database.
         //Use the addStudent function
-        addStudent1(db,new Table_Grad_Students(1,"15111041","safal","Computer Science","M.Tech","TVP","Mookit"));
-        addStudent1(db,new Table_Grad_Students(2,"15111042","ankit","Elec Science","M.Des","TVP","Mookit2"));
-        addStudent1(db,new Table_Grad_Students(3,"15111043","pulkit","Mech Science","MBA","TVP","Mookit3"));
-        addStudent1(db,new Table_Grad_Students(4,"15111044","t1","Bio Science","Phd","TVP","Mookit4"));
-        addStudent1(db,new Table_Grad_Students(5,"15111045","t2","Env Science","Dual","TVP","Mookit5"));
-        addStudent1(db,new Table_Grad_Students(6,"15111046","t3","Computer Science","MS","TVP","Mookit6"));
-        addStudent1(db,new Table_Grad_Students(7,"15111047","t4","Computer Science","B.Tech","TVP","Mookit7"));
+      /*
+        addStudent1(sqldb,new Table_Grad_Students(1,"15111041","safal","Computer Science","M.Tech","TVP","Mookit"));
+        addStudent1(sqldb,new Table_Grad_Students(2,"15111042","ankit","Elec Science","M.Des","TVP","Mookit2"));
+        addStudent1(sqldb,new Table_Grad_Students(3,"15111043","pulkit","Mech Science","MBA","TVP","Mookit3"));
+        addStudent1(sqldb,new Table_Grad_Students(4,"15111044","t1","Bio Science","Phd","TVP","Mookit4"));
+        addStudent1(sqldb,new Table_Grad_Students(5,"15111045","t2","Env Science","Dual","TVP","Mookit5"));
+        addStudent1(sqldb,new Table_Grad_Students(6,"15111046","t3","Computer Science","MS","TVP","Mookit6"));
+        addStudent1(sqldb,new Table_Grad_Students(7,"15111047","t4","Computer Science","B.Tech","TVP","Mookit7"));
 
-        addStudent2(db,new Table_Awards(1,"15111041","safal","President's Gold Medal","Prestigious very amazing","Maths","M.Tech","2008"));
-        addStudent2(db,new Table_Awards(2,"15111042","ankit","Award 2","Some text 2","Civil","M.Des","2009"));
-        addStudent2(db,new Table_Awards(3,"15111043","pulkit","Award 3","Some text 3","Mechanical","MBA","3012"));
-        addStudent2(db,new Table_Awards(4,"15111044","t1","Award 4","Some text 4","Physics","Phd","1678"));
-        addStudent2(db,new Table_Awards(5,"15111045","t2","Award 5","Some text 5","Env","Dual","1879"));
-        addStudent2(db,new Table_Awards(6,"15111046","t3","Award 6","Some text 6","Computer","MS","1409"));
-        addStudent2(db,new Table_Awards(7,"15111047","t4","Award 7","Some text 7","Electrical","B.Tech","1564"));
+        addStudent2(sqldb,new Table_Awards(1,"15111041","safal","President's Gold Medal","Prestigious very amazing","Maths","M.Tech","2008"));
+        addStudent2(sqldb,new Table_Awards(2,"15111042","ankit","Award 2","Some text 2","Civil","M.Des","2009"));
+        addStudent2(sqldb,new Table_Awards(3,"15111043","pulkit","Award 3","Some text 3","Mechanical","MBA","3012"));
+        addStudent2(sqldb,new Table_Awards(4,"15111044","t1","Award 4","Some text 4","Physics","Phd","1678"));
+        addStudent2(sqldb,new Table_Awards(5,"15111045","t2","Award 5","Some text 5","Env","Dual","1879"));
+        addStudent2(sqldb,new Table_Awards(6,"15111046","t3","Award 6","Some text 6","Computer","MS","1409"));
+        addStudent2(sqldb,new Table_Awards(7,"15111047","t4","Award 7","Some text 7","Electrical","B.Tech","1564"));
+     */
+
 
 
         Log.d("DATABASE onCreate", "Tables created");
@@ -110,9 +197,14 @@ public class DBHandler_Grad extends SQLiteOpenHelper
     {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_GRAD);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_AWARDS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ANNOUNCEMENTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SCHEDULE);
         // Creating tables again
         onCreate(db);
     }
+
 
     //----------------------------------------------------------------------------Methods for Table 1 -- TABLE_GRAD_STUDENTS
 
@@ -120,37 +212,23 @@ public class DBHandler_Grad extends SQLiteOpenHelper
     public void addStudent1(SQLiteDatabase db, Table_Grad_Students student)
     {
 
+        db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(T1_KEY_ID, student.getId());
         values.put(T1_KEY_NAME, student.getName());
         values.put(T1_KEY_ROLL, student.getRoll());
         values.put(T1_KEY_ADVISERS, student.getAdvisers());
         values.put(T1_KEY_DESCRIPTION, student.getDescription());
-        values.put(T1_KEY_BRANCH, student.getBranch());
+        values.put(T1_KEY_PROGRAM, student.getProgram());
         values.put(T1_KEY_DEPT, student.getDept());
 
         // Inserting Row
         db.insert(TABLE_GRAD, null, values);
-
+        db.close();
         Log.d("AddStudent","Student added + " + student.getName());
     }
 
-    // Getting one student
-    public Table_Grad_Students getStudent1(int id)
-    {
-        SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_GRAD, new String[]{T1_KEY_ID, T1_KEY_ROLL, T1_KEY_NAME, T1_KEY_ADVISERS, T1_KEY_DESCRIPTION, T1_KEY_BRANCH, T1_KEY_DEPT}, T1_KEY_ID + "=?",
-        new String[]{String.valueOf(id)}, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
-
-        Table_Grad_Students student = new Table_Grad_Students(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6));
-
-        return student;
-    }
     // Getting All Students
     public List<Table_Grad_Students> getStudents1()
     {
@@ -166,8 +244,8 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         {
             do
             {
-                Table_Grad_Students student = new Table_Grad_Students(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),
-                        cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6));
+                Table_Grad_Students student = new Table_Grad_Students(cursor.getString(0), cursor.getString(1),
+                        cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
                 studentList.add(student);
             } while (cursor.moveToNext());
         }
@@ -189,23 +267,43 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         {
             do
             {
-                Table_Grad_Students student = new Table_Grad_Students(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),
-                        cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6));
+                Table_Grad_Students student = new Table_Grad_Students(cursor.getString(0), cursor.getString(1),
+                        cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
                 studentList.add(student);
             } while (cursor.moveToNext());
         }
         return studentList;
     }
 
-    //Get list of all departments
-    public List<String> getDept1()
+    //Get list of all departments in a program
+    public List<String> getDept1(String program)
     {
 
+        String query = "SELECT DISTINCT dept FROM " + TABLE_GRAD + " WHERE program = " + "'" + program + "'";
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT DISTINCT dept FROM " + TABLE_GRAD;
         Cursor cursor = db.rawQuery(query, null);
         // looping through all rows and adding to list
 
+        List<String> results = new ArrayList<String>();
+        if (cursor.moveToFirst())
+        {
+            do
+            {
+                results.add(cursor.getString(0));
+
+            } while (cursor.moveToNext());
+        }
+        return results;
+
+    }
+
+    //Get list of all programs
+    public List<String> getProgram1()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT DISTINCT program FROM " + TABLE_GRAD;
+        Cursor cursor = db.rawQuery(query, null);
+        // looping through all rows and adding to list
 
         List<String> results = new ArrayList<String>();
 
@@ -222,27 +320,6 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         return results;
     }
 
-    //Get list of all branches in a department
-    public List<String> getBranch1(String dep)
-    {
-
-        String query = "SELECT DISTINCT branch FROM " + TABLE_GRAD + " WHERE dept = " + "'" + dep + "'";
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-        // looping through all rows and adding to list
-
-        List<String> results = new ArrayList<String>();
-        if (cursor.moveToFirst())
-        {
-            do
-            {
-                results.add(cursor.getString(0));
-
-            } while (cursor.moveToNext());
-        }
-        return results;
-    }
-
     // Getting student Count
     public int getStudentCount1()
     {
@@ -253,33 +330,6 @@ public class DBHandler_Grad extends SQLiteOpenHelper
 
         return cursor.getCount();
     }
-    // Updating a student
-    public int updateStudent1(Table_Grad_Students student)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(T1_KEY_NAME, student.getName());
-        values.put(T1_KEY_ROLL, student.getRoll());
-        values.put(T1_KEY_ADVISERS, student.getAdvisers());
-        values.put(T1_KEY_DESCRIPTION, student.getDescription());
-        values.put(T1_KEY_BRANCH, student.getBranch());
-        values.put(T1_KEY_DEPT, student.getDept());
-
-
-        return db.update(TABLE_GRAD, values, T1_KEY_ID + " = ?",
-                new String[]{String.valueOf(student.getId())});
-    }
-
-    // Deleting a student
-    public void deleteStudent1(Table_Grad_Students student)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_GRAD, T1_KEY_ID + " = ?",
-                new String[] { String.valueOf(student.getId()) });
-        db.close();
-    }
-
 
 
     //------------------------------------------------------------------------- Methods for Table 2 -- TABLE_AWARDS
@@ -288,20 +338,23 @@ public class DBHandler_Grad extends SQLiteOpenHelper
     public void addStudent2(SQLiteDatabase db, Table_Awards student)
     {
 
+        db = this.getWritableDatabase();
+
         ContentValues values = new ContentValues();
 
-        values.put(T2_KEY_ID, student.getId());
         values.put(T2_KEY_NAME, student.getName());
         values.put(T2_KEY_ROLL, student.getRoll());
         values.put(T2_KEY_AWARD, student.getAward());
         values.put(T2_KEY_DESCRIPTION, student.getDescription());
-        values.put(T2_KEY_BRANCH, student.getBranch());
+        values.put(T2_KEY_PROGRAM, student.getProgram());
+        values.put(T2_KEY_DEPT, student.getDept());
         values.put(T2_KEY_COMMENT, student.getComment());
         values.put(T2_KEY_YEAR, student.getYear());
 
         // Inserting Row
         db.insert(TABLE_AWARDS, null, values);
 
+        db.close();
         Log.d("AddStudent2","Student added + " + student.getName());
     }
 
@@ -311,15 +364,15 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         List<Table_Awards> studentList = new ArrayList<Table_Awards>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_GRAD, new String[]{T2_KEY_ID, T2_KEY_ROLL, T2_KEY_NAME, T2_KEY_AWARD, T2_KEY_DESCRIPTION, T2_KEY_BRANCH, T2_KEY_COMMENT, T2_KEY_YEAR}, T2_KEY_AWARD + "=?",
+        Cursor cursor = db.query(TABLE_GRAD, new String[]{T2_KEY_ROLL, T2_KEY_NAME, T2_KEY_AWARD, T2_KEY_DESCRIPTION, T2_KEY_PROGRAM, T2_KEY_DEPT, T2_KEY_COMMENT, T2_KEY_YEAR}, T2_KEY_AWARD + "=?",
                 new String[]{award}, null, null, null, null);
 
         if (cursor.moveToFirst())
         {
             do
             {
-                Table_Awards student= new Table_Awards(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),
-                        cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+                Table_Awards student= new Table_Awards(cursor.getString(0), cursor.getString(1),
+                        cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
                 studentList.add(student);
             } while (cursor.moveToNext());
         }
@@ -335,7 +388,7 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         //Log.d("Query : ", query);
 
         String table = TABLE_AWARDS;
-        String[] columns = {T2_KEY_ID,T2_KEY_ROLL,T2_KEY_NAME,T2_KEY_AWARD,T2_KEY_DESCRIPTION,T2_KEY_COMMENT,T2_KEY_BRANCH,T2_KEY_YEAR};
+        String[] columns = {T2_KEY_ROLL,T2_KEY_NAME,T2_KEY_AWARD,T2_KEY_DESCRIPTION,T2_KEY_COMMENT, T2_KEY_PROGRAM,T2_KEY_DEPT,T2_KEY_YEAR};
         String selection = T2_KEY_AWARD + " =?";
         String[] selectionArgs = {award};
         String groupBy = null;
@@ -351,8 +404,8 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         {
             do
             {
-                Table_Awards student = new Table_Awards(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),
-                        cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+                Table_Awards student = new Table_Awards(cursor.getString(0), cursor.getString(1),
+                        cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
                 studentList.add(student);
             } while (cursor.moveToNext());
         }
@@ -411,6 +464,275 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         return results;
     }
 
+    //Get Comment
+    public String getComment2(String award)
+    {
+
+        String table = TABLE_AWARDS;
+        String[] columns = {T2_KEY_COMMENT};
+        String selection = T2_KEY_AWARD + " =?";
+        String[] selectionArgs = {award};
+        String groupBy = null;
+        String having = null;
+        String orderBy = null;
+        String limit = null;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
+
+        // looping through all rows and adding to list
+        String results = null;
+        if (cursor.moveToFirst())
+        {
+            do
+            {
+                results = cursor.getString(0);
+
+            } while (cursor.moveToNext());
+        }
+        return results;
+    }
+
+    public void deleteAwardsAndStudents()
+    {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_GRAD,null,null);
+        db.delete(TABLE_AWARDS,null,null);
+        db.close();
+
+    }
+
+    //------------------------------------------------------------------------- Methods for Adding Events in Schedule --TABLE_SCHEDULE --TABLE 3
+    // Adding new Event
+    public void addEvent(SQLiteDatabase db, String title, String venue, String date, String time)
+    {
+
+        db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(T3_KEY_EVENT, title);
+        values.put(T3_KEY_VENUE, venue);
+        values.put(T3_KEY_DATE, date);
+        values.put(T3_KEY_TIME, time);
+
+        // Inserting Row
+        db.insert(TABLE_SCHEDULE, null, values);
+
+        db.close();
+        Log.d("AddEvent","Event added + " + time);
+    }
+
+    //Get all Events
+
+    public List<Table_Schedule> getSchedule()
+    {
+        List<Table_Schedule> eventList = new ArrayList<Table_Schedule>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_SCHEDULE, new String[]{T3_KEY_EVENT, T3_KEY_VENUE, T3_KEY_DATE, T3_KEY_TIME},
+                null, null, null, null, null);
+
+        if (cursor.moveToFirst())
+        {
+            do
+            {
+                Table_Schedule event= new Table_Schedule(cursor.getString(0), cursor.getString(1),
+                        cursor.getString(2), cursor.getString(3));
+                eventList.add(event);
+                Log.d("AddEventGet","Event added + " + event.getTime());
+            } while (cursor.moveToNext());
+        }
+
+        return eventList;
+    }
+
+    public void deleteSchedule()
+    {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SCHEDULE,null,null);
+        db.close();
+    }
+
+
+    //------------------------------------------------------------------------- Methods for Adding Announcements --TABLE_ANNOUNCEMENTS -- TABLE 4
+
+    // Adding new Announcement
+    public void addAnnouncement(SQLiteDatabase db, String title)
+    {
+
+        if(title.equals(""))return;
+
+        db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(T4_KEY_TITLE, title);
+
+        // Inserting Row
+        db.insert(TABLE_ANNOUNCEMENTS, null, values);
+
+        db.close();
+        Log.d("AddAnnouncement","Added + " + title);
+    }
+
+
+    public List<String> getAnnouncements()
+    {
+        List<String> eventList = new ArrayList<String>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_ANNOUNCEMENTS, new String[]{T4_KEY_TITLE},
+                null, null, null, null, null);
+
+        if (cursor.moveToFirst())
+        {
+            do
+            {
+                String a= new String(cursor.getString(0));
+                eventList.add(a);
+                Log.d("AddAnnouncementGet","Added + " + a);
+            } while (cursor.moveToNext());
+        }
+
+        return eventList;
+    }
+
+    public void deleteAnnouncements()
+    {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_ANNOUNCEMENTS,null,null);
+        db.close();
+    }
+
+
+    //------------------------------------------------------------------------- Methods for Adding Contacts Auto/Taxi --TABLE_CONTACTS -- TABLE 5
+
+
+    // Adding new Event
+    public void addContact(SQLiteDatabase db, Table_Contact c)
+    {
+
+        db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(T5_KEY_NAME, c.getName());
+        values.put(T5_KEY_NUMBER, c.getNumber());
+        values.put(T5_KEY_TRANSPORT, c.getTransport());
+
+
+        // Inserting Row
+        db.insert(TABLE_CONTACTS, null, values);
+
+        db.close();
+        Log.d("AddContact","Contact added + " + c.getNumber());
+    }
+
+    //Get all Contacts
+
+    public List<Table_Contact> getContacts()
+    {
+        List<Table_Contact> contactList = new ArrayList<Table_Contact>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_CONTACTS, new String[]{T5_KEY_NAME, T5_KEY_NUMBER, T5_KEY_TRANSPORT},
+                null, null, null, null, null);
+
+        if (cursor.moveToFirst())
+        {
+            do
+            {
+                Table_Contact c= new Table_Contact(cursor.getString(0), cursor.getString(1),
+                        cursor.getString(2));
+                contactList.add(c);
+                Log.d("AddContactGet","Contact added + " + c.getNumber());
+            } while (cursor.moveToNext());
+        }
+
+        return contactList;
+    }
+
+    public void deleteContacts()
+    {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_CONTACTS,null,null);
+        db.close();
+    }
+
+
+    //------------------------------------------------------------------------- Methods for Adding Guests --TABLE_GUESTS -- TABLE 6
+
+    // Adding new Guest
+    public void addGuest(SQLiteDatabase db, Table_Guest c)
+    {
+
+        db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(T6_KEY_NAME, c.getName());
+        values.put(T6_KEY_TITLE, c.getTitle());
+        values.put(T6_KEY_YEAR, c.getYear());
+        values.put(T6_KEY_PICTURE, c.getPicture());
+        values.put(T6_KEY_DESCRIPTION, c.getDescription());
+        values.put(T6_KEY_TYPE, c.getType());
+
+        // Inserting Row
+        db.insert(TABLE_GUESTS, null, values);
+
+    }
+
+    //Get all guests of a particular type
+
+    public List<Table_Guest> getGuests(String type)
+    {
+        List<Table_Guest> guestList = new ArrayList<Table_Guest>();
+
+        //Log.d("Query : ", query);
+
+        String table = TABLE_GUESTS;
+        String[] columns = {T6_KEY_NAME,T6_KEY_TITLE,T6_KEY_YEAR,T6_KEY_PICTURE,T6_KEY_DESCRIPTION, T6_KEY_TYPE};
+        String selection = T6_KEY_TYPE + " =?";
+        String[] selectionArgs = {type};
+        String groupBy = null;
+        String having = null;
+        String orderBy = null;
+        String limit = null;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst())
+        {
+            do
+            {
+                Table_Guest g = new Table_Guest(cursor.getString(0), cursor.getString(1),
+                        cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
+                guestList.add(g);
+            } while (cursor.moveToNext());
+        }
+        return guestList;
+    }
+
+    public void deleteGuests(String type)
+    {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String table = TABLE_GUESTS;
+        String whereClause = T6_KEY_TYPE + "=?";
+        String[] whereArgs = new String[] { type };
+        db.delete(table, whereClause, whereArgs);
+        db.close();
+    }
+
 
 
 }
+
+

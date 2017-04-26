@@ -7,50 +7,45 @@ package com.aps.iitconv;
 
 public class Table_Grad_Students
 {
-    private int id;
+
     private String roll;
     private String name;
     private String advisers;
     private String description;
-    private String branch;
+    private String program;
     private String dept;
 
 
-    public Table_Grad_Students(int id, String roll, String name, String branch, String dept, String advisors, String description)
+    public Table_Grad_Students(String roll, String name, String program, String dept, String advisors, String description)
     {
-        this.id = id;
+
         this.roll = roll;
         this.name= name;
         this.advisers = advisors;
         this.description = description;
-        this.branch = branch;
+        this.program = program;
         this.dept = dept;
 
     }
 
-    public Table_Grad_Students(int id, String roll, String name, String branch, String dept )
+    public Table_Grad_Students(String roll, String name, String program, String dept )
     {
-        this.id = id;
+
         this.roll = roll;
         this.name= name;
 
         this.advisers = "";
         this.description = "";
-        this.branch = branch;
+        this.program = program;
         this.dept = dept;
 
     }
 
-
-    public int getId()
+    public Table_Grad_Students()
     {
-        return id;
+        
     }
 
-    public void setId(int id)
-    {
-        this.id = id;
-    }
 
     public String getRoll()
     {
@@ -92,14 +87,14 @@ public class Table_Grad_Students
         this.description = description;
     }
 
-    public String getBranch()
+    public String getProgram()
     {
-        return branch;
+        return program;
     }
 
-    public void setBranch(String branch)
+    public void setProgram(String program)
     {
-        this.branch = branch;
+        this.program = program;
     }
 
     public String getDept()
