@@ -32,7 +32,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 
 public class CardViewActivity extends MainActivity
@@ -82,7 +81,7 @@ public class CardViewActivity extends MainActivity
     private static final String T1_KEY_ID = "id";
     private static final String T1_KEY_ROLL = "roll";
     private static final String T1_KEY_NAME = "name";
-    private static final String T1_KEY_ADVISERS = "advisers";
+    private static final String T1_KEY_ADVISERS = "advisors";
     private static final String T1_KEY_DESCRIPTION = "desc";
     private static final String T1_KEY_DEPT = "dept";
     private static final String T1_KEY_PROGRAM = "program";

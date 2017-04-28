@@ -2,14 +2,13 @@ package com.aps.iitconv;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 
-public class WebcastActivity extends AppCompatActivity implements YouTubePlayer.OnInitializedListener{
+public class WebcastActivity extends MainActivity implements YouTubePlayer.OnInitializedListener{
 
     private YouTubePlayerSupportFragment  playerFragment;
     private YouTubePlayer mPlayer;
@@ -18,7 +17,7 @@ public class WebcastActivity extends AppCompatActivity implements YouTubePlayer.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_webcast);
+        getLayoutInflater().inflate(R.layout.activity_webcast, frameLayout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
