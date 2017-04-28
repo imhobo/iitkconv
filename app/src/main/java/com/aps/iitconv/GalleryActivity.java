@@ -13,7 +13,9 @@ public class GalleryActivity extends MainActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        getLayoutInflater().inflate(R.layout.activity_gallery, frameLayout);
+
+        setContentView(R.layout.activity_gallery);
+
     }
 
 }
