@@ -226,9 +226,9 @@ public class CardViewActivity extends MainActivity
         ArrayList<String> tempHolder = new ArrayList<String>();
         tempHolder = (ArrayList) db.getAnnouncements();
 
-        for (String i : tempHolder)
+        for (String s : tempHolder)
         {
-            results.add(new DataObject(i));
+            results.add(new DataObject(s));
         }
 
         return results;

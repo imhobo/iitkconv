@@ -104,7 +104,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.aps.iitconv.com.aps.iitkconv.activities.MainActivity"/>
+                android:value="com.aps.iitkconv.activities.MainActivity"/>
         </activity>
     </application>
 
