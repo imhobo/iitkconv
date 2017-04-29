@@ -1,4 +1,4 @@
-package com.aps.iitconv;
+package com.aps.iitkconv.models;
 
 /**
  * Created by imhobo on 31/3/17.

@@ -1,4 +1,4 @@
-package com.aps.iitconv;
+package com.aps.iitkconv.services;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,8 +9,9 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.aps.iitkconv.models.DBHandler_Grad;
+import com.aps.iitconv.MainActivity;
+import com.aps.iitconv.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 

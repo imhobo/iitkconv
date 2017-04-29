@@ -1,4 +1,4 @@
-package com.aps.iitconv;
+package com.aps.iitkconv.models;
 
 /**
  * Created by imhobo on 31/3/17.
@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.aps.iitconv.R;
 
 import java.util.ArrayList;
 

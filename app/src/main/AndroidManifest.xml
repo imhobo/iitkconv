@@ -84,14 +84,14 @@
             android:resource="@color/colorAccent"/>
 
         <service
-            android:name=".MyFirebaseMessagingService"
+            android:name="com.aps.iitkconv.services.MyFirebaseMessagingService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-        <service android:name=".MyFirebaseInstanceIdService">
+        <service android:name="com.aps.iitkconv.services.MyFirebaseInstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>

@@ -1,4 +1,4 @@
-package com.aps.iitconv;
+package com.aps.iitkconv.models;
 
 /**
  * Created by imhobo on 31/3/17.
@@ -15,30 +15,30 @@ public class DataObject
     private String mText7="";
     private String mText8="";
 
-    DataObject (String text1)
+    public DataObject (String text1)
     {
         mText1 = text1;
     }
-    DataObject (String text1, String text2)
+    public DataObject (String text1, String text2)
     {
         mText1 = text1;
         mText2 = text2;
     }
-    DataObject (String text1, String text2, String text3)
+    public DataObject (String text1, String text2, String text3)
     {
         mText1 = text1;
         mText2 = text2;
         mText3 = text3;
     }
 
-    DataObject (String text1, String text2, String text3, String text4)
+    public DataObject (String text1, String text2, String text3, String text4)
     {
         mText1 = text1;
         mText2 = text2;
         mText3 = text3;
         mText4 = text4;
     }
-    DataObject (String text1, String text2, String text3, String text4, String text5)
+    public DataObject (String text1, String text2, String text3, String text4, String text5)
     {
         mText1 = text1;
         mText2 = text2;
@@ -46,7 +46,7 @@ public class DataObject
         mText4 = text4;
         mText5 = text5;
     }
-    DataObject (String text1, String text2, String text3, String text4, String text5, String text6)
+    public DataObject (String text1, String text2, String text3, String text4, String text5, String text6)
     {
         mText1 = text1;
         mText2 = text2;
@@ -55,7 +55,7 @@ public class DataObject
         mText5 = text5;
         mText6 = text6;
     }
-    DataObject (String text1, String text2, String text3, String text4, String text5, String text6, String text7)
+    public DataObject (String text1, String text2, String text3, String text4, String text5, String text6, String text7)
     {
         mText1 = text1;
         mText2 = text2;
@@ -65,7 +65,7 @@ public class DataObject
         mText6 = text6;
         mText7 = text7;
     }
-    DataObject (String text1, String text2, String text3, String text4, String text5, String text6, String text7, String text8)
+    public DataObject (String text1, String text2, String text3, String text4, String text5, String text6, String text7, String text8)
     {
         mText1 = text1;
         mText2 = text2;
