@@ -1,4 +1,4 @@
-package com.aps.iitconv;
+package com.aps.iitkconv.activities;
 
 /**
  * Created by imhobo on 31/3/17.
@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aps.iitconv.R;
 import com.aps.iitkconv.models.DBHandler_Grad;
 import com.aps.iitkconv.models.DataObject;
 import com.aps.iitkconv.models.MyRecyclerViewAdapter;

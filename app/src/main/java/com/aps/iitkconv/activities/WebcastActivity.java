@@ -1,8 +1,9 @@
-package com.aps.iitconv;
+package com.aps.iitkconv.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.aps.iitconv.R;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;

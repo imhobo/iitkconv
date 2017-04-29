@@ -10,7 +10,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.aps.iitkconv.models.DBHandler_Grad;
-import com.aps.iitconv.MainActivity;
+import com.aps.iitkconv.activities.MainActivity;
 import com.aps.iitconv.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;

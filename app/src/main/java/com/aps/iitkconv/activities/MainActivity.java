@@ -1,4 +1,4 @@
-package com.aps.iitconv;
+package com.aps.iitkconv.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.aps.iitconv.R;
 import com.aps.iitkconv.models.DBHandler_Grad;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener

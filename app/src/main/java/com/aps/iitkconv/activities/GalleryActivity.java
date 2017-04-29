@@ -1,6 +1,8 @@
-package com.aps.iitconv;
+package com.aps.iitkconv.activities;
 
 import android.os.Bundle;
+
+import com.aps.iitconv.R;
 
 /**
  * Created by ankitkumar on 29/04/17.

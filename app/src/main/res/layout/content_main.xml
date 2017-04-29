@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/exhort"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.aps.iitconv.MainActivity">
+    tools:context="com.aps.iitconv.com.aps.iitkconv.activities.MainActivity">
 
 
 </android.support.constraint.ConstraintLayout>
