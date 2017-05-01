@@ -40,8 +40,18 @@ public class DataObject
         mTexts.set(2,mText3);
     }
 
-    public String getmText4() {
-        return mTexts.get(3) == null ? "" : mTexts.get(3);
+    //Ideally do this everywhere
+    public String getmText4()
+    {
+        String value = "";
+        try
+        {
+            value =  mTexts.get(3);
+        }catch (IndexOutOfBoundsException e)
+        {
+            return value;
+        }
+        return value;
     }
 
     public void setmText4(String mText4) {
