@@ -8,4 +8,26 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_webcast">WebcastActivity</string>
+
+    <string name="ip">http://34.204.142.107/media/documents/</string>
+    <string name="u1">format.xlsx</string>
+    <string name="u2">schedule.xlsx</string>
+    <string name="u3">taxi.xlsx</string>
+    <string name="u4">webcast.txt</string>
+    <string name="u5">format_epoch.txt</string>
+    <string name="u6">schedule_epoch.txt</string>
+    <string name="u7">taxi_epoch.txt</string>
+    <string name="u8">hon_degree.xlsx</string>
+    <string name="u9">hon_degree_epoch.txt</string>
+    <string name="u10">chief_guests.xlsx</string>
+    <string name="u11">chief_guests_epoch.txt</string>
+
+
+    <string name="TYPE_H">H</string>
+    <string name="TYPE_C">C</string>
+    <string name="TYPE_S">S</string>
+
+
+
+
 </resources>

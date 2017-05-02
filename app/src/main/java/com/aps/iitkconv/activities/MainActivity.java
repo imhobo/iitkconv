@@ -1,32 +1,74 @@
 package com.aps.iitkconv.activities;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.AssetManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aps.iitconv.R;
 import com.aps.iitkconv.models.DBHandler_Grad;
+import com.aps.iitkconv.models.DataObject;
+import com.aps.iitkconv.models.MyRecyclerViewAdapter;
+import com.aps.iitkconv.models.Table_Awards;
+import com.aps.iitkconv.models.Table_Contact;
+import com.aps.iitkconv.models.Table_Grad_Students;
+import com.aps.iitkconv.models.Table_Guest;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import static android.support.design.R.id.dialog;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
 
     protected FrameLayout frameLayout;
+    private Context mContext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Setting application context so that it can be accessed from everywhere
+        mContext = MainActivity.this;
 
         //Changing the action bar title
         this.setTitle(R.string.app_title);
@@ -67,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -101,7 +145,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(MenuItem item)
+    {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -133,20 +178,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startDrawerActivity(CardViewActivity.class,5);
         }
 
+        else if (id == R.id.nav_chief)
+        {
+            startDrawerActivity(CardViewActivity.class,50);
+        }
 
-        // For Ankit
         else if (id == R.id.nav_map)
         {
             startDrawerActivity(MapsActivity.class,6);
         }
 
-        //For Ankit
         else if (id == R.id.nav_webcast)
         {
             startDrawerActivity(WebcastActivity.class,1);
         }
 
-        //For Pulkit
         else if (id == R.id.nav_nostalgia)
         {
             startDrawerActivity(GalleryActivity.class,1);
@@ -181,4 +227,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }, 200);
     }
+
 }

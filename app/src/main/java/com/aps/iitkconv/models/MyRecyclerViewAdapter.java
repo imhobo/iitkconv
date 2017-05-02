@@ -65,12 +65,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 t4 = (TextView) itemView.findViewById(R.id.textViewpic4);
             }
 
-            else if(val == 5)
+            else if(val == 5 || val == 50)
             {
 
                 t1 = (TextView) itemView.findViewById(R.id.textViewbig1);
                 t2 = (TextView) itemView.findViewById(R.id.textViewbig2);
                 t3 = (TextView) itemView.findViewById(R.id.textViewbig3);
+                pic = (ImageView) itemView.findViewById(R.id.imageViewBig);
 
             }
 
@@ -100,7 +101,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     }
 
 
-
     @Override
     public DataObjectHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
@@ -118,7 +118,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         else if(val==30)
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_pic, parent, false);
 
-        else if(val==5)
+        else if(val==5 || val == 50)
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_big, parent, false);
 
 
@@ -129,6 +129,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position)
     {
+
         if(val == 400)
         {
             holder.t1.setText(mDataset.get(position).getmText1());
@@ -146,11 +147,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             holder.t4.setText(mDataset.get(position).getmText4());
         }
 
-        else if(val == 5)
+        else if(val == 5 || val ==50)
         {
             holder.t1.setText(mDataset.get(position).getmText1());
             holder.t2.setText(mDataset.get(position).getmText2());
             holder.t3.setText(mDataset.get(position).getmText5());
+            holder.pic.setImageBitmap(mDataset.get(position).getmImg());
         }
 
         else if(val==31 || val == 30)

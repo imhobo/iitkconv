@@ -1,5 +1,9 @@
 package com.aps.iitkconv.models;
 
+import android.graphics.Bitmap;
+import android.media.Image;
+import android.widget.ImageView;
+
 import java.util.ArrayList;
 
 /**
@@ -14,6 +18,26 @@ public class DataObject
     {
         for(String text: texts)
             mTexts.add(text);
+    }
+
+    private Bitmap mImg;
+
+    public DataObject(Bitmap img, String... texts)
+    {
+        mImg = img;
+        for(String text: texts)
+            mTexts.add(text);
+    }
+
+
+    public Bitmap getmImg()
+    {
+        return mImg;
+    }
+
+    public void setmImg(Bitmap img)
+    {
+        mImg = img;
     }
 
     public String getmText1() {

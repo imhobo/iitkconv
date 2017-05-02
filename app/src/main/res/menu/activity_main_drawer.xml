@@ -24,6 +24,11 @@
             android:icon="@drawable/ic_hon"
             android:title="Honorary Degrees"/>
         <item
+            android:id="@+id/nav_chief"
+            android:icon="@drawable/ic_guests"
+            android:title="Chief Guests"/>
+
+        <item
             android:id="@+id/nav_webcast"
             android:icon="@drawable/ic_livetv"
             android:title="Webcast"/>

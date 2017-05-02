@@ -8,8 +8,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,6 +87,7 @@ public class DBHandler_Grad extends SQLiteOpenHelper
 
     private static final String T7_KEY_NAME = "name";
     private static final String T7_KEY_IMAGE = "image";
+    private static final String T7_KEY_TYPE = "type";
 
 
 
@@ -140,32 +144,9 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         db.execSQL(CREATE_TABLE_6);
 
 
-        String CREATE_TABLE_7 = "CREATE TABLE " + TABLE_IMAGES + "(" + T7_KEY_NAME + " TEXT," + T7_KEY_IMAGE + " BLOB)";
+        String CREATE_TABLE_7 = "CREATE TABLE " + TABLE_IMAGES + "(" + T7_KEY_NAME + " TEXT," + T6_KEY_TYPE + " TEXT," + T7_KEY_IMAGE + " BLOB)";
 
         db.execSQL(CREATE_TABLE_7);
-
-
-
-        //Write code for inserting all students data in the database.
-        //Use the addStudent function
-      /*
-        addStudent1(sqldb,new Table_Grad_Students(1,"15111041","safal","Computer Science","M.Tech","TVP","Mookit"));
-        addStudent1(sqldb,new Table_Grad_Students(2,"15111042","ankit","Elec Science","M.Des","TVP","Mookit2"));
-        addStudent1(sqldb,new Table_Grad_Students(3,"15111043","pulkit","Mech Science","MBA","TVP","Mookit3"));
-        addStudent1(sqldb,new Table_Grad_Students(4,"15111044","t1","Bio Science","Phd","TVP","Mookit4"));
-        addStudent1(sqldb,new Table_Grad_Students(5,"15111045","t2","Env Science","Dual","TVP","Mookit5"));
-        addStudent1(sqldb,new Table_Grad_Students(6,"15111046","t3","Computer Science","MS","TVP","Mookit6"));
-        addStudent1(sqldb,new Table_Grad_Students(7,"15111047","t4","Computer Science","B.Tech","TVP","Mookit7"));
-
-        addStudent2(sqldb,new Table_Awards(1,"15111041","safal","President's Gold Medal","Prestigious very amazing","Maths","M.Tech","2008"));
-        addStudent2(sqldb,new Table_Awards(2,"15111042","ankit","Award 2","Some text 2","Civil","M.Des","2009"));
-        addStudent2(sqldb,new Table_Awards(3,"15111043","pulkit","Award 3","Some text 3","Mechanical","MBA","3012"));
-        addStudent2(sqldb,new Table_Awards(4,"15111044","t1","Award 4","Some text 4","Physics","Phd","1678"));
-        addStudent2(sqldb,new Table_Awards(5,"15111045","t2","Award 5","Some text 5","Env","Dual","1879"));
-        addStudent2(sqldb,new Table_Awards(6,"15111046","t3","Award 6","Some text 6","Computer","MS","1409"));
-        addStudent2(sqldb,new Table_Awards(7,"15111047","t4","Award 7","Some text 7","Electrical","B.Tech","1564"));
-     */
-
 
 
         Log.d("DATABASE onCreate", "Tables created");
@@ -665,6 +646,9 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         // Inserting Row
         db.insert(TABLE_GUESTS, null, values);
 
+        db.close();
+        Log.d("AddGuest","Guest added + " + c.getName());
+
     }
 
     //Get all guests of a particular type
@@ -700,12 +684,130 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         return guestList;
     }
 
+
     public void deleteGuests(String type)
     {
 
         SQLiteDatabase db = this.getWritableDatabase();
         String table = TABLE_GUESTS;
         String whereClause = T6_KEY_TYPE + "=?";
+        String[] whereArgs = new String[] { type };
+        db.delete(table, whereClause, whereArgs);
+        db.close();
+    }
+
+    //------------------------------------------------------------------------- Methods for Adding images --TABLE_IMAGES -- TABLE 7
+
+    // Adding new Image
+    public void addImage(SQLiteDatabase db, String name, String type, Bitmap img)
+    {
+
+        db = this.getWritableDatabase();
+
+        byte[] data = getBitmapAsByteArray(img);
+        ContentValues values = new ContentValues();
+
+        values.put(T7_KEY_NAME, name);
+        values.put(T7_KEY_IMAGE, data);
+        values.put(T7_KEY_TYPE, type);
+
+        // Inserting Row
+        db.insert(TABLE_IMAGES, null, values);
+
+        db.close();
+        Log.d("AddImage","Image added + " + name);
+
+    }
+
+    public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
+        return outputStream.toByteArray();
+    }
+    //Get image
+
+    public Bitmap getImage(String name)
+    {
+
+        String table = TABLE_IMAGES;
+        String[] columns = {T7_KEY_IMAGE};
+        String selection = T7_KEY_NAME + " =?";
+        String[] selectionArgs = {name};
+        String groupBy = null;
+        String having = null;
+        String orderBy = null;
+        String limit = null;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cur = db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
+
+        // looping through all rows and adding to list
+        if (cur.moveToFirst()){
+            byte[] imgByte = cur.getBlob(0);
+            cur.close();
+            return BitmapFactory.decodeByteArray(imgByte, 0, imgByte.length);
+        }
+        if (cur != null && !cur.isClosed()) {
+            cur.close();
+        }
+
+        return null ;
+    }
+
+    public List<String> getImageList(String type)
+    {
+        List<String> imageList = new ArrayList<String>();
+
+        //Log.d("Query : ", query);
+
+        String table = "";
+        String name = "";
+        String[] selectionArgs = null;
+
+        if(type.equals("H") || type.equals("C"))
+        {
+            table = TABLE_GUESTS;
+            name = T6_KEY_PICTURE;
+            selectionArgs = new String[]{type};
+        }
+        else
+        {
+            table = TABLE_AWARDS;
+            //name = T2_KEY_PICTURE;
+
+        }
+
+        String[] columns = {name};
+        String selection = T6_KEY_TYPE + " =?";
+        String groupBy = null;
+        String having = null;
+        String orderBy = null;
+        String limit = null;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst())
+        {
+            do
+            {
+                String img = new String(cursor.getString(0));
+                Log.d("ImageList", img);
+                imageList.add(img);
+            } while (cursor.moveToNext());
+        }
+        return imageList;
+    }
+
+
+    //Delete image of a particular type
+    public void deleteImages(String type)
+    {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String table = TABLE_IMAGES;
+        String whereClause = T7_KEY_TYPE + "=?";
         String[] whereArgs = new String[] { type };
         db.delete(table, whereClause, whereArgs);
         db.close();
