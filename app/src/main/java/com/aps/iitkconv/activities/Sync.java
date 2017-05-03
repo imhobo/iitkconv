@@ -22,6 +22,7 @@ import com.aps.iitkconv.models.Table_Awards;
 import com.aps.iitkconv.models.Table_Contact;
 import com.aps.iitkconv.models.Table_Grad_Students;
 import com.aps.iitkconv.models.Table_Guest;
+import com.aps.iitkconv.models.Table_Prev_Rec;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -193,6 +194,7 @@ import static android.content.Context.MODE_PRIVATE;
                 String m4 = mPrefs.getString("FetchWebcast", String.valueOf(1));
                 String m5 = mPrefs.getString("FetchHon", String.valueOf(1));
                 String m6 = mPrefs.getString("FetchChief", String.valueOf(1));
+                String m7 = mPrefs.getString("ParsePrev", String.valueOf(1));
 
 
                 db = DBHandler_Grad.getInstance(mContext);
@@ -210,6 +212,12 @@ import static android.content.Context.MODE_PRIVATE;
                         db.deleteAwardsAndStudents();
                     }
                     parseGraduating(getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u1)));
+                    ArrayList<String> imgList = (ArrayList<String>) db.getImageList(mContext.getString(R.string.TYPE_S));
+
+                    Log.d("Number of AwardImg:", String.valueOf(imgList.size()));
+
+                    insertImageList(imgList, mContext.getString(R.string.TYPE_S));
+
                     SharedPreferences.Editor mEditor = mPrefs.edit();
                     mEditor.putString("FetchFormat", r1).commit();
                 }
@@ -290,6 +298,18 @@ import static android.content.Context.MODE_PRIVATE;
 
 
 
+                //Parsing Previous recipient data
+                if(m7.equals("1"))
+                {
+                    parsePrevRec("H");//Honourary
+                    parsePrevRec("C");//Chief Guests
+                    parsePrevRec("S");//President Gold Medal
+
+                    SharedPreferences.Editor mEditor = mPrefs.edit();
+                    mEditor.putString("ParsePrev", "0").commit();
+                }
+
+
 
 
             } catch (Exception e)
@@ -335,6 +355,63 @@ import static android.content.Context.MODE_PRIVATE;
 
 
         //----------------------------------------------Parsing functions-----------------------------------------
+
+        private void parsePrevRec(String type)
+        {
+            int i = -1;
+            // getResources().getIdentifier("image_name","res_folder_name", package_name);
+
+
+            if(type.equals("H"))
+                i = mContext.getResources().getIdentifier("prev_hon","raw", mContext.getPackageName());
+            else if(type.equals("C"))
+                i = mContext.getResources().getIdentifier("prev_chief","raw", mContext.getPackageName());
+            else if(type.equals("S"))
+                i = mContext.getResources().getIdentifier("prev_pres","raw", mContext.getPackageName());
+
+
+
+            InputStream inStream = mContext.getResources().openRawResource(i);
+            XSSFWorkbook wb = null;
+            try
+            {
+                wb = new XSSFWorkbook(inStream);
+                inStream.close();
+            } catch (IOException e)
+            {
+                Log.d("Error", e.getMessage().toString());
+                e.printStackTrace();
+            }
+
+            Sheet sheet = wb.getSheetAt(0);
+
+            int count = 0;
+
+            //Also reads the first row of the excel file. i.e Name,Roll number etc
+            for (Iterator<Row> rit = sheet.rowIterator(); rit.hasNext(); )
+            {
+                Row row = rit.next();
+
+                if(count == 0)row = rit.next();
+
+                row.getCell(0, Row.CREATE_NULL_AS_BLANK).setCellType(Cell.CELL_TYPE_STRING);
+                row.getCell(1, Row.CREATE_NULL_AS_BLANK).setCellType(Cell.CELL_TYPE_STRING);
+                row.getCell(2, Row.CREATE_NULL_AS_BLANK).setCellType(Cell.CELL_TYPE_STRING);
+                row.getCell(3, Row.CREATE_NULL_AS_BLANK).setCellType(Cell.CELL_TYPE_STRING);
+
+                // Log.d("ExcelData", row.getCell(0, Row.CREATE_NULL_AS_BLANK).getStringCellValue());
+
+                Table_Prev_Rec g = new Table_Prev_Rec(
+                        row.getCell(1, Row.CREATE_NULL_AS_BLANK).getStringCellValue(),
+                        row.getCell(0, Row.CREATE_NULL_AS_BLANK).getStringCellValue(),
+                        row.getCell(2, Row.CREATE_NULL_AS_BLANK).getStringCellValue(),
+                        row.getCell(3, Row.CREATE_NULL_AS_BLANK).getStringCellValue() , type) ;
+
+                db.addPrevRec(db.sqldb, g);
+                count++;
+            }
+
+        }
 
         private void parseGraduating(InputStream inStream)
         {
@@ -531,6 +608,7 @@ import static android.content.Context.MODE_PRIVATE;
                 row.getCell(5, Row.CREATE_NULL_AS_BLANK).setCellType(Cell.CELL_TYPE_STRING);
                 row.getCell(6, Row.CREATE_NULL_AS_BLANK).setCellType(Cell.CELL_TYPE_STRING);
                 row.getCell(7, Row.CREATE_NULL_AS_BLANK).setCellType(Cell.CELL_TYPE_STRING);
+                row.getCell(8, Row.CREATE_NULL_AS_BLANK).setCellType(Cell.CELL_TYPE_STRING);
 
                 Table_Awards g = new Table_Awards();
 
@@ -542,6 +620,7 @@ import static android.content.Context.MODE_PRIVATE;
                 g.setDept(row.getCell(5, Row.CREATE_NULL_AS_BLANK).getStringCellValue());
                 g.setYear(row.getCell(6, Row.CREATE_NULL_AS_BLANK).getStringCellValue());
                 g.setComment(row.getCell(7, Row.CREATE_NULL_AS_BLANK).getStringCellValue());
+                g.setPicture(row.getCell(8, Row.CREATE_NULL_AS_BLANK).getStringCellValue());
 
 
                 //Log.d("NAME OF THE STUDENT : ", g.getName());

@@ -33,6 +33,7 @@ public class DBHandler_Grad extends SQLiteOpenHelper
     private static final String TABLE_CONTACTS = "Table_Contacts";
     private static final String TABLE_GUESTS = "Table_Guests";
     private static final String TABLE_IMAGES = "Table_Images";
+    private static final String TABLE_PREV = "Table_Prev";
 
     // Table1 Columns names
 
@@ -54,6 +55,7 @@ public class DBHandler_Grad extends SQLiteOpenHelper
     private static final String T2_KEY_PROGRAM = "program";
     private static final String T2_KEY_COMMENT = "comment";
     private static final String T2_KEY_YEAR = "year";
+    private static final String T2_KEY_PICTURE = "picture";
 
     // Table3 Columns names
 
@@ -90,6 +92,15 @@ public class DBHandler_Grad extends SQLiteOpenHelper
     private static final String T7_KEY_TYPE = "type";
 
 
+    // Table8 Columns names
+
+    private static final String T8_KEY_NAME = "name";
+    private static final String T8_KEY_DESIGNATION = "designation";
+    private static final String T8_KEY_CONVO_NUM = "convo_num";
+    private static final String T8_KEY_COMMENT = "comment";
+    private static final String T8_KEY_TYPE = "type";
+
+
 
 
     public static synchronized DBHandler_Grad getInstance(Context context)
@@ -119,7 +130,8 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         db.execSQL(CREATE_TABLE_1);
 
         String CREATE_TABLE_2 = "CREATE TABLE " + TABLE_AWARDS + "(" + T2_KEY_ROLL + " TEXT,"
-                + T2_KEY_NAME + " TEXT," + T2_KEY_AWARD + " TEXT," + T2_KEY_DESCRIPTION + " TEXT," + T2_KEY_DEPT + " TEXT," + T2_KEY_PROGRAM + " TEXT," + T2_KEY_COMMENT + " TEXT," + T2_KEY_YEAR + " TEXT)";
+                + T2_KEY_NAME + " TEXT," + T2_KEY_AWARD + " TEXT," + T2_KEY_DESCRIPTION + " TEXT," + T2_KEY_DEPT + " TEXT," + T2_KEY_PROGRAM + " TEXT," + T2_KEY_COMMENT + " TEXT," +
+                T2_KEY_YEAR + " TEXT," + T2_KEY_PICTURE + " TEXT)";
 
         db.execSQL(CREATE_TABLE_2);
 
@@ -147,6 +159,13 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         String CREATE_TABLE_7 = "CREATE TABLE " + TABLE_IMAGES + "(" + T7_KEY_NAME + " TEXT," + T6_KEY_TYPE + " TEXT," + T7_KEY_IMAGE + " BLOB)";
 
         db.execSQL(CREATE_TABLE_7);
+
+
+        String CREATE_TABLE_8 = "CREATE TABLE " + TABLE_PREV + "(" + T8_KEY_NAME + " TEXT," + T8_KEY_DESIGNATION + " TEXT," + T8_KEY_CONVO_NUM + " TEXT,"
+                + T8_KEY_COMMENT + " TEXT,"+ T8_KEY_TYPE + " TEXT)";
+
+        db.execSQL(CREATE_TABLE_8);
+
 
 
         Log.d("DATABASE onCreate", "Tables created");
@@ -311,6 +330,7 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         values.put(T2_KEY_DEPT, student.getDept());
         values.put(T2_KEY_COMMENT, student.getComment());
         values.put(T2_KEY_YEAR, student.getYear());
+        values.put(T2_KEY_PICTURE, student.getPicture());
 
         // Inserting Row
         db.insert(TABLE_AWARDS, null, values);
@@ -333,7 +353,7 @@ public class DBHandler_Grad extends SQLiteOpenHelper
             do
             {
                 Table_Awards student= new Table_Awards(cursor.getString(0), cursor.getString(1),
-                        cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+                        cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
                 studentList.add(student);
             } while (cursor.moveToNext());
         }
@@ -349,7 +369,7 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         //Log.d("Query : ", query);
 
         String table = TABLE_AWARDS;
-        String[] columns = {T2_KEY_ROLL,T2_KEY_NAME,T2_KEY_AWARD,T2_KEY_DESCRIPTION,T2_KEY_COMMENT, T2_KEY_PROGRAM,T2_KEY_DEPT,T2_KEY_YEAR};
+        String[] columns = {T2_KEY_ROLL,T2_KEY_NAME,T2_KEY_AWARD,T2_KEY_DESCRIPTION,T2_KEY_COMMENT, T2_KEY_PROGRAM,T2_KEY_DEPT,T2_KEY_YEAR, T2_KEY_PICTURE};
         String selection = T2_KEY_AWARD + " =?";
         String[] selectionArgs = {award};
         String groupBy = null;
@@ -366,7 +386,7 @@ public class DBHandler_Grad extends SQLiteOpenHelper
             do
             {
                 Table_Awards student = new Table_Awards(cursor.getString(0), cursor.getString(1),
-                        cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+                        cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
                 studentList.add(student);
             } while (cursor.moveToNext());
         }
@@ -729,6 +749,8 @@ public class DBHandler_Grad extends SQLiteOpenHelper
     public Bitmap getImage(String name)
     {
 
+        if(name.equals(""))return null;
+
         String table = TABLE_IMAGES;
         String[] columns = {T7_KEY_IMAGE};
         String selection = T7_KEY_NAME + " =?";
@@ -754,6 +776,37 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         return null ;
     }
 
+    public String getImageName(String name, String award)
+    {
+
+        if(name.equals(""))return null;
+
+        String table = TABLE_AWARDS;
+        String[] columns = {T2_KEY_PICTURE};
+        String selection = T2_KEY_NAME + " =? AND  " + T2_KEY_AWARD + " = ?";
+        String[] selectionArgs = {name,award};
+        String groupBy = null;
+        String having = null;
+        String orderBy = null;
+        String limit = null;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
+
+
+        // looping through all rows and adding to list
+        String img = "";
+        if (cursor.moveToFirst())
+        {
+            do
+            {
+                img = new String(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+        return img;
+    }
+
+
     public List<String> getImageList(String type)
     {
         List<String> imageList = new ArrayList<String>();
@@ -763,22 +816,24 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         String table = "";
         String name = "";
         String[] selectionArgs = null;
+        String selection = null;
 
         if(type.equals("H") || type.equals("C"))
         {
             table = TABLE_GUESTS;
             name = T6_KEY_PICTURE;
             selectionArgs = new String[]{type};
+            selection = T6_KEY_TYPE + " =?";
         }
         else
         {
             table = TABLE_AWARDS;
-            //name = T2_KEY_PICTURE;
+            name = T2_KEY_PICTURE;
 
         }
 
         String[] columns = {name};
-        String selection = T6_KEY_TYPE + " =?";
+
         String groupBy = null;
         String having = null;
         String orderBy = null;
@@ -794,7 +849,8 @@ public class DBHandler_Grad extends SQLiteOpenHelper
             {
                 String img = new String(cursor.getString(0));
                 Log.d("ImageList", img);
-                imageList.add(img);
+                if(!img.equals(""))
+                    imageList.add(img);
             } while (cursor.moveToNext());
         }
         return imageList;
@@ -808,6 +864,77 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         SQLiteDatabase db = this.getWritableDatabase();
         String table = TABLE_IMAGES;
         String whereClause = T7_KEY_TYPE + "=?";
+        String[] whereArgs = new String[] { type };
+        db.delete(table, whereClause, whereArgs);
+        db.close();
+    }
+
+
+    //------------------------------------------------------------------------- Methods for Adding Prev Recipients --TABLE_PREV -- TABLE 8
+
+
+    // Adding new prev recipient
+    public void addPrevRec(SQLiteDatabase db, Table_Prev_Rec c)
+    {
+
+        db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(T8_KEY_NAME, c.getName());
+        values.put(T8_KEY_DESIGNATION, c.getDesignation());
+        values.put(T8_KEY_CONVO_NUM, c.getConvo_num());
+        values.put(T8_KEY_COMMENT, c.getComment());
+        values.put(T8_KEY_TYPE, c.getType());
+
+        // Inserting Row
+        db.insert(TABLE_PREV, null, values);
+
+        db.close();
+        Log.d("AddPrev","Prev Rec added + " + c.getName());
+
+    }
+
+    //Get all prev recipients of a particular type
+
+    public List<Table_Prev_Rec> getPrevRec(String type)
+    {
+        List<Table_Prev_Rec> prevList = new ArrayList<Table_Prev_Rec>();
+
+        //Log.d("Query : ", query);
+
+        String table = TABLE_PREV;
+        String[] columns = {T8_KEY_NAME,T8_KEY_DESIGNATION,T8_KEY_CONVO_NUM,T8_KEY_COMMENT,T8_KEY_TYPE};
+        String selection = T8_KEY_TYPE + " =?";
+        String[] selectionArgs = {type};
+        String groupBy = null;
+        String having = null;
+        String orderBy = null;
+        String limit = null;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst())
+        {
+            do
+            {
+                Table_Prev_Rec g = new Table_Prev_Rec(cursor.getString(0), cursor.getString(1),
+                        cursor.getString(2), cursor.getString(3), cursor.getString(4));
+                prevList.add(g);
+            } while (cursor.moveToNext());
+        }
+        return prevList;
+    }
+
+
+    public void deletePrevRec(String type)
+    {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String table = TABLE_PREV;
+        String whereClause = T8_KEY_TYPE + "=?";
         String[] whereArgs = new String[] { type };
         db.delete(table, whereClause, whereArgs);
         db.close();

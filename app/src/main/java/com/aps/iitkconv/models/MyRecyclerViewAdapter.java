@@ -24,6 +24,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private static MyClickListener myClickListener;
     private static int val;
 
+    public static final int ITEM_TYPE_NORMAL = 0;
+    public static final int ITEM_TYPE_HEADER = 1;
+
+
     public static class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
 
@@ -31,6 +35,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         TextView t2;
         TextView t3;
         TextView t4;
+        TextView t5;
 
         ImageView pic;
 
@@ -38,7 +43,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         {
             super(itemView);
 
-            if(val == 400)
+
+            if(val == 400 || val ==300)
             {
                 t1 = (TextView) itemView.findViewById(R.id.textView);
                 t2 = (TextView) itemView.findViewById(R.id.textView2);
@@ -48,7 +54,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 t1 = (TextView) itemView.findViewById(R.id.textViewGradMenu);
 
             }
-            else if(val == 1 || val == 401 || val == 31 || val ==9)
+            else if(val == 1 || val == 401 || val == 31 || val ==9 || val == 51 || val == 501)
             {
                 t1 = (TextView) itemView.findViewById(R.id.textViewp1);
                 t2 = (TextView) itemView.findViewById(R.id.textViewp2);
@@ -63,6 +69,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 t2 = (TextView) itemView.findViewById(R.id.textViewpic2);
                 t3 = (TextView) itemView.findViewById(R.id.textViewpic3);
                 t4 = (TextView) itemView.findViewById(R.id.textViewpic4);
+                pic = (ImageView) itemView.findViewById(R.id.imageViewStudent);
+
+                //Textview to show previous recipient
+                t5 = (TextView) itemView.findViewById(R.id.textViewGradMenu);
             }
 
             else if(val == 5 || val == 50)
@@ -72,6 +82,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 t2 = (TextView) itemView.findViewById(R.id.textViewbig2);
                 t3 = (TextView) itemView.findViewById(R.id.textViewbig3);
                 pic = (ImageView) itemView.findViewById(R.id.imageViewBig);
+
+                //Textview to show previous recipient
+                t4 = (TextView) itemView.findViewById(R.id.textViewGradMenu);
+
 
             }
 
@@ -97,7 +111,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         mDataset = myDataset;
         val = value;
-
     }
 
 
@@ -106,20 +119,21 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     {
 
         View view = null;
-        if(val == 400)
+        if(val == 400|| val ==300)
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_2, parent, false);
 
-        else if(val==4 || val==40 || val==3|| val ==2)
+        else if(val==4 || val==40 || val==3|| val ==2 || (val==5 && viewType == ITEM_TYPE_HEADER) || (val==50 && viewType == ITEM_TYPE_HEADER) || (val==30 && viewType == ITEM_TYPE_HEADER))
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_1, parent, false);
 
-        else if(val == 1 || val==401 || val == 31|| val ==9)
+        else if(val == 1 || val==401 || val == 31|| val ==9|| val == 51 || val == 501)
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_4, parent, false);
 
-        else if(val==30)
+        else if(val==30 && viewType == ITEM_TYPE_NORMAL)
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_pic, parent, false);
 
-        else if(val==5 || val == 50)
+        else if((val==5 && viewType == ITEM_TYPE_NORMAL)|| (val==50 && viewType == ITEM_TYPE_NORMAL))
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_big, parent, false);
+
 
 
         DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
@@ -127,19 +141,46 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     }
 
     @Override
+    public int getItemViewType(int position)
+    {
+
+        //HON_PREV = (val==5 && (mDataset.get(position).getmText1()).equals("Previous Recipients"));
+
+        if((mDataset.get(position).getmText1()).equals("Previous Recipients"))
+        {
+            return ITEM_TYPE_HEADER;
+        }
+        else
+            return ITEM_TYPE_NORMAL;
+    }
+
+    @Override
     public void onBindViewHolder(DataObjectHolder holder, int position)
     {
 
-        if(val == 400)
+        final int itemType = getItemViewType(position);
+
+        if(val == 400|| val ==300)
         {
             holder.t1.setText(mDataset.get(position).getmText1());
             holder.t2.setText(mDataset.get(position).getmText2());
         }
-        else if(val==4 || val==40 || val==3|| val ==2)
+        else if(val==4 || val==40 || val==3|| val ==2 )
         {
             holder.t1.setText(mDataset.get(position).getmText1());
         }
-        else if(val == 1 || val==401 || val ==9)
+
+        else if((val==5 && itemType == ITEM_TYPE_HEADER) || (val==50 && itemType == ITEM_TYPE_HEADER))
+        {
+            holder.t4.setText(mDataset.get(position).getmText1());
+        }
+
+        else if((val==30 && itemType == ITEM_TYPE_HEADER))
+        {
+            holder.t5.setText(mDataset.get(position).getmText1());
+        }
+
+        else if(val == 1 || val==401 || val ==9|| val == 51 || val == 501)
         {
             holder.t1.setText(mDataset.get(position).getmText1());
             holder.t2.setText(mDataset.get(position).getmText2());
@@ -147,7 +188,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             holder.t4.setText(mDataset.get(position).getmText4());
         }
 
-        else if(val == 5 || val ==50)
+        else if((val==5 && itemType == ITEM_TYPE_NORMAL) || (val==50 && itemType == ITEM_TYPE_NORMAL))
         {
             holder.t1.setText(mDataset.get(position).getmText1());
             holder.t2.setText(mDataset.get(position).getmText2());
@@ -155,7 +196,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             holder.pic.setImageBitmap(mDataset.get(position).getmImg());
         }
 
-        else if(val==31 || val == 30)
+        else if(val==31 || (val == 30 && itemType == ITEM_TYPE_NORMAL))
         {
             String name,b,c,d;
 
@@ -185,10 +226,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
             if(val==30)
             {
-
-                //Add code for imageview to show picture
-
-
+                holder.pic.setImageBitmap(mDataset.get(position).getmImg());
             }
 
 

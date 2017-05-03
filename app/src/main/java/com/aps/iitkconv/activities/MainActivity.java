@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mContext = MainActivity.this;
 
         //Changing the action bar title
-        this.setTitle(R.string.app_title);
+        this.setTitle(Html.fromHtml(getString(R.string.app_title)));
 
         frameLayout = (FrameLayout)findViewById(R.id.content_frame);
         getLayoutInflater().inflate(R.layout.content_main, frameLayout);

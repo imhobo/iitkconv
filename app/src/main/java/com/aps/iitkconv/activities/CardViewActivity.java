@@ -27,6 +27,7 @@ import com.aps.iitkconv.models.Table_Awards;
 import com.aps.iitkconv.models.Table_Contact;
 import com.aps.iitkconv.models.Table_Grad_Students;
 import com.aps.iitkconv.models.Table_Guest;
+import com.aps.iitkconv.models.Table_Prev_Rec;
 import com.aps.iitkconv.models.Table_Schedule;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -39,6 +40,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -65,8 +67,12 @@ public class CardViewActivity extends MainActivity
 
     //Keeps track of which award was clicked
     private ArrayList<DataObject> awards;
-    private final int AWARDS_WITH_PICS = 5;
     private int awardNum = -1;
+
+    //Keep track whether Previous Recipients was clicked for Honourary,Chief guest or President Gold tab
+    boolean prevHon = false;
+    boolean prevChief = false;
+    boolean prevPres = false;
 
     private Bundle b;
 
@@ -103,19 +109,38 @@ public class CardViewActivity extends MainActivity
     {
         Log.d("CDA", "onBackPressed Called");
 
-        if(value==1 || value ==2 || value ==5 || value == 9 || value == 50)
+        if(value==1 || value ==2 || (value ==5 && !prevHon)|| value == 9 || (value == 50 && !prevChief))
         {
             finish();
         }
+
+        else if(value == 5 && prevHon)
+        {
+            prevHon = false;
+            displayData();
+        }
+
+        else if(value == 50 && prevChief)
+        {
+            prevChief = false;
+            displayData();
+        }
+
 
         else if(value==3 && awardNum == -1)
         {
             finish();
         }
 
-        else if(value==3 && awardNum > -1)
+        else if(value==3 && awardNum > -1 && !prevPres)
         {
             awardNum = -1;
+            displayData();
+        }
+
+        else if(value==3 && awardNum > -1 && prevPres)
+        {
+            prevPres = false;
             displayData();
         }
 
@@ -224,6 +249,10 @@ public class CardViewActivity extends MainActivity
 
             results.add(obj);
         }
+
+        DataObject obj= new DataObject("Previous Recipients");
+        results.add(obj);
+
         return results;
     }
 
@@ -309,10 +338,26 @@ public class CardViewActivity extends MainActivity
         for (int i = 0 ; i< size; i++)
         {
             Table_Awards t = students.get(i);
-            DataObject obj= new DataObject(t.getRoll(), t.getName(), award, t.getDescription(), t.getComment(), t.getProgram(), t.getYear());
+
+            Bitmap bmp = db.getImage(t.getPicture());
+           /*
+            if(bmp==null)
+                Log.d("image from DB", "NULL");
+            else
+                Log.d("image from DB", "NOT NULL");
+            */
+
+            DataObject obj= new DataObject(bmp, t.getRoll(), t.getName(), award, t.getDescription(), t.getComment(), t.getProgram(), t.getYear());
             //Log.d("getStudents2",String.valueOf(t.getId())+t.getEvent()+t.getName()+award+t.getTime()+t.getDept()+t.getProgram()+t.getYear());
             results.add(obj);
         }
+
+        if(awardNum == 0)
+        {
+            DataObject obj= new DataObject("Previous Recipients");
+            results.add(obj);
+        }
+
         return results;
     }
 
@@ -334,7 +379,7 @@ public class CardViewActivity extends MainActivity
         db = DBHandler_Grad.getInstance(this);
 
         //Set different card views here.
-        if(value == 3 && awardNum > -1)
+        if(value == 3 && awardNum > -1 && !prevPres)
         {
             getLayoutInflater().inflate(R.layout.card_view_award, frameLayout);
         }
@@ -368,7 +413,7 @@ public class CardViewActivity extends MainActivity
         }
 
         //Some Award clicked
-        else if(value==3 && awardNum > -1)
+        else if(value==3 && awardNum > -1 && !prevPres)
         {
             String curAward = awards.get(awardNum).getmText1();
             String curDesc = db.getDesc2(curAward);
@@ -379,20 +424,36 @@ public class CardViewActivity extends MainActivity
             award.setText(curAward);
             //desc.setText(curDesc);
 
+            //If a student with a certain award has a picture associated, then we assume that everyone in that category has a picture
+            String imgName = db.getImageName(students.get(0).getmText2(), curAward);
 
-            if(awardNum<AWARDS_WITH_PICS)
+            if(!imgName.equals(""))
                 mAdapter = new MyRecyclerViewAdapter(students, 30);
             else
                 mAdapter = new MyRecyclerViewAdapter(students, 31);
         }
 
+        else if(value ==3 && awardNum == 0 && prevPres)
+        {
+            mAdapter = new MyRecyclerViewAdapter(getPrevPresExcel(), 300);
+
+        }
         //Honourary Degrees and Chief Guests
-        else if(value==5 || value == 50)
+        else if((value==5 && !prevHon) || (value==50 && !prevChief))
         {
             if(value == 5)
                 mAdapter = new MyRecyclerViewAdapter(getGuests("H"), 5);
             else if(value == 50)
                 mAdapter = new MyRecyclerViewAdapter(getGuests("C"), 50);
+        }
+
+        //Honourary Degrees and Chief Guests
+        else if((value==5 && prevHon) || (value==50 && prevChief))
+        {
+            if(value == 5)
+                mAdapter = new MyRecyclerViewAdapter(getPrevHonExcel(), 51);
+            else if(value == 50)
+                mAdapter = new MyRecyclerViewAdapter(getPrevChiefExcel(), 501);
         }
 
         //Taxi Contacts
@@ -411,7 +472,7 @@ public class CardViewActivity extends MainActivity
             mAdapter = new MyRecyclerViewAdapter(programs,4);
         }
 
-        //List of Studetns for Graduating Students when Program already clicked
+        //List of Students for Graduating Students when Program already clicked
         else if(value == 4 && program > -1 && dept == -1)
         {
             String curDep = programs.get(program).getmText1();
@@ -420,7 +481,7 @@ public class CardViewActivity extends MainActivity
             mAdapter = new MyRecyclerViewAdapter(depts,40);
         }
 
-        //List of Studetns for Graduating Students when Program and Dept already clicked
+        //List of Students for Graduating Students when Program and Dept already clicked
         else if(value == 4 && program > -1 && dept > -1)
         {
             String curDep = programs.get(program).getmText1();
@@ -452,10 +513,13 @@ public class CardViewActivity extends MainActivity
                     displayData();
                 }
 
-                else if(value == 3 && awardNum > -1)
+                else if(value == 3 && awardNum ==0 && position == (mAdapter.getItemCount()-1))
                 {
 
-                    //Click on the student name
+                    Log.i(LOG_TAG, " Clicked on PrevPres " + position );
+                    prevPres = true;
+                    displayData();
+
                 }
 
                 else if(value==4 && program == -1)
@@ -475,11 +539,85 @@ public class CardViewActivity extends MainActivity
                     //Click on the student name
                 }
 
+                else if(value==5 && position == (mAdapter.getItemCount()-1))
+                {
+//                    Log.i(LOG_TAG, " Clicked on HonPrevious " + position );
+                    prevHon = true;
+                    displayData();
+
+                }
+
+                else if(value==50 && position == (mAdapter.getItemCount()-1))
+                {
+//                    Log.i(LOG_TAG, " Clicked on ChiefPrevious " + position );
+                    prevChief = true;
+                    displayData();
+
+
+                }
+
 
             }
         });
 
     }
+
+    //-----------------------------------------------------------------------------Previous Year Data Parsing Functions---------------------------------------------------
+
+    private ArrayList<DataObject> getPrevHonExcel()
+    {
+
+        ArrayList<DataObject> result = new ArrayList<DataObject>();
+        ArrayList<Table_Prev_Rec> prevList = new ArrayList<Table_Prev_Rec>();
+
+        prevList = (ArrayList<Table_Prev_Rec>) db.getPrevRec("H");
+        //Also reads the first row of the excel file. i.e Name,Roll number etc
+        for (Iterator<Table_Prev_Rec> rit = prevList.iterator(); rit.hasNext(); )
+        {
+            Table_Prev_Rec p = rit.next();
+            // Log.d("ExcelData", row.getCell(0, Row.CREATE_NULL_AS_BLANK).getStringCellValue());
+            DataObject g = new DataObject(p.getName(),p.getConvo_num(),p.getDesignation(),p.getComment());
+            result.add(g);
+        }
+        return result;
+    }
+
+    private ArrayList<DataObject> getPrevChiefExcel()
+    {
+
+        ArrayList<DataObject> result = new ArrayList<DataObject>();
+        ArrayList<Table_Prev_Rec> prevList = new ArrayList<Table_Prev_Rec>();
+
+        prevList = (ArrayList<Table_Prev_Rec>) db.getPrevRec("C");
+        //Also reads the first row of the excel file. i.e Name,Roll number etc
+        for (Iterator<Table_Prev_Rec> rit = prevList.iterator(); rit.hasNext(); )
+        {
+            Table_Prev_Rec p = rit.next();
+            // Log.d("ExcelData", row.getCell(0, Row.CREATE_NULL_AS_BLANK).getStringCellValue());
+            DataObject g = new DataObject(p.getName(),p.getConvo_num(),p.getComment(), p.getDesignation());
+            result.add(g);
+        }
+        return result;
+    }
+
+    private ArrayList<DataObject> getPrevPresExcel()
+    {
+
+        ArrayList<DataObject> result = new ArrayList<DataObject>();
+        ArrayList<Table_Prev_Rec> prevList = new ArrayList<Table_Prev_Rec>();
+
+        prevList = (ArrayList<Table_Prev_Rec>) db.getPrevRec("S");
+        //Also reads the first row of the excel file. i.e Name,Roll number etc
+        for (Iterator<Table_Prev_Rec> rit = prevList.iterator(); rit.hasNext(); )
+        {
+            Table_Prev_Rec p = rit.next();
+            // Log.d("ExcelData", row.getCell(0, Row.CREATE_NULL_AS_BLANK).getStringCellValue());
+            DataObject g = new DataObject(p.getName(),p.getDesignation());
+            result.add(g);
+        }
+        return result;
+    }
+
 
 
 }

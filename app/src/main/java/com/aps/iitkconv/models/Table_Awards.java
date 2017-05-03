@@ -1,5 +1,7 @@
 package com.aps.iitkconv.models;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by imhobo on 31/3/17.
  */
@@ -16,9 +18,10 @@ public class Table_Awards
     private String dept;
     private String comment;
     private String year;
+    private String picture;
 
 
-    public Table_Awards(String roll, String name, String award, String description, String program, String dept, String comment, String year)
+    public Table_Awards(String roll, String name, String award, String description, String program, String dept, String comment, String year, String picture)
     {
 
         this.roll = roll;
@@ -29,6 +32,7 @@ public class Table_Awards
         this.dept = dept;
         this.comment = comment;
         this.year = year;
+        this.picture = picture;
 
     }
 
@@ -117,4 +121,14 @@ public class Table_Awards
     {
         this.year = year;
     }
+    public String getPicture()
+    {
+        return picture;
+    }
+
+    public void setPicture(String img)
+    {
+        this.picture = img;
+    }
+
 }

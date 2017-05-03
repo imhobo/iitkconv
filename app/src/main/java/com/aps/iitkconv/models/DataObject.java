@@ -41,7 +41,15 @@ public class DataObject
     }
 
     public String getmText1() {
-        return mTexts.get(0) == null ? "" : mTexts.get(0);
+        String value = "";
+        try
+        {
+            value =  mTexts.get(0);
+        }catch (IndexOutOfBoundsException e)
+        {
+            return value;
+        }
+        return value;
     }
 
     public void setmText1(String mText1) {
@@ -49,7 +57,15 @@ public class DataObject
     }
 
     public String getmText2() {
-        return mTexts.get(1) == null ? "" : mTexts.get(1);
+        String value = "";
+        try
+        {
+            value =  mTexts.get(1);
+        }catch (IndexOutOfBoundsException e)
+        {
+            return value;
+        }
+        return value;
     }
 
     public void setmText2(String mText2) {
@@ -57,7 +73,15 @@ public class DataObject
     }
 
     public String getmText3() {
-        return mTexts.get(2) == null ? "" : mTexts.get(2);
+        String value = "";
+        try
+        {
+            value =  mTexts.get(2);
+        }catch (IndexOutOfBoundsException e)
+        {
+            return value;
+        }
+        return value;
     }
 
     public void setmText3(String mText3) {
@@ -84,7 +108,15 @@ public class DataObject
     }
 
     public String getmText5() {
-        return mTexts.get(4) == null ? "" : mTexts.get(4);
+        String value = "";
+        try
+        {
+            value =  mTexts.get(4);
+        }catch (IndexOutOfBoundsException e)
+        {
+            return value;
+        }
+        return value;
     }
 
     public void setmText5(String mText5) {
@@ -92,8 +124,17 @@ public class DataObject
 
     }
 
-    public String getmText6() {
-        return mTexts.get(5) == null ? "" : mTexts.get(5);
+    public String getmText6()
+    {
+        String value = "";
+        try
+        {
+            value =  mTexts.get(5);
+        }catch (IndexOutOfBoundsException e)
+        {
+            return value;
+        }
+        return value;
     }
 
     public void setmText6(String mText6) {
@@ -101,7 +142,16 @@ public class DataObject
     }
 
     public String getmText7() {
-        return mTexts.get(6) == null ? "" : mTexts.get(6);
+
+        String value = "";
+        try
+        {
+            value =  mTexts.get(6);
+        }catch (IndexOutOfBoundsException e)
+        {
+            return value;
+        }
+        return value;
     }
 
     public void setmText7(String mText7) {
