@@ -13,11 +13,17 @@ public class WebcastActivity extends MainActivity implements YouTubePlayer.OnIni
     private YouTubePlayerSupportFragment  playerFragment;
     private YouTubePlayer mPlayer;
     private String YouTubeKey = "AIzaSyAcRBR_oZDQmCl6AqaAe_9JXHjl--LbNCU";
+    int ch = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_webcast, frameLayout);
+
+        //Handling back button
+        ch = MainActivity.getChoice();
+        MainActivity.setChoice(getIntent().getExtras().getInt("key"));
+
 
         playerFragment =
                 (YouTubePlayerSupportFragment) getSupportFragmentManager().findFragmentById(R.id.youtube_player_fragment);
@@ -68,6 +74,13 @@ public class WebcastActivity extends MainActivity implements YouTubePlayer.OnIni
         //32 characters before youtube links reach "v="
         result = url.substring(32);
         return result;
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        MainActivity.setChoice(ch);
+        finish();
     }
 
 }

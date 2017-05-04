@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.util.Pair;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class DBHandler_Grad extends SQLiteOpenHelper
     private static final String TABLE_GUESTS = "Table_Guests";
     private static final String TABLE_IMAGES = "Table_Images";
     private static final String TABLE_PREV = "Table_Prev";
+    private static final String TABLE_LINKS = "Table_Links";
 
     // Table1 Columns names
 
@@ -101,6 +103,12 @@ public class DBHandler_Grad extends SQLiteOpenHelper
     private static final String T8_KEY_TYPE = "type";
 
 
+    // Table9 Columns names
+
+    private static final String T9_KEY_NAME = "name";
+    private static final String T9_KEY_LINK = "link";
+
+
 
 
     public static synchronized DBHandler_Grad getInstance(Context context)
@@ -165,6 +173,11 @@ public class DBHandler_Grad extends SQLiteOpenHelper
                 + T8_KEY_COMMENT + " TEXT,"+ T8_KEY_TYPE + " TEXT)";
 
         db.execSQL(CREATE_TABLE_8);
+
+
+        String CREATE_TABLE_9 = "CREATE TABLE " + TABLE_LINKS + "(" + T9_KEY_NAME + " TEXT," + T9_KEY_LINK + " TEXT)";
+
+        db.execSQL(CREATE_TABLE_9);
 
 
 
@@ -936,6 +949,72 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         String table = TABLE_PREV;
         String whereClause = T8_KEY_TYPE + "=?";
         String[] whereArgs = new String[] { type };
+        db.delete(table, whereClause, whereArgs);
+        db.close();
+    }
+
+    //------------------------------------------------------------------------- Methods for Adding Links --TABLE_LINKS -- TABLE 9
+
+
+    public void addLink(SQLiteDatabase db, String name, String link)
+    {
+
+        db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(T9_KEY_NAME, name);
+        values.put(T9_KEY_LINK, link);
+
+
+        // Inserting Row
+        db.insert(TABLE_LINKS, null, values);
+
+        db.close();
+        Log.d("AddLink","Link added + " + name);
+
+    }
+
+    //Get all prev recipients of a particular type
+
+    public List<Pair<String,String>> getLinks()
+    {
+        List<Pair<String,String>> linkList = new ArrayList<Pair<String, String>>();
+
+        //Log.d("Query : ", query);
+
+        String table = TABLE_LINKS;
+        String[] columns = {T9_KEY_NAME,T9_KEY_LINK};
+        String selection = null;
+        String[] selectionArgs = null;
+        String groupBy = null;
+        String having = null;
+        String orderBy = null;
+        String limit = null;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst())
+        {
+            do
+            {
+                String n = cursor.getString(0);
+                String l = cursor.getString(1);
+                linkList.add(new Pair<String, String>(n,l));
+            } while (cursor.moveToNext());
+        }
+        return linkList;
+    }
+
+    public void deleteLinks()
+    {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String table = TABLE_LINKS;
+        String whereClause = null;
+        String[] whereArgs = null;
         db.delete(table, whereClause, whereArgs);
         db.close();
     }

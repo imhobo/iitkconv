@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     protected FrameLayout frameLayout;
     private Context mContext;
+    private static int curTab = -1;
 
 
     @Override
@@ -111,6 +112,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    public static void clearChoice()
+    {
+        curTab = -1;
+    }
+    public static int getChoice()
+    {
+        return curTab;
+    }
+    public static void setChoice(int val)
+    {
+        curTab = val;
+    }
 
     @Override
     public void onBackPressed() {
@@ -125,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        //getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -151,57 +164,68 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_schedule)
+        if (id == R.id.nav_schedule && curTab !=1)
         {
             startDrawerActivity(CardViewActivity.class,1);
         }
 
-        else if (id == R.id.nav_announce)
+        else if (id == R.id.nav_announce && curTab !=2)
         {
             startDrawerActivity(CardViewActivity.class,2);
-
         }
 
-        else if (id == R.id.nav_awards)
+        else if (id == R.id.nav_awards && curTab !=3)
         {
             startDrawerActivity(CardViewActivity.class,3);
 
         }
 
-        else if (id == R.id.nav_grad)
+        else if (id == R.id.nav_grad && curTab !=4)
         {
             startDrawerActivity(CardViewActivity.class,4);
 
         }
 
-        else if (id == R.id.nav_honorary)
+        else if (id == R.id.nav_honorary && curTab !=5)
         {
             startDrawerActivity(CardViewActivity.class,5);
+
         }
 
-        else if (id == R.id.nav_chief)
+        else if (id == R.id.nav_chief && curTab !=50)
         {
             startDrawerActivity(CardViewActivity.class,50);
+
         }
 
-        else if (id == R.id.nav_map)
+        else if (id == R.id.nav_map && curTab !=6)
         {
             startDrawerActivity(MapsActivity.class,6);
+
         }
 
-        else if (id == R.id.nav_webcast)
+        else if (id == R.id.nav_webcast && curTab !=7)
         {
-            startDrawerActivity(WebcastActivity.class,1);
+            startDrawerActivity(WebcastActivity.class,7);
+
         }
 
-        else if (id == R.id.nav_nostalgia)
+        else if (id == R.id.nav_nostalgia && curTab !=8)
         {
-            startDrawerActivity(GalleryActivity.class,1);
+            startDrawerActivity(GalleryActivity.class,8);
+
         }
 
-        else if (id == R.id.nav_useful)
+        else if (id == R.id.nav_useful && curTab !=9)
         {
             startDrawerActivity(CardViewActivity.class,9);
+
+        }
+
+        else if (id == R.id.nav_links && curTab !=10)
+        {
+            startDrawerActivity(CardViewActivity.class,10);
+
         }
 
 

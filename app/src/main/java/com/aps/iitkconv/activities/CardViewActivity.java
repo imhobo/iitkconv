@@ -5,14 +5,17 @@ package com.aps.iitkconv.activities;
  */
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,6 +33,7 @@ import com.aps.iitkconv.models.Table_Guest;
 import com.aps.iitkconv.models.Table_Prev_Rec;
 import com.aps.iitkconv.models.Table_Schedule;
 
+import org.apache.poi.ss.formula.eval.StringEval;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -74,6 +78,9 @@ public class CardViewActivity extends MainActivity
     boolean prevChief = false;
     boolean prevPres = false;
 
+    //Handling the back button
+    int ch = -1;
+
     private Bundle b;
 
     @Override
@@ -86,9 +93,12 @@ public class CardViewActivity extends MainActivity
 
         b = getIntent().getExtras();
         if(b != null)
-        {
             value = b.getInt("key");
-        }
+
+        //Handling back button
+        ch = MainActivity.getChoice();
+        MainActivity.setChoice(value);
+
 
         displayData();
     }
@@ -108,8 +118,11 @@ public class CardViewActivity extends MainActivity
     public void onBackPressed()
     {
         Log.d("CDA", "onBackPressed Called");
+        //Handling the back button
+        MainActivity.setChoice(ch);
 
-        if(value==1 || value ==2 || (value ==5 && !prevHon)|| value == 9 || (value == 50 && !prevChief))
+
+        if(value==1 || value ==2 || (value ==5 && !prevHon)|| value == 9 || (value == 50 && !prevChief) || value == 10)
         {
             finish();
         }
@@ -161,6 +174,7 @@ public class CardViewActivity extends MainActivity
             displayData();
         }
 
+
     }
 
 
@@ -184,6 +198,25 @@ public class CardViewActivity extends MainActivity
             results.add(obj);
         }
 
+        return results;
+    }
+
+    //Get all links
+    private ArrayList<DataObject> getLinks()
+    {
+        ArrayList<Pair<String,String>> links = new ArrayList<Pair<String,String>>();
+        ArrayList<DataObject> results = new ArrayList<DataObject>();
+
+        links = (ArrayList) db.getLinks();
+
+        int size = links.size();
+
+        for (int i = 0 ; i< size; i++)
+        {
+            Pair<String,String> t = links.get(i);
+            DataObject obj= new DataObject(t.first, t.second);
+            results.add(obj);
+        }
         return results;
     }
 
@@ -496,6 +529,12 @@ public class CardViewActivity extends MainActivity
 
         }
 
+        //List of Useful links
+        else if(value==10)
+        {
+            mAdapter = new MyRecyclerViewAdapter(getLinks(),10);
+        }
+
         mRecyclerView.setAdapter(mAdapter);
 
 
@@ -556,6 +595,16 @@ public class CardViewActivity extends MainActivity
 
                 }
 
+                //Important Links
+                else if(value == 10)
+                {
+                    String url = ((MyRecyclerViewAdapter) mAdapter).getDataSet().get(position).getmText2();
+                    Log.d("url", url);
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+
+                }
 
             }
         });

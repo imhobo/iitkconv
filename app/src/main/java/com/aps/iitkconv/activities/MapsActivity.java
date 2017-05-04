@@ -20,16 +20,23 @@ import java.util.Map;
 public class MapsActivity extends MainActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    int ch = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_maps, frameLayout);
 
+        //Handling back button
+        ch = MainActivity.getChoice();
+        MainActivity.setChoice(getIntent().getExtras().getInt("key"));
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
 
@@ -84,5 +91,12 @@ public class MapsActivity extends MainActivity implements OnMapReadyCallback {
                 anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
 
         mMap.addMarker(markerOptions);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        MainActivity.setChoice(ch);
+        finish();
     }
 }

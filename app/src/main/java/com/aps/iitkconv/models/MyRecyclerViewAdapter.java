@@ -49,7 +49,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 t1 = (TextView) itemView.findViewById(R.id.textView);
                 t2 = (TextView) itemView.findViewById(R.id.textView2);
             }
-            else if(val==4 || val==40 || val==3|| val ==2)
+            else if(val==4 || val==40 || val==3|| val ==2 || val ==10)
             {
                 t1 = (TextView) itemView.findViewById(R.id.textViewGradMenu);
 
@@ -122,7 +122,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         if(val == 400|| val ==300)
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_2, parent, false);
 
-        else if(val==4 || val==40 || val==3|| val ==2 || (val==5 && viewType == ITEM_TYPE_HEADER) || (val==50 && viewType == ITEM_TYPE_HEADER) || (val==30 && viewType == ITEM_TYPE_HEADER))
+        else if(val==4 || val==40 || val==3|| val ==2 || (val==5 && viewType == ITEM_TYPE_HEADER) || (val==50 && viewType == ITEM_TYPE_HEADER)
+                || (val==30 && viewType == ITEM_TYPE_HEADER) || val == 10)
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_1, parent, false);
 
         else if(val == 1 || val==401 || val == 31|| val ==9|| val == 51 || val == 501)
@@ -165,7 +166,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             holder.t1.setText(mDataset.get(position).getmText1());
             holder.t2.setText(mDataset.get(position).getmText2());
         }
-        else if(val==4 || val==40 || val==3|| val ==2 )
+        else if(val==4 || val==40 || val==3|| val ==2  || val == 10)
         {
             holder.t1.setText(mDataset.get(position).getmText1());
         }
@@ -245,6 +246,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     {
         mDataset.remove(index);
         notifyItemRemoved(index);
+    }
+    public ArrayList<DataObject> getDataSet()
+    {
+        return mDataset;
     }
 
     @Override

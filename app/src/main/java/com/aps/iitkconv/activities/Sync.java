@@ -177,6 +177,10 @@ import static android.content.Context.MODE_PRIVATE;
                 InputStream i6 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u11));
                 String r6 = streamToString(i6);
                 i6.close();
+                InputStream i7 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u13));
+                String r7 = streamToString(i7);
+                i6.close();
+
 
 
 
@@ -195,6 +199,7 @@ import static android.content.Context.MODE_PRIVATE;
                 String m5 = mPrefs.getString("FetchHon", String.valueOf(1));
                 String m6 = mPrefs.getString("FetchChief", String.valueOf(1));
                 String m7 = mPrefs.getString("ParsePrev", String.valueOf(1));
+                String m8 = mPrefs.getString("FetchLinks", String.valueOf(1));
 
 
                 db = DBHandler_Grad.getInstance(mContext);
@@ -309,6 +314,18 @@ import static android.content.Context.MODE_PRIVATE;
                     mEditor.putString("ParsePrev", "0").commit();
                 }
 
+                if(m8.equals("1") || (!r7.equals(m8)))
+                {
+                    //Delete existing data
+                    if(!r7.equals(m8))
+                    {
+                        db.deleteLinks();
+                    }
+                    parseLinks(getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u12)));
+                    SharedPreferences.Editor mEditor = mPrefs.edit();
+                    mEditor.putString("FetchLinks", r7).commit();
+
+                }
 
 
 
@@ -470,6 +487,31 @@ import static android.content.Context.MODE_PRIVATE;
             }
 
             insertScheduleExcelToSqlite(sheet1);
+        }
+
+        private void parseLinks(InputStream inStream)
+        {
+
+            AssetManager am = mContext.getAssets();
+            XSSFWorkbook wb = null;
+            try
+            {
+                wb = new XSSFWorkbook(inStream);
+                inStream.close();
+            } catch (IOException e)
+            {
+                Log.d("Error", e.getMessage().toString());
+                e.printStackTrace();
+            }
+
+            Sheet sheet1 = wb.getSheetAt(0);
+
+            if (sheet1 == null)
+            {
+                return;
+            }
+
+            insertLinksExcelToSqlite(sheet1);
         }
 
         private void parseContacts(InputStream inStream)
@@ -656,6 +698,30 @@ import static android.content.Context.MODE_PRIVATE;
                 String time = row.getCell(3, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
 
                 db.addEvent(db.sqldb, title,venue,date,time);
+                count++;
+            }
+        }
+
+        public void insertLinksExcelToSqlite(Sheet sheet)
+        {
+
+            int count = 0;
+
+            //Also reads the first row of the excel file. i.e Name,Roll number etc
+            for (Iterator<Row> rit = sheet.rowIterator(); rit.hasNext(); )
+            {
+                Row row = rit.next();
+
+                if(count == 0)row = rit.next();
+
+                row.getCell(0, Row.CREATE_NULL_AS_BLANK).setCellType(Cell.CELL_TYPE_STRING);
+                row.getCell(1, Row.CREATE_NULL_AS_BLANK).setCellType(Cell.CELL_TYPE_STRING);
+
+
+                String name = row.getCell(0, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+                String link = row.getCell(1, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+
+                db.addLink(db.sqldb, name, link);
                 count++;
             }
         }
