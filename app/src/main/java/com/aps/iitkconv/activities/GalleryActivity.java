@@ -17,6 +17,8 @@ public class GalleryActivity extends MainActivity
     {
         super.onCreate(savedInstanceState);
 
+        frameLayout.removeAllViews();
+        frameLayout.setBackground(null);
         getLayoutInflater().inflate(R.layout.activity_gallery, frameLayout);
 
         //Handling back button

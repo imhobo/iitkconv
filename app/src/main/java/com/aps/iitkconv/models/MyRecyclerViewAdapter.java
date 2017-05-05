@@ -44,17 +44,18 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             super(itemView);
 
 
-            if(val == 400 || val ==300)
+            if(val == 400 || val ==300 || val == 9)
             {
                 t1 = (TextView) itemView.findViewById(R.id.textView);
                 t2 = (TextView) itemView.findViewById(R.id.textView2);
+                t3 = (TextView) itemView.findViewById(R.id.textView321);
             }
             else if(val==4 || val==40 || val==3|| val ==2 || val ==10)
             {
                 t1 = (TextView) itemView.findViewById(R.id.textViewGradMenu);
 
             }
-            else if(val == 1 || val == 401 || val == 31 || val ==9 || val == 51 || val == 501)
+            else if(val == 1 || val == 401 || val == 31  || val == 51 || val == 501)
             {
                 t1 = (TextView) itemView.findViewById(R.id.textViewp1);
                 t2 = (TextView) itemView.findViewById(R.id.textViewp2);
@@ -119,7 +120,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     {
 
         View view = null;
-        if(val == 400|| val ==300)
+        if(val == 400|| val ==300|| val ==9)
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_2, parent, false);
 
         else if(val==4 || val==40 || val==3|| val ==2 || (val==5 && viewType == ITEM_TYPE_HEADER) || (val==50 && viewType == ITEM_TYPE_HEADER)
@@ -161,10 +162,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         final int itemType = getItemViewType(position);
 
-        if(val == 400|| val ==300)
+        if(val == 400|| val ==300 || val ==9)
         {
             holder.t1.setText(mDataset.get(position).getmText1());
             holder.t2.setText(mDataset.get(position).getmText2());
+
+            if(val == 9)
+                holder.t3.setText(mDataset.get(position).getmText3());
         }
         else if(val==4 || val==40 || val==3|| val ==2  || val == 10)
         {

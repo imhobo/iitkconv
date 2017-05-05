@@ -18,6 +18,9 @@ public class WebcastActivity extends MainActivity implements YouTubePlayer.OnIni
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        frameLayout.removeAllViews();
+        frameLayout.setBackground(null);
         getLayoutInflater().inflate(R.layout.activity_webcast, frameLayout);
 
         //Handling back button

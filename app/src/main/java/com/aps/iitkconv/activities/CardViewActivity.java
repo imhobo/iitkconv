@@ -9,9 +9,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -90,6 +92,10 @@ public class CardViewActivity extends MainActivity
 
         //Clearing the existing UI
         frameLayout.removeAllViews();
+        Drawable bg = ResourcesCompat.getDrawable(getResources(),R.drawable.bg, null);
+        frameLayout.setBackground(bg);
+
+//        Log.d("ch before init", String.valueOf(ch));
 
         b = getIntent().getExtras();
         if(b != null)
@@ -99,6 +105,8 @@ public class CardViewActivity extends MainActivity
         ch = MainActivity.getChoice();
         MainActivity.setChoice(value);
 
+//        Log.d("ch onCreate", String.valueOf(ch));
+//        Log.d("value onCreate", String.valueOf(value));
 
         displayData();
     }
@@ -108,6 +116,79 @@ public class CardViewActivity extends MainActivity
     protected void onResume()
     {
         super.onResume();
+        Log.d("onResume", String.valueOf(value));
+
+//        displayData();
+        ((MyRecyclerViewAdapter) mAdapter).setOnItemClickListener(new MyRecyclerViewAdapter
+                .MyClickListener() {
+            @Override
+            public void onItemClick(int position, View v)
+            {
+                Log.i(LOG_TAG, " Clicked on Item " + position );
+                Log.i(LOG_TAG, " Value " + value );
+
+                if(value == 3 && awardNum == -1)
+                {
+                    awardNum = position;
+                    displayData();
+                }
+
+                else if(value == 3 && awardNum ==0 && position == (mAdapter.getItemCount()-1))
+                {
+
+                    Log.i(LOG_TAG, " Clicked on PrevPres " + position );
+                    prevPres = true;
+                    displayData();
+
+                }
+
+                else if(value==4 && program == -1)
+                {
+                    program = position;
+                    displayData();
+                }
+
+                else if(value==4 && program > -1 && dept == -1)
+                {
+                    dept = position;
+                    displayData();
+                }
+
+                else if(value==4 && program > -1 && dept > -1)
+                {
+                    //Click on the student name
+                }
+
+                else if(value==5 && position == (mAdapter.getItemCount()-1))
+                {
+//                    Log.i(LOG_TAG, " Clicked on HonPrevious " + position );
+                    prevHon = true;
+                    displayData();
+
+                }
+
+                else if(value==50 && position == (mAdapter.getItemCount()-1))
+                {
+//                    Log.i(LOG_TAG, " Clicked on ChiefPrevious " + position );
+                    prevChief = true;
+                    displayData();
+
+
+                }
+
+                //Important Links
+                else if(value == 10)
+                {
+                    String url = ((MyRecyclerViewAdapter) mAdapter).getDataSet().get(position).getmText2();
+                    Log.d("url", url);
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+
+                }
+
+            }
+        });
 
     }
 
@@ -121,10 +202,14 @@ public class CardViewActivity extends MainActivity
         //Handling the back button
         MainActivity.setChoice(ch);
 
+//        Log.d("ch onBack", String.valueOf(ch));
+//        Log.d("value onBack", String.valueOf(value));
 
         if(value==1 || value ==2 || (value ==5 && !prevHon)|| value == 9 || (value == 50 && !prevChief) || value == 10)
         {
             finish();
+            return;
+
         }
 
         else if(value == 5 && prevHon)
@@ -143,6 +228,7 @@ public class CardViewActivity extends MainActivity
         else if(value==3 && awardNum == -1)
         {
             finish();
+            return;
         }
 
         else if(value==3 && awardNum > -1 && !prevPres)
@@ -160,6 +246,7 @@ public class CardViewActivity extends MainActivity
         else if(value==4 && program == -1)
         {
             finish();
+            return;
         }
 
         else if(value==4 && program > -1 && dept == -1)
@@ -173,6 +260,7 @@ public class CardViewActivity extends MainActivity
             dept = -1;
             displayData();
         }
+
 
 
     }
@@ -399,10 +487,12 @@ public class CardViewActivity extends MainActivity
     protected void displayData()
     {
 
+        Log.d("displayData init", String.valueOf(value));
         b = getIntent().getExtras();
         if(b != null)
             value = b.getInt("key");
 
+        Log.d("displayData after init", String.valueOf(value));
 
         //Clearing the existing UI
         frameLayout.removeAllViews();
@@ -480,7 +570,7 @@ public class CardViewActivity extends MainActivity
                 mAdapter = new MyRecyclerViewAdapter(getGuests("C"), 50);
         }
 
-        //Honourary Degrees and Chief Guests
+        //Honourary Degrees and Chief Guests with Prev Recipients
         else if((value==5 && prevHon) || (value==50 && prevChief))
         {
             if(value == 5)
@@ -536,78 +626,6 @@ public class CardViewActivity extends MainActivity
         }
 
         mRecyclerView.setAdapter(mAdapter);
-
-
-
-        ((MyRecyclerViewAdapter) mAdapter).setOnItemClickListener(new MyRecyclerViewAdapter
-                .MyClickListener() {
-            @Override
-            public void onItemClick(int position, View v)
-            {
-                Log.i(LOG_TAG, " Clicked on Item " + position );
-
-                if(value == 3 && awardNum == -1)
-                {
-                    awardNum = position;
-                    displayData();
-                }
-
-                else if(value == 3 && awardNum ==0 && position == (mAdapter.getItemCount()-1))
-                {
-
-                    Log.i(LOG_TAG, " Clicked on PrevPres " + position );
-                    prevPres = true;
-                    displayData();
-
-                }
-
-                else if(value==4 && program == -1)
-                {
-                    program = position;
-                    displayData();
-                }
-
-                else if(value==4 && program > -1 && dept == -1)
-                {
-                    dept = position;
-                    displayData();
-                }
-
-                else if(value==4 && program > -1 && dept > -1)
-                {
-                    //Click on the student name
-                }
-
-                else if(value==5 && position == (mAdapter.getItemCount()-1))
-                {
-//                    Log.i(LOG_TAG, " Clicked on HonPrevious " + position );
-                    prevHon = true;
-                    displayData();
-
-                }
-
-                else if(value==50 && position == (mAdapter.getItemCount()-1))
-                {
-//                    Log.i(LOG_TAG, " Clicked on ChiefPrevious " + position );
-                    prevChief = true;
-                    displayData();
-
-
-                }
-
-                //Important Links
-                else if(value == 10)
-                {
-                    String url = ((MyRecyclerViewAdapter) mAdapter).getDataSet().get(position).getmText2();
-                    Log.d("url", url);
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
-                    startActivity(i);
-
-                }
-
-            }
-        });
 
     }
 

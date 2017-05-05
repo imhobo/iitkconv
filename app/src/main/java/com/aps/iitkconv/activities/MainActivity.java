@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -76,7 +77,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.setTitle(Html.fromHtml(getString(R.string.app_title)));
 
         frameLayout = (FrameLayout)findViewById(R.id.content_frame);
+        frameLayout.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.exhort, null));
         getLayoutInflater().inflate(R.layout.content_main, frameLayout);
+
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

@@ -25,6 +25,9 @@ public class MapsActivity extends MainActivity implements OnMapReadyCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        frameLayout.removeAllViews();
+        frameLayout.setBackground(null);
         getLayoutInflater().inflate(R.layout.activity_maps, frameLayout);
 
         //Handling back button
