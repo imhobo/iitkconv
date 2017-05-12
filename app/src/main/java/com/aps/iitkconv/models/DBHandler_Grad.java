@@ -222,30 +222,6 @@ public class DBHandler_Grad extends SQLiteOpenHelper
     }
 
 
-    // Getting All Students
-    public List<Table_Grad_Students> getStudents1()
-    {
-        List<Table_Grad_Students> studentList = new ArrayList<Table_Grad_Students>();
-        // Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_GRAD;
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst())
-        {
-            do
-            {
-                Table_Grad_Students student = new Table_Grad_Students(cursor.getString(0), cursor.getString(1),
-                        cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
-                studentList.add(student);
-            } while (cursor.moveToNext());
-        }
-
-        return studentList;
-    }
-
     //Run any "Select *" query
     public List<Table_Grad_Students> runSelectQuery1(String query)
     {
@@ -261,7 +237,8 @@ public class DBHandler_Grad extends SQLiteOpenHelper
             do
             {
                 Table_Grad_Students student = new Table_Grad_Students(cursor.getString(0), cursor.getString(1),
-                        cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
+                        cursor.getString(3), cursor.getString(2), cursor.getString(4), cursor.getString(5));
+
                 studentList.add(student);
             } while (cursor.moveToNext());
         }
@@ -314,14 +291,31 @@ public class DBHandler_Grad extends SQLiteOpenHelper
     }
 
     // Getting student Count
-    public int getStudentCount1()
+    public int getStudentCountInProgram(String program)
     {
-        String countQuery = "SELECT * FROM " + TABLE_GRAD;
+        //Log.d("Query : ", query);
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-        cursor.close();
+        String table = TABLE_GRAD;
+        String selection = "program = ?";
+        String[] selectionArgs = {program};
+        Cursor c = db.query(table, null, selection, selectionArgs, null, null, null);
+        int result = c.getCount();
+        c.close();
+        return result;
+    }
 
-        return cursor.getCount();
+    // Getting student Count
+    public int getStudentCountInDept(String program, String dept)
+    {
+        //Log.d("Query : ", query);
+        SQLiteDatabase db = this.getReadableDatabase();
+        String table = TABLE_GRAD;
+        String selection = "program = ? AND dept = ?";
+        String[] selectionArgs = {program, dept};
+        Cursor c = db.query(table, null, selection, selectionArgs, null, null, null);
+        int result = c.getCount();
+        c.close();
+        return result;
     }
 
 
@@ -374,7 +368,7 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         return studentList;
     }
 
-    //Run any "Select *" query
+    //Get students based on award name
     public List<Table_Awards> runSelectQuery2(String award)
     {
         List<Table_Awards> studentList = new ArrayList<Table_Awards>();
@@ -400,6 +394,30 @@ public class DBHandler_Grad extends SQLiteOpenHelper
             {
                 Table_Awards student = new Table_Awards(cursor.getString(0), cursor.getString(1),
                         cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
+                studentList.add(student);
+            } while (cursor.moveToNext());
+        }
+        return studentList;
+    }
+
+    public List<Table_Awards> getStudentsbyName(String name)
+    {
+        List<Table_Awards> studentList = new ArrayList<Table_Awards>();
+
+        //Log.d("Query : ", query);
+
+        String query = "SELECT * FROM Table_Awards WHERE name like " + "'" + "%" + name + "%" + "'";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst())
+        {
+            do
+            {
+                Table_Awards student = new Table_Awards(cursor.getString(0), cursor.getString(1),
+                        cursor.getString(2), cursor.getString(3), cursor.getString(5), cursor.getString(4), cursor.getString(6), cursor.getString(7), cursor.getString(8));
                 studentList.add(student);
             } while (cursor.moveToNext());
         }
@@ -487,6 +505,20 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         return results;
     }
 
+    // Getting student Count
+    public int getStudentCountInAward(String award)
+    {
+        //Log.d("Query : ", query);
+        SQLiteDatabase db = this.getReadableDatabase();
+        String table = TABLE_AWARDS;
+        String selection = "award = ?";
+        String[] selectionArgs = {award};
+        Cursor c = db.query(table, null, selection, selectionArgs, null, null, null);
+        int result = c.getCount();
+        c.close();
+        return result;
+    }
+
     public void deleteAwardsAndStudents()
     {
 
@@ -520,13 +552,16 @@ public class DBHandler_Grad extends SQLiteOpenHelper
 
     //Get all Events
 
-    public List<Table_Schedule> getSchedule()
+    public List<Table_Schedule> getSchedule(String date)
     {
         List<Table_Schedule> eventList = new ArrayList<Table_Schedule>();
         SQLiteDatabase db = this.getReadableDatabase();
 
+        String selection = T3_KEY_DATE + " =?";
+        String[] selectionArgs = {date};
+
         Cursor cursor = db.query(TABLE_SCHEDULE, new String[]{T3_KEY_EVENT, T3_KEY_VENUE, T3_KEY_DATE, T3_KEY_TIME},
-                null, null, null, null, null);
+                selection, selectionArgs, null, null, null);
 
         if (cursor.moveToFirst())
         {

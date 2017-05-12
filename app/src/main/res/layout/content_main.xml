@@ -1,12 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.aps.iitconv.com.aps.iitkconv.activities.MainActivity">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
 
 
-</android.support.constraint.ConstraintLayout>
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src = "@drawable/cover">
+        </ImageView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/button1"
+                    android:layout_width="0dp"
+                    android:layout_height="90dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_button"
+                    android:drawablePadding="-5sp"
+                    android:drawableTop="@drawable/guest"
+                    android:paddingTop="10sp"
+                    android:text="Chief Guests"
+                    android:textColor="#FFFFFF"></Button>
+
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="0dp"
+                    android:layout_height="90dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_button"
+                    android:drawablePadding="-5sp"
+                    android:drawableTop="@drawable/programme"
+                    android:paddingTop="10sp"
+                    android:text="Schedule"
+                    android:textColor="#FFFFFF"></Button>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="0dp"
+                    android:layout_height="90dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_button"
+                    android:drawablePadding="-5sp"
+                    android:drawableTop="@drawable/degree"
+                    android:paddingTop="10sp"
+                    android:text="Degrees"
+                    android:textColor="#FFFFFF"></Button>
+
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="0dp"
+                    android:layout_height="90dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_button"
+                    android:drawablePadding="-5sp"
+                    android:drawableTop="@drawable/medal"
+                    android:paddingTop="10sp"
+                    android:text="Medals"
+                    android:textColor="#FFFFFF"></Button>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="2"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="90dp"
+                    android:background="@drawable/rounded_button"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/honorary"
+                    android:textColor="#FFFFFF"
+                    android:id="@+id/button5"
+                    android:paddingTop="10sp"
+                    android:drawablePadding="-5sp"
+                    android:layout_marginRight="20dp"
+                    android:text="Honorary"></Button>
+
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="90dp"
+                    android:background="@drawable/rounded_button"
+                    android:drawableTop="@drawable/gallery"
+                    android:textColor="#FFFFFF"
+                    android:layout_weight="1"
+                    android:id="@+id/button6"
+                    android:paddingTop="10sp"
+                    android:drawablePadding="-5sp"
+                    android:text="Gallery"></Button>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="2"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button7"
+                    android:layout_width="0dp"
+                    android:layout_height="90dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_button"
+                    android:drawablePadding="-5sp"
+                    android:drawableTop="@drawable/contact"
+                    android:paddingTop="10sp"
+                    android:text="Contacts"
+                    android:textColor="#FFFFFF"></Button>
+
+                <Button
+                    android:id="@+id/button8"
+                    android:layout_width="0dp"
+                    android:layout_height="90dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_button"
+                    android:drawablePadding="-5sp"
+                    android:drawableTop="@drawable/map"
+                    android:paddingTop="10sp"
+                    android:text="Map"
+                    android:textColor="#FFFFFF"></Button>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button9"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button"
+            android:drawablePadding="-10sp"
+            android:drawableLeft="@drawable/facebook"
+            android:paddingLeft="20sp"
+            android:paddingTop="5sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="Visit us on facebook"
+
+            android:textColor="#FFFFFF"></Button>
+
+
+
+    </LinearLayout>
+
+    </ScrollView>

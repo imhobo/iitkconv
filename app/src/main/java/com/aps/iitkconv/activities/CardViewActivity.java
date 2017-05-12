@@ -4,25 +4,28 @@ package com.aps.iitkconv.activities;
  * Created by imhobo on 31/3/17.
  */
 
-import android.app.ProgressDialog;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.aps.iitconv.R;
 import com.aps.iitkconv.models.DBHandler_Grad;
@@ -35,21 +38,6 @@ import com.aps.iitkconv.models.Table_Guest;
 import com.aps.iitkconv.models.Table_Prev_Rec;
 import com.aps.iitkconv.models.Table_Schedule;
 
-import org.apache.poi.ss.formula.eval.StringEval;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Array;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -80,20 +68,36 @@ public class CardViewActivity extends MainActivity
     boolean prevChief = false;
     boolean prevPres = false;
 
+    //Handling the search button
+    boolean hasSearchedGrad = false;
+    boolean hasSearchedAwards = false;
+    String query = "";
+
     //Handling the back button
     int ch = -1;
 
+    //Search
+    private MenuItem searchMenuItem;
+    private SearchView searchView;
+
+    //Schedule page 1 or 2
+    int schedule_page = 1;
+    String date = "";
+
+    private Context mContext;
     private Bundle b;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
+        //Maintaining context
+        mContext = this;
+
         //Clearing the existing UI
         frameLayout.removeAllViews();
-        Drawable bg = ResourcesCompat.getDrawable(getResources(),R.drawable.bg, null);
-        frameLayout.setBackground(bg);
 
 //        Log.d("ch before init", String.valueOf(ch));
 
@@ -126,6 +130,17 @@ public class CardViewActivity extends MainActivity
             {
                 Log.i(LOG_TAG, " Clicked on Item " + position );
                 Log.i(LOG_TAG, " Value " + value );
+
+                if(value == 1 && schedule_page == 1)
+                {
+
+                    if(position == 0)
+                        date = "15 June";
+                    else if(position == 1)
+                        date = "16 June";
+                    schedule_page = 2;
+                    displayData();
+                }
 
                 if(value == 3 && awardNum == -1)
                 {
@@ -187,6 +202,14 @@ public class CardViewActivity extends MainActivity
 
                 }
 
+                else if(value == 9)
+                {
+                    String phone = db.getContacts().get(position).getNumber();
+                    Intent intent = new Intent(Intent.ACTION_CALL);
+                    intent.setData(Uri.parse("tel:" + phone));
+                    mContext.startActivity(intent);
+                }
+
             }
         });
 
@@ -205,11 +228,31 @@ public class CardViewActivity extends MainActivity
 //        Log.d("ch onBack", String.valueOf(ch));
 //        Log.d("value onBack", String.valueOf(value));
 
-        if(value==1 || value ==2 || (value ==5 && !prevHon)|| value == 9 || (value == 50 && !prevChief) || value == 10)
+        if(value == 4 && hasSearchedGrad)
+        {
+            hasSearchedGrad = false;
+            displayData();
+            return;
+        }
+
+        if(value == 3 && hasSearchedAwards)
+        {
+            hasSearchedAwards = false;
+            displayData();
+            return;
+        }
+
+        if((value==1 && schedule_page == 1) || value ==2 || (value ==5 && !prevHon)|| value == 9 || (value == 50 && !prevChief) || value == 10)
         {
             finish();
             return;
 
+        }
+
+        else if(value == 1 && schedule_page == 2)
+        {
+            schedule_page = 1;
+            displayData();
         }
 
         else if(value == 5 && prevHon)
@@ -269,12 +312,12 @@ public class CardViewActivity extends MainActivity
     //---------------------------------------------------------------Methods to get data-------------------------------------------------------
 
     //Get all events
-    private ArrayList<DataObject> getSchedule()
+    private ArrayList<DataObject> getSchedule(String date)
     {
         ArrayList<Table_Schedule> events = new ArrayList<Table_Schedule>();
         ArrayList<DataObject> results = new ArrayList<DataObject>();
 
-        events = (ArrayList) db.getSchedule();
+        events = (ArrayList) db.getSchedule(date);
 
         int size = events.size();
         Log.d("Size of events : ", String.valueOf(size));
@@ -285,6 +328,19 @@ public class CardViewActivity extends MainActivity
             DataObject obj= new DataObject(t.getEvent(),t.getVenue(), t.getDate(), t.getTime());
             results.add(obj);
         }
+
+        return results;
+    }
+
+    //Create first page of schedule
+    private ArrayList<DataObject> schedule_page1()
+    {
+        ArrayList<DataObject> results = new ArrayList<DataObject>();
+
+        DataObject obj= new DataObject("Session - 1", "Auditorium, IIT Kanpur", "15 June, 2017", "09:00 am to 13:35 pm");
+        results.add(obj);
+        obj= new DataObject("Session - 2", "Auditorium, IIT Kanpur", "16 June, 2017", "09:00 am to 13:35 pm");
+        results.add(obj);
 
         return results;
     }
@@ -318,6 +374,14 @@ public class CardViewActivity extends MainActivity
         for (String s : tempHolder)
         {
             results.add(new DataObject(s));
+        }
+        if(tempHolder.size()==0)
+        {
+
+            TextView txt1 = new TextView(CardViewActivity.this);
+            txt1.setText("No announcements yet.");
+            txt1.setGravity(Gravity.CENTER_HORIZONTAL);
+            frameLayout.addView(txt1);
         }
 
         return results;
@@ -386,7 +450,8 @@ public class CardViewActivity extends MainActivity
 
         for (String i : tempHolder)
         {
-            results.add(new DataObject(i));
+            int num = db.getStudentCountInAward(i);
+            results.add(new DataObject(i, String.valueOf(num)));
         }
 
         return results;
@@ -402,7 +467,8 @@ public class CardViewActivity extends MainActivity
 
         for (String i : tempHolder)
         {
-            results.add(new DataObject(i));
+            int res = db.getStudentCountInProgram(i);
+            results.add(new DataObject(i, String.valueOf(res)));
         }
 
         return results;
@@ -417,7 +483,8 @@ public class CardViewActivity extends MainActivity
 
         for (String i : tempHolder)
         {
-            results.add(new DataObject(i));
+            int res = db.getStudentCountInDept(program, i);
+            results.add(new DataObject(i, String.valueOf(res)));
         }
 
         return results;
@@ -469,11 +536,13 @@ public class CardViewActivity extends MainActivity
             */
 
             DataObject obj= new DataObject(bmp, t.getRoll(), t.getName(), award, t.getDescription(), t.getComment(), t.getProgram(), t.getYear());
-            //Log.d("getStudents2",String.valueOf(t.getId())+t.getEvent()+t.getName()+award+t.getTime()+t.getDept()+t.getProgram()+t.getYear());
+
+            Log.d("Checking values : ", "Roll-"+t.getRoll() + ";" + "Name-" + t.getName() + ";" + "Award-"+ award + ";"+  "Desc-"+t.getDescription() +
+                    ";"+ "Comment-" + t.getComment() + ";" + "Program-" + t.getProgram() + ";" + "Dept-" + t.getDept() + ";" + "Year-" + t.getYear());
             results.add(obj);
         }
 
-        if(awardNum == 0)
+        if(awardNum == 0 && !hasSearchedAwards)
         {
             DataObject obj= new DataObject("Previous Recipients");
             results.add(obj);
@@ -481,18 +550,81 @@ public class CardViewActivity extends MainActivity
 
         return results;
     }
+    //-------------------------------------------------------------------Get searched data-------------------------------------------------------------------------
+
+    protected ArrayList<DataObject> getSearchedGrad(String q)
+    {
+
+        ArrayList<Table_Grad_Students> students = new ArrayList<Table_Grad_Students>();
+        ArrayList<DataObject> results = new ArrayList<DataObject>();
+
+        String query = "SELECT * FROM Table_Grad_Students WHERE name like " + "'" + "%" + q + "%" + "'";
+        students = (ArrayList) db.runSelectQuery1(query);
+
+        int size = students.size();
+        Log.d("Size of students : ", String.valueOf(size));
+
+        for (int i = 0 ; i< size; i++)
+        {
+            Table_Grad_Students t = students.get(i);
+            DataObject obj= new DataObject(t.getName(),t.getRoll(), t.getAdvisers(), t.getDescription(), t.getProgram(), t.getDept());
+
+            Log.d("Program : ", t.getProgram());
+            Log.d("Program : ", t.getName());
+            Log.d("Program : ", t.getAdvisers());
+            Log.d("Program : ", t.getDescription());
+            Log.d("Program : ", t.getProgram());
+            Log.d("Program : ", t.getDept());
+
+            results.add(obj);
+        }
+
+        return results;
+
+
+    }
+
+    protected ArrayList<DataObject> getSearchedAwards(String q)
+    {
+
+        ArrayList<Table_Awards> students = new ArrayList<Table_Awards>();
+        ArrayList<DataObject> results = new ArrayList<DataObject>();
+
+        students = (ArrayList) db.getStudentsbyName(q);
+
+        int size = students.size();
+        Log.d("Size of students : ", String.valueOf(size));
+
+        for (int i = 0 ; i< size; i++)
+        {
+            Table_Awards t = students.get(i);
+
+            Bitmap bmp = db.getImage(t.getPicture());
+            DataObject obj= new DataObject(bmp, t.getRoll(), t.getName(), t.getAward(), t.getDescription(), t.getComment(), t.getProgram(), t.getDept(), t.getYear(), t.getPicture());
+
+            Log.d("Name : ", t.getName());
+            Log.d("Award : ", t.getAward());
+            results.add(obj);
+        }
+
+        return results;
+
+
+    }
+
+
 
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     protected void displayData()
     {
 
-        Log.d("displayData init", String.valueOf(value));
-        b = getIntent().getExtras();
-        if(b != null)
-            value = b.getInt("key");
+//        Log.d("displayData init", String.valueOf(value));
+//        b = getIntent().getExtras();
+//        if(b != null)
+//            value = b.getInt("key");
 
-        Log.d("displayData after init", String.valueOf(value));
+//        Log.d("displayData after init", String.valueOf(value));
 
         //Clearing the existing UI
         frameLayout.removeAllViews();
@@ -502,7 +634,7 @@ public class CardViewActivity extends MainActivity
         db = DBHandler_Grad.getInstance(this);
 
         //Set different card views here.
-        if(value == 3 && awardNum > -1 && !prevPres)
+        if(value == 3 && awardNum > -1 && !prevPres && !hasSearchedAwards)
         {
             getLayoutInflater().inflate(R.layout.card_view_award, frameLayout);
         }
@@ -521,12 +653,36 @@ public class CardViewActivity extends MainActivity
 //        Log.d("Value","val=" + value) ;
         // Schedule
         if(value==1)
-            mAdapter = new MyRecyclerViewAdapter(getSchedule(),1);
+        {
+            if(schedule_page == 1)
+            {
+                mAdapter = new MyRecyclerViewAdapter(schedule_page1(), 1);
+            }
+            else if(schedule_page == 2)
+                mAdapter = new MyRecyclerViewAdapter(getSchedule(date),1);
+
+        }
+
+
+
+
+        //Searched in awards
+        else if(value == 3 && hasSearchedAwards)
+        {
+            mAdapter = new MyRecyclerViewAdapter(getSearchedAwards(query),1000);
+        }
+
+        //Searched for grad students
+        else if(value == 4 && hasSearchedGrad)
+        {
+            mAdapter = new MyRecyclerViewAdapter(getSearchedGrad(query),999);
+        }
 
         // Announcements
         else if(value==2)
-            mAdapter = new MyRecyclerViewAdapter(getAnnouncements(),2);
-
+        {
+            mAdapter = new MyRecyclerViewAdapter(getAnnouncements(), 2);
+        }
 
         //List of Awards
         else if(value==3 && awardNum == -1)
@@ -556,11 +712,13 @@ public class CardViewActivity extends MainActivity
                 mAdapter = new MyRecyclerViewAdapter(students, 31);
         }
 
+        //Prev Recipient in Pres Gold Medal
         else if(value ==3 && awardNum == 0 && prevPres)
         {
             mAdapter = new MyRecyclerViewAdapter(getPrevPresExcel(), 300);
 
         }
+
         //Honourary Degrees and Chief Guests
         else if((value==5 && !prevHon) || (value==50 && !prevChief))
         {
@@ -588,14 +746,16 @@ public class CardViewActivity extends MainActivity
 
 
 
-        //List of Programs for Graduating Students
+        //List of Programs for Graduating Students with the number of students in each of them.
         else if(value==4 && program == -1)
         {
+            CardViewActivity.this.setTitle("Degrees");
             programs = getPrograms();
             mAdapter = new MyRecyclerViewAdapter(programs,4);
+
         }
 
-        //List of Students for Graduating Students when Program already clicked
+        //List of Students for Graduating Students when Program already clicked with the number of students in each of them.
         else if(value == 4 && program > -1 && dept == -1)
         {
             String curDep = programs.get(program).getmText1();
@@ -609,7 +769,7 @@ public class CardViewActivity extends MainActivity
         {
             String curDep = programs.get(program).getmText1();
             String curBr = depts.get(dept).getmText1();
-            CardViewActivity.this.setTitle(curBr);
+            CardViewActivity.this.setTitle(curDep + " -> " + curBr);
             ArrayList<DataObject> students = getStudents1(curDep, curBr);
             //Log.d("Branch", programs.get(program).getmText1() + ":"+ depts.get(dept).getmText1());
             if(!curDep.equals("Ph.D."))
@@ -624,6 +784,7 @@ public class CardViewActivity extends MainActivity
         {
             mAdapter = new MyRecyclerViewAdapter(getLinks(),10);
         }
+
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -686,5 +847,63 @@ public class CardViewActivity extends MainActivity
     }
 
 
+
+    //-------------------------------------------------------------------------------------Creating and handling the search bar---------------------------------------------------
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        if(value != 3 && value != 4)return false;
+
+        this.menu = menu;
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.search_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.search);
+        searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint("Enter student name");
+
+        //Expanding the search view to take complete width
+        searchView.setMaxWidth( Integer.MAX_VALUE );
+        MenuItemCompat.expandActionView(searchItem);
+
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        return super.onCreateOptionsMenu(menu);
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent)
+    {
+        Log.d("New Intent in CardView", "Reached Here");
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction()))
+        {
+            String q = intent.getStringExtra(SearchManager.QUERY);
+
+            Log.d("Search query", q);
+
+            if(value == 3)
+                hasSearchedAwards = true;
+            else if(value == 4)
+                hasSearchedGrad = true;
+
+            query = q;
+            displayData();
+        }
+
+        else
+        {
+            Log.d("New Intent in CardView", "Inside Else");
+            b = intent.getExtras();
+            if(b != null)
+                value = b.getInt("key");
+            Log.d("Value : ", String.valueOf(value));
+            displayData();
+        }
+    }
 
 }

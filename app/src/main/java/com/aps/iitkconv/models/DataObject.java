@@ -167,4 +167,22 @@ public class DataObject
         mTexts.set(7,mText8);
 
     }
+
+    public String getmText9() {
+
+        String value = "";
+        try
+        {
+            value =  mTexts.get(8);
+        }catch (IndexOutOfBoundsException e)
+        {
+            return value;
+        }
+        return value;
+    }
+
+    public void setmText9(String mText9) {
+        mTexts.set(8,mText9);
+
+    }
 }

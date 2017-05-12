@@ -6,9 +6,22 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.LightingColorFilter;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.DrawableContainer;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.RippleDrawable;
+import android.graphics.drawable.StateListDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +29,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -24,7 +38,9 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +71,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import static android.support.design.R.id.dialog;
+import static android.support.design.R.id.start;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
@@ -64,6 +81,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static int curTab = -1;
 
 
+    ArrayList<Button> but;
+    ArrayList<String> colors;
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -77,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.setTitle(Html.fromHtml(getString(R.string.app_title)));
 
         frameLayout = (FrameLayout)findViewById(R.id.content_frame);
-        frameLayout.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.exhort, null));
+//        frameLayout.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.exhort, null));
         getLayoutInflater().inflate(R.layout.content_main, frameLayout);
 
 
@@ -112,8 +133,109 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         //---------------------------------------
 
+        //Handling button UI
+        but = new ArrayList<Button>();
+        but.add((Button) findViewById(R.id.button1));
+        but.add((Button) findViewById(R.id.button2));
+        but.add((Button) findViewById(R.id.button3));
+        but.add((Button) findViewById(R.id.button4));
+        but.add((Button) findViewById(R.id.button5));
+        but.add((Button) findViewById(R.id.button6));
+        but.add((Button) findViewById(R.id.button7));
+        but.add((Button) findViewById(R.id.button8));
+        but.add((Button) findViewById(R.id.button9));
+
+        colors = new ArrayList<>();
+        colors.add("#FDD017");
+        colors.add("#8D38C9");
+        colors.add("#4CC552");
+        colors.add("#F88017");
+        colors.add("#342D7E");
+        colors.add("#3090C7");
+        colors.add("#E56717");
+        colors.add("#483C32");
+        colors.add("#3b5998");
+
+        for(int i=0;i<9;i++)
+        {
+            GradientDrawable rippleDrawable = (GradientDrawable)but.get(i).getBackground(); // assumes bg is a RippleDrawable
+            rippleDrawable.setColor(Color.parseColor(colors.get(i)));
+            but.get(i).setTransformationMethod(null);
+
+        }
     }
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+
+        for(int i=0;i<9;i++)
+        {
+            final int finalI = i;
+            but.get(i).setOnTouchListener(new View.OnTouchListener()
+            {
+                @Override
+                public boolean onTouch(View v, MotionEvent event)
+                {
+
+                    GradientDrawable ri = (GradientDrawable)but.get(finalI).getBackground(); // assumes bg is a RippleDrawable
+                    ri.setColorFilter(null);
+
+                    if(event.getAction() == MotionEvent.ACTION_DOWN)
+                    {
+                        GradientDrawable rippleDrawable = (GradientDrawable)but.get(finalI).getBackground(); // assumes bg is a RippleDrawable
+                        rippleDrawable.setColorFilter(new LightingColorFilter(0xFF000000, 0xFFAA0000));
+                    }
+
+                    if(event.getAction() == MotionEvent.ACTION_MOVE){
+
+
+                        GradientDrawable rippleDrawable = (GradientDrawable)but.get(finalI).getBackground(); // assumes bg is a RippleDrawable
+                        rippleDrawable.setColorFilter(null);
+
+                    }
+                    if (event.getAction() == MotionEvent.ACTION_UP)
+                    {
+                        GradientDrawable rippleDrawable = (GradientDrawable)but.get(finalI).getBackground(); // assumes bg is a RippleDrawable
+                        rippleDrawable.setColorFilter(null);
+
+                        if (finalI == 0)
+                            startDrawerActivity(CardViewActivity.class, 50);
+                        else if (finalI == 1)
+                            startDrawerActivity(CardViewActivity.class, 1);
+                        else if (finalI == 2)
+                            startDrawerActivity(CardViewActivity.class, 4);
+                        else if (finalI == 3)
+                            startDrawerActivity(CardViewActivity.class, 3);
+                        else if (finalI == 4)
+                            startDrawerActivity(CardViewActivity.class, 5);
+                        else if (finalI == 5)
+                            startDrawerActivity(GalleryActivity.class, 8);
+                        else if (finalI == 6)
+                            startDrawerActivity(CardViewActivity.class, 9);
+                        else if (finalI == 7)
+                            startDrawerActivity(MapsActivity.class, 6);
+                        else if (finalI == 8)
+                        {
+                            //Url for facebook group
+                            String url = "https://www.google.com";
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(Uri.parse(url));
+                            startActivity(i);
+                        }
+                    }
+                    return true;
+                }
+
+                });
+
+
+            }
+
+
+    }
 
     public static void clearChoice()
     {
@@ -160,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item)
     {
@@ -255,5 +377,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }, 200);
     }
+
 
 }

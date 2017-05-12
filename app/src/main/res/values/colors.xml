@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#64340F</color>
-    <color name="colorPrimaryDark">#4B2405</color>
+    <color name="colorPrimary">#004A8B</color>
+    <color name="colorPrimaryDark">#003E75</color>
     <color name="colorAccent">#FF4081</color>
     <color name="nav_menu_bg">#EFEFEF</color>
+
+
+    <color name="palette_1">#EFEFEF</color>
+    <color name="palette_2">#EFEFEF</color>
+    <color name="palette_3">#EFEFEF</color>
+    <color name="palette_4">#EFEFEF</color>
+    <color name="palette_5">#EFEFEF</color>
+
+
 
 </resources>

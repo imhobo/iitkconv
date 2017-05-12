@@ -15,7 +15,7 @@
             android:textAlignment="center"
             android:layout_height="wrap_content"
             style="@android:style/TextAppearance.DeviceDefault.Medium"
-            android:textColor="#FFFFFF"
+            android:textColor="#FF9825"
             android:textStyle="bold"
             />
 

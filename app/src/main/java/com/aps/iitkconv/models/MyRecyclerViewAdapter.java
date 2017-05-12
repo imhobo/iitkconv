@@ -4,11 +4,15 @@ package com.aps.iitkconv.models;
  * Created by imhobo on 31/3/17.
  */
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +31,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public static final int ITEM_TYPE_NORMAL = 0;
     public static final int ITEM_TYPE_HEADER = 1;
 
+    public static final int ITEM_TYPE_PHD = 2;
+    public static final int ITEM_TYPE_NON_PHD = 3;
+
+    public static final int ITEM_TYPE_PIC_AWARD = 4;
+    public static final int ITEM_TYPE_NON_PIC_AWARD = 5;
+
+    ArrayList<String> palette = new ArrayList<>();
+
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
@@ -36,32 +48,74 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         TextView t3;
         TextView t4;
         TextView t5;
+        TextView t6;
+        TextView t7;
+        TextView t8;
 
         ImageView pic;
+        ImageView arrow;
+
+        FrameLayout tile;
+        FrameLayout tile2;
 
         public DataObjectHolder(View itemView)
         {
             super(itemView);
 
 
-            if(val == 400 || val ==300 || val == 9)
+            //Tile is for left tiles in 2 line rows. Tile2 is for 1 line rows.
+            tile = (FrameLayout) itemView.findViewById(R.id.card_tile_2);
+            tile2 = (FrameLayout) itemView.findViewById(R.id.card_tile_1);
+            arrow = (ImageView) itemView.findViewById(R.id.imageArrow);
+
+            if(val==3|| val==4 || val==40 || val == 400 || val ==300)
             {
                 t1 = (TextView) itemView.findViewById(R.id.textView);
                 t2 = (TextView) itemView.findViewById(R.id.textView2);
-                t3 = (TextView) itemView.findViewById(R.id.textView321);
+
             }
-            else if(val==4 || val==40 || val==3|| val ==2 || val ==10)
+            else if(val ==2 || val ==10)
             {
                 t1 = (TextView) itemView.findViewById(R.id.textViewGradMenu);
 
             }
-            else if(val == 1 || val == 401 || val == 31  || val == 51 || val == 501)
+            else if(val == 1 || val == 401 || val == 31  || val == 51 || val == 501 || val == 9)
             {
                 t1 = (TextView) itemView.findViewById(R.id.textViewp1);
                 t2 = (TextView) itemView.findViewById(R.id.textViewp2);
                 t3 = (TextView) itemView.findViewById(R.id.textViewp3);
                 t4 = (TextView) itemView.findViewById(R.id.textViewp4);
                 //Log.d("401","401");
+            }
+
+            //Searched in graduating students
+            else if(val == 999)
+            {
+                t1 = (TextView) itemView.findViewById(R.id.textViewp1);
+                t2 = (TextView) itemView.findViewById(R.id.textViewp2);
+                t3 = (TextView) itemView.findViewById(R.id.textViewp3);
+                t4 = (TextView) itemView.findViewById(R.id.textViewp4);
+
+                t5 = (TextView) itemView.findViewById(R.id.textView);
+                t6 = (TextView) itemView.findViewById(R.id.textView2);
+
+            }
+
+            //Searched in awards
+            else if(val == 1000)
+            {
+                t1 = (TextView) itemView.findViewById(R.id.textViewp1);
+                t2 = (TextView) itemView.findViewById(R.id.textViewp2);
+                t3 = (TextView) itemView.findViewById(R.id.textViewp3);
+                t4 = (TextView) itemView.findViewById(R.id.textViewp4);
+
+                t5 = (TextView) itemView.findViewById(R.id.textViewpic1);
+                t6 = (TextView) itemView.findViewById(R.id.textViewpic2);
+                t7 = (TextView) itemView.findViewById(R.id.textViewpic3);
+                t8 = (TextView) itemView.findViewById(R.id.textViewpic4);
+                pic = (ImageView) itemView.findViewById(R.id.imageViewStudent);
+
+
             }
             else if(val == 30)
             {
@@ -112,6 +166,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         mDataset = myDataset;
         val = value;
+
+        // The colors of the left tile.
+        palette.add("#C66963");
+        palette.add("#0000FF");
+        palette.add("#158431");
+        palette.add("#76699C");
+        palette.add("#808000");
+
     }
 
 
@@ -120,21 +182,27 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     {
 
         View view = null;
-        if(val == 400|| val ==300|| val ==9)
+        if(val==3|| val==4 || val==40 || val == 400|| val ==300|| (val == 999 && viewType == ITEM_TYPE_NON_PHD))
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_2, parent, false);
 
-        else if(val==4 || val==40 || val==3|| val ==2 || (val==5 && viewType == ITEM_TYPE_HEADER) || (val==50 && viewType == ITEM_TYPE_HEADER)
+        else if(val ==2 || (val==5 && viewType == ITEM_TYPE_HEADER) || (val==50 && viewType == ITEM_TYPE_HEADER)
                 || (val==30 && viewType == ITEM_TYPE_HEADER) || val == 10)
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_1, parent, false);
 
-        else if(val == 1 || val==401 || val == 31|| val ==9|| val == 51 || val == 501)
+        else if(val == 1 || val==401 || val == 31|| val ==9|| val == 51 || val == 501 || (val == 999 && viewType == ITEM_TYPE_PHD)
+                || (val == 1000 && viewType == ITEM_TYPE_NON_PIC_AWARD))
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_4, parent, false);
 
-        else if(val==30 && viewType == ITEM_TYPE_NORMAL)
+        else if((val==30 && viewType == ITEM_TYPE_NORMAL) || (val == 1000 && viewType == ITEM_TYPE_PIC_AWARD))
+        {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_pic, parent, false);
+        }
 
         else if((val==5 && viewType == ITEM_TYPE_NORMAL)|| (val==50 && viewType == ITEM_TYPE_NORMAL))
+        {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_big, parent, false);
+        }
+
 
 
 
@@ -146,14 +214,49 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public int getItemViewType(int position)
     {
 
-        //HON_PREV = (val==5 && (mDataset.get(position).getmText1()).equals("Previous Recipients"));
+        Log.d("Inside getItemViewType", String.valueOf(val));
 
-        if((mDataset.get(position).getmText1()).equals("Previous Recipients"))
+        if(val == 999)
         {
-            return ITEM_TYPE_HEADER;
+            Log.d("ITEM_TYPE", mDataset.get(position).getmText4());
+            if(mDataset.get(position).getmText5().equals("Ph.D."))
+            {
+
+                return ITEM_TYPE_PHD;
+
+            }
+            else
+            {    return ITEM_TYPE_NON_PHD;}
         }
+
+        else if(val == 1000)
+        {
+            Log.d("Picture Name : ", mDataset.get(position).getmText9());
+            if(!mDataset.get(position).getmText9().equals(""))
+            {
+
+                return ITEM_TYPE_PIC_AWARD;
+            }
+            else
+            {
+                return ITEM_TYPE_NON_PIC_AWARD;
+            }
+        }
+
         else
-            return ITEM_TYPE_NORMAL;
+        {
+            Log.d("wrong val : ", mDataset.get(position).getmText9());
+            if((mDataset.get(position).getmText1()).equals("Previous Recipients"))
+            {
+                return ITEM_TYPE_HEADER;
+            }
+            else
+            {
+                return ITEM_TYPE_NORMAL;
+            }
+
+        }
+
     }
 
     @Override
@@ -162,35 +265,150 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         final int itemType = getItemViewType(position);
 
-        if(val == 400|| val ==300 || val ==9)
+        if(val==3 || val==4 || val==40 ||val == 400|| val ==300)
         {
+            String pre = "";
+
+            if(val == 300)
+                holder.arrow.setVisibility(View.INVISIBLE);
+
+            if(val == 400)
+            {
+                pre = "Roll number : ";
+                holder.arrow.setVisibility(View.INVISIBLE);
+            }
+            else if(val==3 || val == 4 || val == 40 )pre = "Total number of students : ";
+
             holder.t1.setText(mDataset.get(position).getmText1());
-            holder.t2.setText(mDataset.get(position).getmText2());
+            holder.t2.setText(pre + mDataset.get(position).getmText2());
 
             if(val == 9)
                 holder.t3.setText(mDataset.get(position).getmText3());
+
+            //Choosing 1 out of the 5 colors from palette for the left tile in a card
+            holder.tile.setBackgroundColor(Color.parseColor(palette.get(position%5)));
+
         }
-        else if(val==4 || val==40 || val==3|| val ==2  || val == 10)
+        else if(val ==2  || val == 10)
         {
+            //Choosing 1 out of the 5 colors from palette for the left tile in a card
+            holder.tile2.setBackgroundColor(Color.parseColor(palette.get(position%5)));
+
             holder.t1.setText(mDataset.get(position).getmText1());
         }
 
         else if((val==5 && itemType == ITEM_TYPE_HEADER) || (val==50 && itemType == ITEM_TYPE_HEADER))
         {
+            //Choosing 1 out of the 5 colors from palette for the left tile in a card
+            holder.tile2.setBackgroundColor(Color.parseColor(palette.get(position%5)));
+
             holder.t4.setText(mDataset.get(position).getmText1());
         }
 
         else if((val==30 && itemType == ITEM_TYPE_HEADER))
         {
+            //Choosing 1 out of the 5 colors from palette for the left tile in a card
+            holder.tile2.setBackgroundColor(Color.parseColor(palette.get(position%5)));
+
             holder.t5.setText(mDataset.get(position).getmText1());
         }
 
-        else if(val == 1 || val==401 || val ==9|| val == 51 || val == 501)
+        else if(val == 1 || val==401 || val == 51 || val == 501 || (val == 999 && itemType == ITEM_TYPE_PHD)  || val == 9)
         {
-            holder.t1.setText(mDataset.get(position).getmText1());
-            holder.t2.setText(mDataset.get(position).getmText2());
-            holder.t3.setText(mDataset.get(position).getmText3());
-            holder.t4.setText(mDataset.get(position).getmText4());
+            String p1 = "";
+            String p2 = "";
+            String p3 = "";
+            String p4 = "";
+
+            SpannableStringBuilder s2 = null;
+            SpannableStringBuilder s3 = null;
+            SpannableStringBuilder s4 = null;
+            if(val == 401 || (val == 999 && itemType == ITEM_TYPE_PHD))
+            {
+                p2 = "Roll number : ";
+                p3 = "Thesis Supervisor : ";
+                p4 = "Description : ";
+
+                p1 = p1+mDataset.get(position).getmText1();
+                p2 = p2+mDataset.get(position).getmText2();
+                p3 = p3+mDataset.get(position).getmText3();
+                p4 = p4+mDataset.get(position).getmText4();
+
+                s2 = new SpannableStringBuilder(p2);
+                s2.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 14, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                s3 = new SpannableStringBuilder(p3);
+                s3.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 20, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                s4 = new SpannableStringBuilder(p4);
+                s4.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 14, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                holder.t1.setText(p1);
+                holder.t2.setText(s2);
+                holder.t3.setText(s3);
+                holder.t4.setText(s4);
+
+            }
+
+            else if(val == 1)
+            {
+
+                p2 = "Venue : ";
+                p3 = "Date : ";
+                p4 = "Time : ";
+
+                p1 = p1 + mDataset.get(position).getmText1();
+                p2 = p2 + mDataset.get(position).getmText2();
+                p3 = p3 + mDataset.get(position).getmText3();
+                p4 = p4 + mDataset.get(position).getmText4();
+
+                s2 = new SpannableStringBuilder(p2);
+                s2.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                s3 = new SpannableStringBuilder(p3);
+                s3.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                s4 = new SpannableStringBuilder(p4);
+                s4.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                holder.t1.setText(p1);
+                holder.t2.setText(s2);
+                holder.t3.setText(s3);
+                holder.t4.setText(s4);
+
+            }
+
+            else if(val == 9)
+            {
+                p2 = "Phone : ";
+                p3 = "Vehicle : ";
+                p4 = "CALL NOW";
+
+                p1 = p1 + mDataset.get(position).getmText1();
+                p2 = p2 + mDataset.get(position).getmText2();
+                p3 = p3 + mDataset.get(position).getmText3();
+                p4 = p4 + mDataset.get(position).getmText4();
+
+                s2 = new SpannableStringBuilder(p2);
+                s2.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                s3 = new SpannableStringBuilder(p3);
+                s3.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 10, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                s4 = new SpannableStringBuilder(p4);
+                s4.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                holder.t1.setText(p1);
+                holder.t2.setText(s2);
+                holder.t3.setText(s3);
+                holder.t4.setText(s4);
+            }
+
+
+            else
+            {
+                holder.t1.setText(mDataset.get(position).getmText1());
+                holder.t2.setText(mDataset.get(position).getmText2());
+                holder.t3.setText(mDataset.get(position).getmText3());
+                holder.t4.setText(mDataset.get(position).getmText4());
+
+            }
+
+
         }
 
         else if((val==5 && itemType == ITEM_TYPE_NORMAL) || (val==50 && itemType == ITEM_TYPE_NORMAL))
@@ -201,7 +419,54 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             holder.pic.setImageBitmap(mDataset.get(position).getmImg());
         }
 
-        else if(val==31 || (val == 30 && itemType == ITEM_TYPE_NORMAL))
+        else if(val == 999)
+        {
+            if(itemType == ITEM_TYPE_NON_PHD)
+            {
+                //Choosing 1 out of the 5 colors from palette for the left tile in a card
+                holder.tile.setBackgroundColor(Color.parseColor(palette.get(position%5)));
+
+                String pre = "Roll number : ";
+
+                holder.t5.setText(mDataset.get(position).getmText1());
+                holder.t6.setText(pre + mDataset.get(position).getmText2());
+                holder.arrow.setVisibility(View.INVISIBLE);
+            }
+        }
+
+        else if(val == 1000 && itemType == ITEM_TYPE_PIC_AWARD)
+        {
+//            Log.d("Here Val : ", String.valueOf(val) + " : " + itemType);
+
+            String name,b,c,d;
+
+            name = mDataset.get(position).getmText2();
+            holder.t5.setText(name);
+
+            b = mDataset.get(position).getmText1();
+            if(b.equals(""))
+                b = mDataset.get(position).getmText7();
+
+            holder.t6.setText(b);
+
+
+            //Second line can be branch or comment. Third line will be comment
+            c = mDataset.get(position).getmText5();
+            if(!c.equals(""))
+            {
+                holder.t7.setText(c);
+                holder.t8.setText(mDataset.get(position).getmText6());
+            }
+            else
+            {
+                holder.t7.setText(mDataset.get(position).getmText6());
+            }
+
+            holder.pic.setImageBitmap(mDataset.get(position).getmImg());
+
+        }
+
+        else if(val == 1000 && itemType == ITEM_TYPE_NON_PIC_AWARD)
         {
             String name,b,c,d;
 
@@ -216,17 +481,34 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             holder.t2.setText(b);
 
 
-            //Second line can be branch or comment. Third line will be comment
+            c = mDataset.get(position).getmText7();
+            holder.t3.setText(c);
+            holder.t4.setText(mDataset.get(position).getmText6());
+
+        }
+
+        else if(val==31 || (val == 30 && itemType == ITEM_TYPE_NORMAL) )
+        {
+
+//            Log.d("Here Val : ", String.valueOf(val) + " : " + itemType);
+            String name,b,c,d;
+
+            name = mDataset.get(position).getmText2();
+            holder.t1.setText(name);
+
+            //Right side of the first line will be either roll number or year
+            b = mDataset.get(position).getmText1();
+            if(b.equals(""))
+                b = mDataset.get(position).getmText7();
+
+            holder.t2.setText(b);
+
+
+            //Second line can be dept. Third line will be comment
             c = mDataset.get(position).getmText5();
-            if(!c.equals(""))
-            {
-                holder.t3.setText(c);
-                holder.t4.setText(mDataset.get(position).getmText6());
-            }
-            else
-            {
-                holder.t3.setText(mDataset.get(position).getmText6());
-            }
+            holder.t3.setText(c);
+            holder.t4.setText(mDataset.get(position).getmText6());
+
 
 
             if(val==30)
