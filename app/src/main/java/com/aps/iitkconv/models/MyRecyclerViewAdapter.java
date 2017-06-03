@@ -74,6 +74,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 t2 = (TextView) itemView.findViewById(R.id.textView2);
 
             }
+            else if(val == 69)
+            {
+                t1 = (TextView) itemView.findViewById(R.id.textView1);
+                pic = (ImageView) itemView.findViewById(R.id.pic);
+            }
             else if(val ==2 || val ==10)
             {
                 t1 = (TextView) itemView.findViewById(R.id.textViewGradMenu);
@@ -117,7 +122,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
 
             }
-            else if(val == 30)
+            else if(val == 30  || val == 509 || val == 519)
             {
 
                 t1 = (TextView) itemView.findViewById(R.id.textViewpic1);
@@ -185,15 +190,19 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         if(val==3|| val==4 || val==40 || val == 400|| val ==300|| (val == 999 && viewType == ITEM_TYPE_NON_PHD))
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_2, parent, false);
 
+        else if(val==69)
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_5 , parent, false);
+
         else if(val ==2 || (val==5 && viewType == ITEM_TYPE_HEADER) || (val==50 && viewType == ITEM_TYPE_HEADER)
-                || (val==30 && viewType == ITEM_TYPE_HEADER) || val == 10)
+                || (val==30 && viewType == ITEM_TYPE_HEADER) || val == 10 || (val ==509 && viewType == ITEM_TYPE_HEADER) || (val ==519 && viewType == ITEM_TYPE_HEADER))
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_1, parent, false);
 
         else if(val == 1 || val==401 || val == 31|| val ==9|| val == 51 || val == 501 || (val == 999 && viewType == ITEM_TYPE_PHD)
                 || (val == 1000 && viewType == ITEM_TYPE_NON_PIC_AWARD))
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_4, parent, false);
 
-        else if((val==30 && viewType == ITEM_TYPE_NORMAL) || (val == 1000 && viewType == ITEM_TYPE_PIC_AWARD))
+        else if((val==30 && viewType == ITEM_TYPE_NORMAL) || (val == 1000 && viewType == ITEM_TYPE_PIC_AWARD || (val ==509 && viewType == ITEM_TYPE_NORMAL)
+                || (val ==519 && viewType == ITEM_TYPE_NORMAL)))
         {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_pic, parent, false);
         }
@@ -246,7 +255,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         else
         {
             Log.d("wrong val : ", mDataset.get(position).getmText9());
-            if((mDataset.get(position).getmText1()).equals("Previous Recipients"))
+            if((mDataset.get(position).getmText1()).equals("Previous Recipients") || (mDataset.get(position).getmText1()).equals("Previous Guests"))
             {
                 return ITEM_TYPE_HEADER;
             }
@@ -297,6 +306,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             holder.t1.setText(mDataset.get(position).getmText1());
         }
 
+        else if(val == 69)
+        {
+            holder.t1.setText(mDataset.get(position).getmText1());
+            holder.pic.setImageBitmap(mDataset.get(position).getmImg());
+        }
+
         else if((val==5 && itemType == ITEM_TYPE_HEADER) || (val==50 && itemType == ITEM_TYPE_HEADER))
         {
             //Choosing 1 out of the 5 colors from palette for the left tile in a card
@@ -305,7 +320,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             holder.t4.setText(mDataset.get(position).getmText1());
         }
 
-        else if((val==30 && itemType == ITEM_TYPE_HEADER))
+        else if((val==30 && itemType == ITEM_TYPE_HEADER) || (val ==509 && itemType == ITEM_TYPE_HEADER) || (val ==519 && itemType == ITEM_TYPE_HEADER))
         {
             //Choosing 1 out of the 5 colors from palette for the left tile in a card
             holder.tile2.setBackgroundColor(Color.parseColor(palette.get(position%5)));
@@ -351,7 +366,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             else if(val == 1)
             {
 
-                p2 = "Venue : ";
+                p2 = "";
                 p3 = "Date : ";
                 p4 = "Time : ";
 
@@ -360,15 +375,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 p3 = p3 + mDataset.get(position).getmText3();
                 p4 = p4 + mDataset.get(position).getmText4();
 
-                s2 = new SpannableStringBuilder(p2);
-                s2.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
                 s3 = new SpannableStringBuilder(p3);
                 s3.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 s4 = new SpannableStringBuilder(p4);
                 s4.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                 holder.t1.setText(p1);
-                holder.t2.setText(s2);
+                holder.t2.setText(p2);
                 holder.t3.setText(s3);
                 holder.t4.setText(s4);
 
@@ -394,7 +408,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
                 holder.t1.setText(p1);
                 holder.t2.setText(s2);
-                holder.t3.setText(s3);
+                if(position>1)
+                    holder.t3.setText(s3);
+                else
+                    holder.t3.setText("");
                 holder.t4.setText(s4);
             }
 
@@ -487,7 +504,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         }
 
-        else if(val==31 || (val == 30 && itemType == ITEM_TYPE_NORMAL) )
+        else if(val==31 || (val == 30 && itemType == ITEM_TYPE_NORMAL) || (val ==509 && itemType == ITEM_TYPE_NORMAL) || (val ==519 && itemType == ITEM_TYPE_NORMAL))
         {
 
 //            Log.d("Here Val : ", String.valueOf(val) + " : " + itemType);
@@ -511,7 +528,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
 
 
-            if(val==30)
+            if(val==30 || val == 509 || val == 519)
             {
                 holder.pic.setImageBitmap(mDataset.get(position).getmImg());
             }

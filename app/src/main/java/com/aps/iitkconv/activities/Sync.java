@@ -162,24 +162,33 @@ import static android.content.Context.MODE_PRIVATE;
                 InputStream i1 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u5));
                 String r1 = streamToString(i1);
                 i1.close();
+               /*
                 InputStream i2 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u6));
                 String r2 = streamToString(i2);
                 i2.close();
+                */
+               /*
                 InputStream i3 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u7));
                 String r3 = streamToString(i3);
                 i3.close();
+                */
                 InputStream i4 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u4));
                 String r4 = streamToString(i4);
                 i4.close();
+
+                /*
                 InputStream i5 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u9));
                 String r5 = streamToString(i5);
                 i5.close();
+                */
+                /*
                 InputStream i6 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u11));
                 String r6 = streamToString(i6);
                 i6.close();
+                */
                 InputStream i7 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u13));
                 String r7 = streamToString(i7);
-                i6.close();
+                i7.close();
 
 
 
@@ -225,34 +234,26 @@ import static android.content.Context.MODE_PRIVATE;
 
                     SharedPreferences.Editor mEditor = mPrefs.edit();
                     mEditor.putString("FetchFormat", r1).commit();
+                    Log.d("Done:", "Awards and Graduating");
                 }
 
 
-                if(m2.equals("1") || (!r2.equals(m2)))
+                if(m2.equals("1"))
                 {
-                    //Delete existing data
-                    if(!r2.equals(m2))
-                    {
-                        db.deleteSchedule();
-                    }
-                    parseSchedule(getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u2)));
+                    parseSchedule();
                     SharedPreferences.Editor mEditor = mPrefs.edit();
-                    mEditor.putString("FetchSchedule", r2).commit();
+                    mEditor.putString("FetchSchedule", "0").commit();
+                    Log.d("Done:", "Schedule");
 
                 }
 
 
-                if(m3.equals("1") || (!r3.equals(m3)))
+                if(m3.equals("1"))
                 {
-                    //Delete existing data
-                    if(!r3.equals(m3))
-                    {
-                        db.deleteContacts();
-                    }
-                    parseContacts(getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u3)));
+                    parseContacts();
                     SharedPreferences.Editor mEditor = mPrefs.edit();
-                    mEditor.putString("FetchTaxi", r3).commit();
-
+                    mEditor.putString("FetchTaxi", "0").commit();
+                    Log.d("Done:", "Contacts");
                 }
 
 
@@ -260,45 +261,37 @@ import static android.content.Context.MODE_PRIVATE;
                 {
                     SharedPreferences.Editor mEditor = mPrefs.edit();
                     mEditor.putString("FetchWebcast", r4).commit();
+                    Log.d("Done:", "Webcast");
                 }
 
-                if(m5.equals("1") || (!r5.equals(m5)))
+                if(m5.equals("1"))
                 {
                     //Delete existing data
 
                     //Type 'H' is Honourary degree and 'C' is Chief Guest
-                    if(!r5.equals(m5))
-                    {
-                        db.deleteGuests(mContext.getString(R.string.TYPE_H));
-                        db.deleteImages(mContext.getString(R.string.TYPE_H));
 
-                    }
-                    parseHonDegrees(getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u8)));
+                    parseHonDegrees();
                     ArrayList<String> imgList = (ArrayList<String>) db.getImageList(mContext.getString(R.string.TYPE_H));
                     insertImageList(imgList, mContext.getString(R.string.TYPE_H));
 
                     SharedPreferences.Editor mEditor = mPrefs.edit();
-                    mEditor.putString("FetchHon", r5).commit();
+                    mEditor.putString("FetchHon", "0").commit();
+                    Log.d("Done:", "Honorary");
                 }
 
-                if(m6.equals("1") || (!r6.equals(m6)))
+                if(m6.equals("1"))
                 {
                     //Delete existing data
 
                     //Type 'H' is Honourary degree and 'C' is Chief Guest
-                    if(!r6.equals(m6))
-                    {
-                        db.deleteGuests(mContext.getString(R.string.TYPE_C));
-                        db.deleteImages(mContext.getString(R.string.TYPE_C));
 
-                    }
-
-                    parseChiefGuests(getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u10)));
+                    parseChiefGuests();
                     ArrayList<String> imgList = (ArrayList<String>) db.getImageList(mContext.getString(R.string.TYPE_C));
                     insertImageList(imgList, mContext.getString(R.string.TYPE_C));
 
                     SharedPreferences.Editor mEditor = mPrefs.edit();
-                    mEditor.putString("FetchChief", r6).commit();
+                    mEditor.putString("FetchChief", "0").commit();
+                    Log.d("Done:", "Chief Guests");
                 }
 
 
@@ -312,6 +305,7 @@ import static android.content.Context.MODE_PRIVATE;
 
                     SharedPreferences.Editor mEditor = mPrefs.edit();
                     mEditor.putString("ParsePrev", "0").commit();
+                    Log.d("Done:", "Prev_Recp");
                 }
 
                 if(m8.equals("1") || (!r7.equals(m8)))
@@ -324,6 +318,7 @@ import static android.content.Context.MODE_PRIVATE;
                     parseLinks(getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u12)));
                     SharedPreferences.Editor mEditor = mPrefs.edit();
                     mEditor.putString("FetchLinks", r7).commit();
+                    Log.d("Done:", "Links");
 
                 }
 
@@ -354,7 +349,7 @@ import static android.content.Context.MODE_PRIVATE;
         protected void onCancelled()
         {
 
-            dialog.dismiss();
+//            dialog.dismiss();
             Toast toast = Toast.makeText(mContext,
                     "Error connecting to Server", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.TOP, 25, 400);
@@ -365,7 +360,7 @@ import static android.content.Context.MODE_PRIVATE;
         protected void onPostExecute(String content)
         {
 
-            dialog.dismiss();
+//            dialog.dismiss();
             startMain();
         }
 
@@ -464,10 +459,12 @@ import static android.content.Context.MODE_PRIVATE;
         }
 
 
-        private void parseSchedule(InputStream inStream)
+        private void parseSchedule()
         {
 
-            AssetManager am = mContext.getAssets();
+            int i = mContext.getResources().getIdentifier("schedule","raw", mContext.getPackageName());
+            InputStream inStream = mContext.getResources().openRawResource(i);
+
             XSSFWorkbook wb = null;
             try
             {
@@ -514,10 +511,11 @@ import static android.content.Context.MODE_PRIVATE;
             insertLinksExcelToSqlite(sheet1);
         }
 
-        private void parseContacts(InputStream inStream)
+        private void parseContacts()
         {
 
-            AssetManager am = mContext.getAssets();
+            int i = mContext.getResources().getIdentifier("taxi","raw", mContext.getPackageName());
+            InputStream inStream = mContext.getResources().openRawResource(i);
             XSSFWorkbook wb = null;
             try
             {
@@ -539,10 +537,12 @@ import static android.content.Context.MODE_PRIVATE;
             insertContactExcelToSqlite(sheet1);
         }
 
-        private void parseHonDegrees(InputStream inStream)
+        private void parseHonDegrees()
         {
 
-            AssetManager am = mContext.getAssets();
+            int i = mContext.getResources().getIdentifier("hon_degree","raw", mContext.getPackageName());
+            InputStream inStream = mContext.getResources().openRawResource(i);
+
             XSSFWorkbook wb = null;
             try
             {
@@ -564,10 +564,11 @@ import static android.content.Context.MODE_PRIVATE;
             insertHonDegreeExcelToSqlite(sheet1);
         }
 
-        private void parseChiefGuests(InputStream inStream)
+        private void parseChiefGuests()
         {
 
-            AssetManager am = mContext.getAssets();
+            int i = mContext.getResources().getIdentifier("chief_guests","raw", mContext.getPackageName());
+            InputStream inStream = mContext.getResources().openRawResource(i);
             XSSFWorkbook wb = null;
             try
             {
@@ -783,6 +784,7 @@ import static android.content.Context.MODE_PRIVATE;
                 g.setDescription(row.getCell(4, Row.CREATE_NULL_AS_BLANK).getStringCellValue());
                 g.setType("H");
 
+                if(g.getName().equals(""))continue;
                 db.addGuest(db.sqldb, g);
                 count++;
             }
@@ -815,6 +817,7 @@ import static android.content.Context.MODE_PRIVATE;
                 g.setDescription(row.getCell(4, Row.CREATE_NULL_AS_BLANK).getStringCellValue());
                 g.setType("C");
 
+                if(g.getName().equals(""))continue;
                 db.addGuest(db.sqldb, g);
                 count++;
             }
@@ -825,7 +828,13 @@ import static android.content.Context.MODE_PRIVATE;
 
             for(String img : imgList)
             {
-                Bitmap pic = getBitmapFromURL(img);
+
+                Bitmap pic = null;
+                if(type.equals("C") || type.equals("H"))
+                    pic = getBitmapLocal(img);
+                else
+                    pic = getBitmapFromURL(img);
+
                 db.addImage(db.sqldb, img, type, pic);
             }
 
@@ -834,6 +843,14 @@ import static android.content.Context.MODE_PRIVATE;
         public Bitmap getBitmapFromURL(String src)
         {
             InputStream input = getContent( mContext.getString(R.string.ip) + src);
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        }
+
+        public Bitmap getBitmapLocal(String src)
+        {
+            int i = mContext.getResources().getIdentifier(src,"raw", mContext.getPackageName());
+            InputStream input = mContext.getResources().openRawResource(i);
             Bitmap myBitmap = BitmapFactory.decodeStream(input);
             return myBitmap;
         }

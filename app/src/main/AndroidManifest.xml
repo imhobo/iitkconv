@@ -86,6 +86,15 @@
             android:name="com.aps.iitkconv.activities.GalleryActivity"
             android:label="Nostalgia">
         </activity>
+        <activity
+            android:name="com.aps.iitkconv.activities.GridLayoutActivity"
+            android:label="NostalgiaGrid">
+        </activity>
+        <activity
+            android:name="com.aps.iitkconv.activities.FullImageActivity"
+            android:label="NostalgiaFullImage">
+        </activity>
+
 
         <!--
      Set custom default icon. This is used when no icon is set for incoming notification messages.

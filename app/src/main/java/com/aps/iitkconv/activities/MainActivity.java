@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         else if (finalI == 8)
                         {
                             //Url for facebook group
-                            String url = "https://www.google.com";
+                            String url = "https://www.facebook.com/Convocation-IIT-Kanpur-1350357441738753/";
                             Intent i = new Intent(Intent.ACTION_VIEW);
                             i.setData(Uri.parse(url));
                             startActivity(i);
@@ -289,35 +289,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_schedule && curTab !=1)
+        if (id == R.id.nav_schedule)
         {
             startDrawerActivity(CardViewActivity.class,1);
         }
 
+        else if (id == R.id.nav_home && curTab !=-1)
+        {
+            //startDrawerActivity(CardViewActivity.class,1);
+//            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            startActivity(intent);
+
+//            finish();
+            startDrawerActivity(MainActivity.class,2);
+            curTab = -1;
+        }
+/*
         else if (id == R.id.nav_announce && curTab !=2)
         {
             startDrawerActivity(CardViewActivity.class,2);
         }
-
-        else if (id == R.id.nav_awards && curTab !=3)
+*/
+        else if (id == R.id.nav_awards)
         {
             startDrawerActivity(CardViewActivity.class,3);
 
         }
 
-        else if (id == R.id.nav_grad && curTab !=4)
+        else if (id == R.id.nav_grad)
         {
             startDrawerActivity(CardViewActivity.class,4);
 
         }
 
-        else if (id == R.id.nav_honorary && curTab !=5)
+        else if (id == R.id.nav_honorary)
         {
             startDrawerActivity(CardViewActivity.class,5);
 
         }
 
-        else if (id == R.id.nav_chief && curTab !=50)
+        else if (id == R.id.nav_chief)
         {
             startDrawerActivity(CardViewActivity.class,50);
 
@@ -341,13 +353,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
-        else if (id == R.id.nav_useful && curTab !=9)
+        else if (id == R.id.nav_useful)
         {
             startDrawerActivity(CardViewActivity.class,9);
 
         }
 
-        else if (id == R.id.nav_links && curTab !=10)
+        else if (id == R.id.nav_links)
         {
             startDrawerActivity(CardViewActivity.class,10);
 
@@ -368,7 +380,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void run() {
 
-                Intent intent = new Intent(MainActivity.this, activity);
+//                Intent intent = new Intent(MainActivity.this, activity);
+                Intent intent = new Intent(getApplicationContext(), activity);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(intent);
                 Bundle b = new Bundle();
                 b.putInt("key", val);
                 intent.putExtras(b);

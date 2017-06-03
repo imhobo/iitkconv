@@ -10,12 +10,14 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.util.Pair;
 import android.view.Gravity;
@@ -38,6 +40,7 @@ import com.aps.iitkconv.models.Table_Guest;
 import com.aps.iitkconv.models.Table_Prev_Rec;
 import com.aps.iitkconv.models.Table_Schedule;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -82,7 +85,10 @@ public class CardViewActivity extends MainActivity
 
     //Schedule page 1 or 2
     int schedule_page = 1;
+    int chief_page = 1;
+    int hon_page = 1;
     String date = "";
+    String guestName = "";
 
     private Context mContext;
     private Bundle b;
@@ -174,20 +180,51 @@ public class CardViewActivity extends MainActivity
                     //Click on the student name
                 }
 
-                else if(value==5 && position == (mAdapter.getItemCount()-1))
+
+                else if(value==5 && position == (mAdapter.getItemCount()-1) && hon_page == 1)
                 {
 //                    Log.i(LOG_TAG, " Clicked on HonPrevious " + position );
                     prevHon = true;
+                    hon_page = 2;
                     displayData();
 
                 }
 
-                else if(value==50 && position == (mAdapter.getItemCount()-1))
+                else if(value==5 && hon_page == 1)
+                {
+//                    Log.i(LOG_TAG, " Clicked on HonPrevious " + position );
+
+                    if(position == 0)
+                        guestName = "Professor Ajay Kumar Sood";
+                    else if(position == 1)
+                        guestName = "Professor Mriganka Sur";
+                    else if(position == 2)
+                        guestName = "P.T Usha";
+                    else if(position == 3)
+                        guestName = "Dr. Monkombu Sambasivan Swaminathan";
+                    hon_page = 2;
+                    displayData();
+
+                }
+
+                else if(value==50 && position == (mAdapter.getItemCount()-1) && chief_page == 1)
                 {
 //                    Log.i(LOG_TAG, " Clicked on ChiefPrevious " + position );
                     prevChief = true;
+                    chief_page = 2;
                     displayData();
+                }
 
+                else if(value==50 && chief_page == 1)
+                {
+//                    Log.i(LOG_TAG, " Clicked on HonPrevious " + position );
+
+                    if(position == 0)
+                        guestName = "Mr. Natarajan Chandrasekaran ";
+                    else if(position == 1)
+                        guestName = "Dr. Clayton Daniel Mote, Jr.";
+                    chief_page = 2;
+                    displayData();
 
                 }
 
@@ -223,7 +260,7 @@ public class CardViewActivity extends MainActivity
     {
         Log.d("CDA", "onBackPressed Called");
         //Handling the back button
-        MainActivity.setChoice(ch);
+
 
 //        Log.d("ch onBack", String.valueOf(ch));
 //        Log.d("value onBack", String.valueOf(value));
@@ -242,11 +279,26 @@ public class CardViewActivity extends MainActivity
             return;
         }
 
-        if((value==1 && schedule_page == 1) || value ==2 || (value ==5 && !prevHon)|| value == 9 || (value == 50 && !prevChief) || value == 10)
+        if((value==1 && schedule_page == 1) || value ==2 || (value ==5 && !prevHon && hon_page == 1)|| value == 9  || value == 10 || (value == 50 && !prevChief && chief_page == 1))
         {
+            MainActivity.setChoice(ch);
             finish();
             return;
 
+        }
+
+        else if(value == 50 && chief_page == 2)
+        {
+            chief_page = 1;
+            prevChief = false;
+            displayData();
+        }
+
+        else if(value == 5 && hon_page == 2)
+        {
+            hon_page = 1;
+            prevHon = false;
+            displayData();
         }
 
         else if(value == 1 && schedule_page == 2)
@@ -270,6 +322,7 @@ public class CardViewActivity extends MainActivity
 
         else if(value==3 && awardNum == -1)
         {
+            MainActivity.setChoice(ch);
             finish();
             return;
         }
@@ -288,6 +341,7 @@ public class CardViewActivity extends MainActivity
 
         else if(value==4 && program == -1)
         {
+            MainActivity.setChoice(ch);
             finish();
             return;
         }
@@ -340,6 +394,72 @@ public class CardViewActivity extends MainActivity
         DataObject obj= new DataObject("Session - 1", "Auditorium, IIT Kanpur", "15 June, 2017", "09:00 am to 13:35 pm");
         results.add(obj);
         obj= new DataObject("Session - 2", "Auditorium, IIT Kanpur", "16 June, 2017", "09:00 am to 13:35 pm");
+        results.add(obj);
+
+        return results;
+    }
+
+    //Create first page of chief_guests
+    private ArrayList<DataObject> chief_page1()
+    {
+        ArrayList<DataObject> results = new ArrayList<DataObject>();
+
+        DataObject obj= new DataObject("","Mr. Natarajan Chandrasekaran", "","","Chairman, TATA SONS","15 June, 2017\nSession - 1\nAuditorium, IIT Kanpur");
+
+        int i = mContext.getResources().getIdentifier("img1","raw", mContext.getPackageName());
+        InputStream input = mContext.getResources().openRawResource(i);
+        Bitmap myBitmap = BitmapFactory.decodeStream(input);
+        obj.setmImg(myBitmap);
+        results.add(obj);
+
+        obj= new DataObject("","Professor C. D. Mote, Jr.", "","","President, National Academy of Engineering, USA","16 June, 2017\nSession - 2\nAuditorium, IIT Kanpur");
+        i = mContext.getResources().getIdentifier("img2","raw", mContext.getPackageName());
+        input = mContext.getResources().openRawResource(i);
+        myBitmap = BitmapFactory.decodeStream(input);
+        obj.setmImg(myBitmap);
+        results.add(obj);
+
+        obj= new DataObject("Previous Guests");
+        results.add(obj);
+
+        return results;
+    }
+
+    //Create first page of hon_guests
+    private ArrayList<DataObject> hon_page1()
+    {
+        ArrayList<DataObject> results = new ArrayList<DataObject>();
+
+        DataObject obj= new DataObject("","Professor Ajay Kumar Sood", "","","HONORARY DEGREE (HONORIS CAUSA)\nFiftieth Convocation, 2017");
+
+        int i = mContext.getResources().getIdentifier("hon1","raw", mContext.getPackageName());
+        InputStream input = mContext.getResources().openRawResource(i);
+        Bitmap myBitmap = BitmapFactory.decodeStream(input);
+        obj.setmImg(myBitmap);
+        results.add(obj);
+
+        obj= new DataObject("","Professor Mriganka Sur", "","","HONORARY DEGREE (HONORIS CAUSA)\nFiftieth Convocation, 2017");
+        i = mContext.getResources().getIdentifier("hon2","raw", mContext.getPackageName());
+        input = mContext.getResources().openRawResource(i);
+        myBitmap = BitmapFactory.decodeStream(input);
+        obj.setmImg(myBitmap);
+        results.add(obj);
+
+        obj= new DataObject("","Ms P.T Usha", "","","HONORARY DEGREE (HONORIS CAUSA)\nFiftieth Convocation, 2017");
+        i = mContext.getResources().getIdentifier("hon3","raw", mContext.getPackageName());
+        input = mContext.getResources().openRawResource(i);
+        myBitmap = BitmapFactory.decodeStream(input);
+        obj.setmImg(myBitmap);
+        results.add(obj);
+
+        obj= new DataObject("","Dr. M S Swaminathan ", "","","HONORARY DEGREE (HONORIS CAUSA)\nFiftieth Convocation, 2017");
+        i = mContext.getResources().getIdentifier("hon4","raw", mContext.getPackageName());
+        input = mContext.getResources().openRawResource(i);
+        myBitmap = BitmapFactory.decodeStream(input);
+        obj.setmImg(myBitmap);
+        results.add(obj);
+
+        obj= new DataObject("Previous Recipients");
         results.add(obj);
 
         return results;
@@ -409,7 +529,7 @@ public class CardViewActivity extends MainActivity
     }
 
     //Get all Guests of a certain type
-    private ArrayList<DataObject> getGuests(String type)
+    private ArrayList<DataObject> getGuests(String type, String guestName)
     {
         ArrayList<Table_Guest> g = new ArrayList<Table_Guest>();
         ArrayList<DataObject> results = new ArrayList<DataObject>();
@@ -432,11 +552,12 @@ public class CardViewActivity extends MainActivity
             DataObject obj= new DataObject(bmp, t.getName(),t.getTitle(), t.getYear(), t.getPicture(), t.getDescription());
             //Log.d("getStudents2",String.valueOf(t.getId())+t.getEvent()+t.getName()+award+t.getTime()+t.getDept()+t.getProgram()+t.getYear());
 
-            results.add(obj);
+            if(t.getName().equals(guestName))
+                results.add(obj);
         }
 
-        DataObject obj= new DataObject("Previous Recipients");
-        results.add(obj);
+//        DataObject obj= new DataObject("Previous Recipients");
+//        results.add(obj);
 
         return results;
     }
@@ -634,7 +755,7 @@ public class CardViewActivity extends MainActivity
         db = DBHandler_Grad.getInstance(this);
 
         //Set different card views here.
-        if(value == 3 && awardNum > -1 && !prevPres && !hasSearchedAwards)
+        if((value == 3 && awardNum > -1 && !prevPres && !hasSearchedAwards) || (chief_page == 1 && value == 50) || (hon_page == 1 && value == 5))
         {
             getLayoutInflater().inflate(R.layout.card_view_award, frameLayout);
         }
@@ -654,6 +775,7 @@ public class CardViewActivity extends MainActivity
         // Schedule
         if(value==1)
         {
+            this.setTitle("Schedule");
             if(schedule_page == 1)
             {
                 mAdapter = new MyRecyclerViewAdapter(schedule_page1(), 1);
@@ -669,12 +791,14 @@ public class CardViewActivity extends MainActivity
         //Searched in awards
         else if(value == 3 && hasSearchedAwards)
         {
+            this.setTitle(Html.fromHtml(getString(R.string.app_title)));
             mAdapter = new MyRecyclerViewAdapter(getSearchedAwards(query),1000);
         }
 
         //Searched for grad students
         else if(value == 4 && hasSearchedGrad)
         {
+            this.setTitle(Html.fromHtml(getString(R.string.app_title)));
             mAdapter = new MyRecyclerViewAdapter(getSearchedGrad(query),999);
         }
 
@@ -687,6 +811,7 @@ public class CardViewActivity extends MainActivity
         //List of Awards
         else if(value==3 && awardNum == -1)
         {
+            this.setTitle("Medals");
             awards = getAwards();
             mAdapter = new MyRecyclerViewAdapter(awards, 3);
         }
@@ -715,6 +840,7 @@ public class CardViewActivity extends MainActivity
         //Prev Recipient in Pres Gold Medal
         else if(value ==3 && awardNum == 0 && prevPres)
         {
+            this.setTitle(Html.fromHtml(getString(R.string.app_title)));
             mAdapter = new MyRecyclerViewAdapter(getPrevPresExcel(), 300);
 
         }
@@ -722,15 +848,37 @@ public class CardViewActivity extends MainActivity
         //Honourary Degrees and Chief Guests
         else if((value==5 && !prevHon) || (value==50 && !prevChief))
         {
-            if(value == 5)
-                mAdapter = new MyRecyclerViewAdapter(getGuests("H"), 5);
-            else if(value == 50)
-                mAdapter = new MyRecyclerViewAdapter(getGuests("C"), 50);
-        }
+            if (value == 5)
+            {
+                this.setTitle("Honorary");
+                if (hon_page == 1)
+                {
+                    TextView award = (TextView) findViewById(R.id.textViewA1);
+                    award.setText("Honorary Degrees");
+                    mAdapter = new MyRecyclerViewAdapter(hon_page1(), 519);
+                }
+                else
+                    mAdapter = new MyRecyclerViewAdapter(getGuests("H", guestName), 5);
+            }
 
+            else if (value == 50)
+            {
+                this.setTitle(Html.fromHtml(getString(R.string.app_title)));
+                if(chief_page == 1)
+                {
+                    TextView award = (TextView) findViewById(R.id.textViewA1);
+                    award.setText("Chief Guests");
+                    mAdapter = new MyRecyclerViewAdapter(chief_page1(), 509);
+                }
+                else
+                    mAdapter = new MyRecyclerViewAdapter(getGuests("C", guestName), 50);
+
+            }
+        }
         //Honourary Degrees and Chief Guests with Prev Recipients
         else if((value==5 && prevHon) || (value==50 && prevChief))
         {
+            this.setTitle(Html.fromHtml(getString(R.string.app_title)));
             if(value == 5)
                 mAdapter = new MyRecyclerViewAdapter(getPrevHonExcel(), 51);
             else if(value == 50)
@@ -740,6 +888,7 @@ public class CardViewActivity extends MainActivity
         //Taxi Contacts
         else if(value==9)
         {
+            this.setTitle("Contacts");
             ArrayList<Table_Contact> contacts = (ArrayList<Table_Contact>) db.getContacts();
             mAdapter = new MyRecyclerViewAdapter(getContacts(), 9);
         }
@@ -749,6 +898,7 @@ public class CardViewActivity extends MainActivity
         //List of Programs for Graduating Students with the number of students in each of them.
         else if(value==4 && program == -1)
         {
+
             CardViewActivity.this.setTitle("Degrees");
             programs = getPrograms();
             mAdapter = new MyRecyclerViewAdapter(programs,4);
@@ -782,6 +932,7 @@ public class CardViewActivity extends MainActivity
         //List of Useful links
         else if(value==10)
         {
+            this.setTitle("Other Links");
             mAdapter = new MyRecyclerViewAdapter(getLinks(),10);
         }
 

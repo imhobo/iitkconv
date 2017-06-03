@@ -4,19 +4,19 @@
     <group android:checkableBehavior="single">
 
         <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="Home"/>
+
+        <item
             android:id="@+id/nav_schedule"
             android:icon="@drawable/ic_schedule"
             android:title="Schedule"/>
 
         <item
-            android:id="@+id/nav_links"
-            android:icon="@drawable/ic_info_black"
-            android:title="Important Links"/>
-
-        <item
-            android:id="@+id/nav_announce"
-            android:icon="@drawable/ic_announcement"
-            android:title="Announcements"/>
+            android:id="@+id/nav_chief"
+            android:icon="@drawable/ic_guests"
+            android:title="Chief Guests"/>
 
         </group>
 
@@ -27,19 +27,16 @@
         <item
             android:id="@+id/nav_awards"
             android:icon="@drawable/ic_star"
-            android:title="Awards and Honors"/>
+            android:title="Medals"/>
         <item
             android:id="@+id/nav_grad"
             android:icon="@drawable/ic_graduate"
-            android:title="Graduating Students"/>
+            android:title="Graduating Degrees"/>
         <item
             android:id="@+id/nav_honorary"
             android:icon="@drawable/ic_hon"
             android:title="Honorary Degrees"/>
-        <item
-            android:id="@+id/nav_chief"
-            android:icon="@drawable/ic_guests"
-            android:title="Chief Guests"/>
+
             </menu>
     </item>
 
@@ -69,13 +66,14 @@
             <item
                 android:id="@+id/nav_useful"
                 android:icon="@drawable/ic_call"
-                android:title="Taxi/Auto Contacts"/>
+                android:title="Contacts"/>
 
 
             <item
-                android:id="@+id/nav_contact"
-                android:icon="@drawable/ic_contact"
-                android:title="Contact Us"/>
+                android:id="@+id/nav_links"
+                android:icon="@drawable/ic_info_black"
+                android:title="Other Links"/>
+
 
         </menu>
     </item>
