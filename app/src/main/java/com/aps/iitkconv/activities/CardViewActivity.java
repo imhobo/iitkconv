@@ -88,7 +88,8 @@ public class CardViewActivity extends MainActivity
     int chief_page = 1;
     int hon_page = 1;
     String date = "";
-    String guestName = "";
+    String guestNameC = "";
+    String guestNameH = "";
 
     private Context mContext;
     private Bundle b;
@@ -148,7 +149,7 @@ public class CardViewActivity extends MainActivity
                     displayData();
                 }
 
-                if(value == 3 && awardNum == -1)
+                else if(value == 3 && awardNum == -1)
                 {
                     awardNum = position;
                     displayData();
@@ -195,13 +196,14 @@ public class CardViewActivity extends MainActivity
 //                    Log.i(LOG_TAG, " Clicked on HonPrevious " + position );
 
                     if(position == 0)
-                        guestName = "Professor Ajay Kumar Sood";
+                        guestNameH = "Professor Ajay Kumar Sood";
                     else if(position == 1)
-                        guestName = "Professor Mriganka Sur";
+                        guestNameH = "Professor Mriganka Sur";
                     else if(position == 2)
-                        guestName = "P.T Usha";
+                        guestNameH = "P.T Usha";
                     else if(position == 3)
-                        guestName = "Dr. Monkombu Sambasivan Swaminathan";
+                        guestNameH = "Dr. Monkombu Sambasivan Swaminathan";
+
                     hon_page = 2;
                     displayData();
 
@@ -220,9 +222,9 @@ public class CardViewActivity extends MainActivity
 //                    Log.i(LOG_TAG, " Clicked on HonPrevious " + position );
 
                     if(position == 0)
-                        guestName = "Mr. Natarajan Chandrasekaran ";
+                        guestNameC = "Mr. Natarajan Chandrasekaran ";
                     else if(position == 1)
-                        guestName = "Dr. Clayton Daniel Mote, Jr.";
+                        guestNameC = "Dr. Clayton Daniel Mote, Jr.";
                     chief_page = 2;
                     displayData();
 
@@ -858,7 +860,7 @@ public class CardViewActivity extends MainActivity
                     mAdapter = new MyRecyclerViewAdapter(hon_page1(), 519);
                 }
                 else
-                    mAdapter = new MyRecyclerViewAdapter(getGuests("H", guestName), 5);
+                    mAdapter = new MyRecyclerViewAdapter(getGuests("H", guestNameH), 5);
             }
 
             else if (value == 50)
@@ -871,7 +873,7 @@ public class CardViewActivity extends MainActivity
                     mAdapter = new MyRecyclerViewAdapter(chief_page1(), 509);
                 }
                 else
-                    mAdapter = new MyRecyclerViewAdapter(getGuests("C", guestName), 50);
+                    mAdapter = new MyRecyclerViewAdapter(getGuests("C", guestNameC), 50);
 
             }
         }
