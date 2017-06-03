@@ -4,11 +4,20 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/full_image_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:adjustViewBounds="true"/>
+    <!-- ExtendedViewPager is a custom view and must be referred to by its full package name in XML -->
+    <com.aps.iitkconv.models.ExtendedViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
+    <TextView
+        android:text="tv"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
