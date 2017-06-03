@@ -83,7 +83,7 @@
             android:label="@string/title_activity_maps">
         </activity>
         <activity
-            android:name="com.aps.iitkconv.activities.GalleryActivity"
+            android:name="com.aps.iitkconv.activities.NostalgiaActivity"
             android:label="Nostalgia">
         </activity>
         <activity

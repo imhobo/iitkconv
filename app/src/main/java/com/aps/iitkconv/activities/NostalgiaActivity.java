@@ -22,13 +22,13 @@ import static android.provider.AlarmClock.EXTRA_MESSAGE;
  * Created by ankitkumar on 29/04/17.
  */
 
-public class GalleryActivity extends MainActivity {
+public class NostalgiaActivity extends MainActivity {
 
     int ch = -1;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private static String LOG_TAG = "GalleryActivity";
+    private static String LOG_TAG = "NostalgiaActivity";
     private Context ctx;
 
     @Override
@@ -45,7 +45,7 @@ public class GalleryActivity extends MainActivity {
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        mLayoutManager = new LinearLayoutManager(GalleryActivity.this);
+        mLayoutManager = new LinearLayoutManager(NostalgiaActivity.this);
         ctx = this.getApplicationContext();
 
         populateCategories();

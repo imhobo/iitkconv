@@ -1,10 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridView xmlns:android="http://schemas.android.com/apk/res/android"
-          android:id="@+id/grid_view"
-          android:numColumns="3"
-          android:gravity="center"
-          android:stretchMode="columnWidth"
-          android:layout_width="fill_parent"
-          android:layout_height="fill_parent" >
 
-</GridView>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <GridView android:id="@+id/grid_view"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:numColumns="3"
+              android:stretchMode="columnWidth">
+
+    </GridView>
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Extracts from Kelkar's Convocation Address"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Back in 1960"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv3"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="IITK Formative Years"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/tv4"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="About Kelkar"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/tv5"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PK Kelkar"
+        android:visibility="gone"/>
+
+</LinearLayout>

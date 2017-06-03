@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         else if (finalI == 4)
                             startDrawerActivity(CardViewActivity.class, 5);
                         else if (finalI == 5)
-                            startDrawerActivity(GalleryActivity.class, 8);
+                            startDrawerActivity(NostalgiaActivity.class, 8);
                         else if (finalI == 6)
                             startDrawerActivity(CardViewActivity.class, 9);
                         else if (finalI == 7)
@@ -307,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         else if (id == R.id.nav_nostalgia)
         {
-            startDrawerActivity(GalleryActivity.class,8);
+            startDrawerActivity(NostalgiaActivity.class,8);
 
         }
 
