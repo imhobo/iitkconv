@@ -9,14 +9,11 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
 import com.aps.iitconv.R;
-import com.aps.iitkconv.activities.MainActivity;
 import com.aps.iitkconv.models.DBHandler_Grad;
 import com.aps.iitkconv.models.Table_Awards;
 import com.aps.iitkconv.models.Table_Contact;
@@ -349,7 +346,7 @@ import static android.content.Context.MODE_PRIVATE;
         protected void onCancelled()
         {
 
-//            dialog.dismiss();
+            dialog.dismiss();
             Toast toast = Toast.makeText(mContext,
                     "Error connecting to Server", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.TOP, 25, 400);
@@ -360,7 +357,7 @@ import static android.content.Context.MODE_PRIVATE;
         protected void onPostExecute(String content)
         {
 
-//            dialog.dismiss();
+            dialog.dismiss();
             startMain();
         }
 
