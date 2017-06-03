@@ -574,7 +574,8 @@ public class CardViewActivity extends MainActivity
         for (String i : tempHolder)
         {
             int num = db.getStudentCountInAward(i);
-            results.add(new DataObject(i, String.valueOf(num)));
+            if(!i.equals(""))
+                results.add(new DataObject(i, String.valueOf(num)));
         }
 
         return results;
@@ -588,11 +589,17 @@ public class CardViewActivity extends MainActivity
         ArrayList<String> tempHolder = new ArrayList<String>();
         tempHolder = (ArrayList) db.getProgram1();
 
+        int k = 0;
         for (String i : tempHolder)
         {
             int res = db.getStudentCountInProgram(i);
-            results.add(new DataObject(i, String.valueOf(res)));
+            if(!i.equals(""))
+                results.add(new DataObject(i, String.valueOf(res)));
+//            Log.d("Programs : ", i + " : " + k);
+            k++;
         }
+//        Log.d("Size of k : ", String.valueOf(k));
+//        Log.d("Size of program1 : ", String.valueOf(results.size()));
 
         return results;
     }
@@ -665,11 +672,12 @@ public class CardViewActivity extends MainActivity
             results.add(obj);
         }
 
-        if(awardNum == 0 && !hasSearchedAwards)
-        {
-            DataObject obj= new DataObject("Previous Recipients");
-            results.add(obj);
-        }
+//        Previous Recipients for award
+//        if(awardNum == 0 && !hasSearchedAwards)
+//        {
+//            DataObject obj= new DataObject("Previous Recipients");
+//            results.add(obj);
+//        }
 
         return results;
     }
@@ -903,6 +911,7 @@ public class CardViewActivity extends MainActivity
 
             CardViewActivity.this.setTitle("Degrees");
             programs = getPrograms();
+            Log.d("Size of Programs : ", String.valueOf(programs.size()));
             mAdapter = new MyRecyclerViewAdapter(programs,4);
 
         }
@@ -924,7 +933,7 @@ public class CardViewActivity extends MainActivity
             CardViewActivity.this.setTitle(curDep + " -> " + curBr);
             ArrayList<DataObject> students = getStudents1(curDep, curBr);
             //Log.d("Branch", programs.get(program).getmText1() + ":"+ depts.get(dept).getmText1());
-            if(!curDep.equals("Ph.D."))
+            if(!curDep.equals("PhD"))
                 mAdapter = new MyRecyclerViewAdapter(students,400);
             else
                 mAdapter = new MyRecyclerViewAdapter(students,401);
