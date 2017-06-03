@@ -74,6 +74,10 @@
                 android:icon="@drawable/ic_info_black"
                 android:title="Other Links"/>
 
+            <item
+                android:id="@+id/feedback"
+                android:icon="@drawable/ic_info_black"
+                android:title="Feedback"/>
 
         </menu>
     </item>
