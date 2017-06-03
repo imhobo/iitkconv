@@ -335,19 +335,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
-        else if (id == R.id.nav_map && curTab !=6)
+        else if (id == R.id.nav_map)
         {
             startDrawerActivity(MapsActivity.class,6);
 
         }
 
-        else if (id == R.id.nav_webcast && curTab !=7)
+        else if (id == R.id.nav_webcast)
         {
             startDrawerActivity(WebcastActivity.class,7);
 
         }
 
-        else if (id == R.id.nav_nostalgia && curTab !=8)
+        else if (id == R.id.nav_nostalgia)
         {
             startDrawerActivity(GalleryActivity.class,8);
 
