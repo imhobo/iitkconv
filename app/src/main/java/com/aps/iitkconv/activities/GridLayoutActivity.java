@@ -8,6 +8,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -77,6 +78,10 @@ public class GridLayoutActivity extends MainActivity {
         //    tv4.setVisibility(View.VISIBLE);
             tv5.setVisibility(View.VISIBLE);
 
+            tv1.setTextColor(Color.BLUE);
+            tv2.setTextColor(Color.BLUE);
+            tv3.setTextColor(Color.BLUE);
+            tv5.setTextColor(Color.BLUE);
 
             CopyAssetsbrochure("mem_back_in_1960.pdf");
             CopyAssetsbrochure("mem_extracts_from_the_convocation_address_kelkar.pdf");

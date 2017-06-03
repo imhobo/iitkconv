@@ -4,7 +4,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:baselineAligned="false">
 
     <GridView android:id="@+id/grid_view"
               xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,39 +19,49 @@
 
     <TextView
         android:id="@+id/tv1"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="7dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Extracts from Kelkar's Convocation Address"
-        android:visibility="gone"/>
+        android:padding="10dp"
+        android:textSize="18sp"
+        android:visibility="visible"/>
 
     <TextView
         android:id="@+id/tv2"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="7dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Back in 1960"
+        android:padding="10dp"
+        android:textSize="18sp"
         android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tv3"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="7dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="18sp"
         android:text="IITK Formative Years"
         android:visibility="gone"/>
     <TextView
         android:id="@+id/tv4"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="7dp"
         android:layout_width="match_parent"
+        android:padding="10dp"
+        android:textSize="18sp"
         android:layout_height="wrap_content"
         android:text="About Kelkar"
         android:visibility="gone"/>
     <TextView
         android:id="@+id/tv5"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="7dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="18sp"
         android:text="PK Kelkar"
         android:visibility="gone"/>
 
