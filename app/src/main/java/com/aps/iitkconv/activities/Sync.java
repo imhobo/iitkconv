@@ -155,40 +155,6 @@ import static android.content.Context.MODE_PRIVATE;
             try
             {
 
-                //Checking if new data is available at server
-                InputStream i1 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u5));
-                String r1 = streamToString(i1);
-                i1.close();
-               /*
-                InputStream i2 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u6));
-                String r2 = streamToString(i2);
-                i2.close();
-                */
-               /*
-                InputStream i3 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u7));
-                String r3 = streamToString(i3);
-                i3.close();
-                */
-                InputStream i4 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u4));
-                String r4 = streamToString(i4);
-                i4.close();
-
-                /*
-                InputStream i5 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u9));
-                String r5 = streamToString(i5);
-                i5.close();
-                */
-                /*
-                InputStream i6 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u11));
-                String r6 = streamToString(i6);
-                i6.close();
-                */
-                InputStream i7 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u13));
-                String r7 = streamToString(i7);
-                i7.close();
-
-
-
 
                 if(exception!=null)
                 {
@@ -210,29 +176,6 @@ import static android.content.Context.MODE_PRIVATE;
 
                 db = DBHandler_Grad.getInstance(mContext);
 
-                //Fetching new data from the servers and updating the variables to reflect last fetched time
-                if(m1.equals("1") || (!r1.equals(m1)))
-                {
-                    //Delete existing data
-                    if(!r1.equals(m1))
-                    {
-                        if(db == null)
-                            Log.d("CheckDBInstance", "NULL");
-                        else
-                            Log.d("CheckDBInstance", "NOT NULL");
-                        db.deleteAwardsAndStudents();
-                    }
-                    parseGraduating(getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u1)));
-                    ArrayList<String> imgList = (ArrayList<String>) db.getImageList(mContext.getString(R.string.TYPE_S));
-
-                    Log.d("Number of AwardImg:", String.valueOf(imgList.size()));
-
-                    insertImageList(imgList, mContext.getString(R.string.TYPE_S));
-
-                    SharedPreferences.Editor mEditor = mPrefs.edit();
-                    mEditor.putString("FetchFormat", r1).commit();
-                    Log.d("Done:", "Awards and Graduating");
-                }
 
 
                 if(m2.equals("1"))
@@ -251,14 +194,6 @@ import static android.content.Context.MODE_PRIVATE;
                     SharedPreferences.Editor mEditor = mPrefs.edit();
                     mEditor.putString("FetchTaxi", "0").commit();
                     Log.d("Done:", "Contacts");
-                }
-
-
-                if(m4.equals("1") || (!r4.equals(m4)))
-                {
-                    SharedPreferences.Editor mEditor = mPrefs.edit();
-                    mEditor.putString("FetchWebcast", r4).commit();
-                    Log.d("Done:", "Webcast");
                 }
 
                 if(m5.equals("1"))
@@ -303,6 +238,71 @@ import static android.content.Context.MODE_PRIVATE;
                     SharedPreferences.Editor mEditor = mPrefs.edit();
                     mEditor.putString("ParsePrev", "0").commit();
                     Log.d("Done:", "Prev_Recp");
+                }
+
+
+                //Checking if new data is available at server
+                InputStream i1 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u5));
+                String r1 = streamToString(i1);
+                i1.close();
+               /*
+                InputStream i2 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u6));
+                String r2 = streamToString(i2);
+                i2.close();
+                */
+               /*
+                InputStream i3 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u7));
+                String r3 = streamToString(i3);
+                i3.close();
+                */
+                InputStream i4 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u4));
+                String r4 = streamToString(i4);
+                i4.close();
+
+                /*
+                InputStream i5 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u9));
+                String r5 = streamToString(i5);
+                i5.close();
+                */
+                /*
+                InputStream i6 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u11));
+                String r6 = streamToString(i6);
+                i6.close();
+                */
+                InputStream i7 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u13));
+                String r7 = streamToString(i7);
+                i7.close();
+
+
+                //Fetching new data from the servers and updating the variables to reflect last fetched time
+                if(m1.equals("1") || (!r1.equals(m1)))
+                {
+                    //Delete existing data
+                    if(!r1.equals(m1))
+                    {
+                        if(db == null)
+                            Log.d("CheckDBInstance", "NULL");
+                        else
+                            Log.d("CheckDBInstance", "NOT NULL");
+                        db.deleteAwardsAndStudents();
+                    }
+                    parseGraduating(getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u1)));
+                    ArrayList<String> imgList = (ArrayList<String>) db.getImageList(mContext.getString(R.string.TYPE_S));
+
+                    Log.d("Number of AwardImg:", String.valueOf(imgList.size()));
+
+                    insertImageList(imgList, mContext.getString(R.string.TYPE_S));
+
+                    SharedPreferences.Editor mEditor = mPrefs.edit();
+                    mEditor.putString("FetchFormat", r1).commit();
+                    Log.d("Done:", "Awards and Graduating");
+                }
+
+                if(m4.equals("1") || (!r4.equals(m4)))
+                {
+                    SharedPreferences.Editor mEditor = mPrefs.edit();
+                    mEditor.putString("FetchWebcast", r4).commit();
+                    Log.d("Done:", "Webcast");
                 }
 
                 if(m8.equals("1") || (!r7.equals(m8)))
