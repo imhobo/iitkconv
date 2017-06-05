@@ -519,15 +519,23 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         return result;
     }
 
-    public void deleteAwardsAndStudents()
+    public void deleteAwards()
+    {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_AWARDS,null,null);
+        db.close();
+    }
+
+    public void deleteStudents()
     {
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_GRAD,null,null);
-        db.delete(TABLE_AWARDS,null,null);
         db.close();
-
     }
+
+
 
     //------------------------------------------------------------------------- Methods for Adding Events in Schedule --TABLE_SCHEDULE --TABLE 3
     // Adding new Event

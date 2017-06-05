@@ -28,21 +28,16 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -160,7 +155,7 @@ import static android.content.Context.MODE_PRIVATE;
         {
 
 
-//            Log.d("Inside:", "doInback1");
+            Log.d("Inside:", "doInback1");
             try
             {
 
@@ -170,7 +165,7 @@ import static android.content.Context.MODE_PRIVATE;
                     return content;
                 }
 
-//                Log.d("Inside:", "doInback2");
+                Log.d("Inside:", "doInback2");
                 SharedPreferences mPrefs = mContext.getSharedPreferences("lastDataFetch", MODE_PRIVATE);
 
                 String m1 = mPrefs.getString("FetchFormat", String.valueOf(1));
@@ -181,8 +176,6 @@ import static android.content.Context.MODE_PRIVATE;
                 String m6 = mPrefs.getString("FetchChief", String.valueOf(1));
                 String m7 = mPrefs.getString("ParsePrev", String.valueOf(1));
                 String m8 = mPrefs.getString("FetchLinks", String.valueOf(1));
-                String m9 = mPrefs.getString("FetchStudents", String.valueOf(1));
-                String m10 = mPrefs.getString("FetchAwards", String.valueOf(1));
 
 
                 db = DBHandler_Grad.getInstance(mContext);
@@ -208,7 +201,6 @@ import static android.content.Context.MODE_PRIVATE;
                     Log.d("Done:", "Contacts");
                 }
 
-
                 if(m5.equals("1"))
                 {
                     //Delete existing data
@@ -223,7 +215,6 @@ import static android.content.Context.MODE_PRIVATE;
                     mEditor.putString("FetchHon", "0").commit();
                     Log.d("Done:", "Honorary");
                 }
-
 
                 if(m6.equals("1"))
                 {
@@ -255,26 +246,20 @@ import static android.content.Context.MODE_PRIVATE;
                 }
 
 
-
-
                 //Checking if new data is available at server
-                InputStream i1 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u16));
+                InputStream i1 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u5));
                 String r1 = streamToString(i1);
                 i1.close();
-
-                InputStream i2 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u17));
+               /*
+                InputStream i2 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u6));
                 String r2 = streamToString(i2);
                 i2.close();
-
-//                InputStream i2 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u6));
-//                String r2 = streamToString(i2);
-//                i2.close();
-
-
-//                InputStream i3 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u7));
-//                String r3 = streamToString(i3);
-//                i3.close();
-
+                */
+               /*
+                InputStream i3 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u7));
+                String r3 = streamToString(i3);
+                i3.close();
+                */
                 InputStream i4 = getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u4));
                 String r4 = streamToString(i4);
                 i4.close();
@@ -295,45 +280,28 @@ import static android.content.Context.MODE_PRIVATE;
 
 
                 //Fetching new data from the servers and updating the variables to reflect last fetched time
-                if(m9.equals("1") || (!r1.equals(m9)))
+                if(m1.equals("1") || (!r1.equals(m1)))
                 {
                     //Delete existing data
-                    if(!r1.equals(m9))
+                    if(!r1.equals(m1))
                     {
                         if(db == null)
                             Log.d("CheckDBInstance", "NULL");
                         else
                             Log.d("CheckDBInstance", "NOT NULL");
-                        db.deleteStudents();
+                        db.deleteAwardsAndStudents();
                     }
-                    parseGraduating(getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u14)));
-                    SharedPreferences.Editor mEditor = mPrefs.edit();
-                    mEditor.putString("FetchStudents", r1).commit();
-                    Log.d("Done:", "Graduating Students");
-                }
-
-                if(m10.equals("1") || (!r2.equals(m10)))
-                {
-                    //Delete existing data
-                    if(!r2.equals(m10))
-                    {
-                        if(db == null)
-                            Log.d("CheckDBInstance", "NULL");
-                        else
-                            Log.d("CheckDBInstance", "NOT NULL");
-                        db.deleteAwards();
-                    }
-
-                    parseAwards(getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u15)));
+                    parseGraduating(getContent(mContext.getString(R.string.ip) + mContext.getString(R.string.u1)));
                     ArrayList<String> imgList = (ArrayList<String>) db.getImageList(mContext.getString(R.string.TYPE_S));
+
                     Log.d("Number of AwardImg:", String.valueOf(imgList.size()));
+
                     insertImageList(imgList, mContext.getString(R.string.TYPE_S));
 
                     SharedPreferences.Editor mEditor = mPrefs.edit();
-                    mEditor.putString("FetchAwards", r2).commit();
-                    Log.d("Done:", "Awards");
+                    mEditor.putString("FetchFormat", r1).commit();
+                    Log.d("Done:", "Awards and Graduating");
                 }
-
 
                 if(m4.equals("1") || (!r4.equals(m4)))
                 {
@@ -399,520 +367,247 @@ import static android.content.Context.MODE_PRIVATE;
         }
 
 
-        //----------------------------------------------Get json-------------------------------------------------
-        private JSONObject getJson(InputStream inputStream)
-        {
-            BufferedReader bR = new BufferedReader(  new InputStreamReader(inputStream));
-            String line = "";
-
-            StringBuilder responseStrBuilder = new StringBuilder();
-            try
-            {
-                while((line =  bR.readLine()) != null){
-
-                    responseStrBuilder.append(line);
-                }
-            } catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-
-            JSONObject result= null;
-            try
-            {
-                result = new JSONObject(responseStrBuilder.toString());
-            } catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-            return result;
-        }
 
         //----------------------------------------------Parsing functions-----------------------------------------
 
         private void parsePrevRec(String type)
         {
-            int r = -1;
+            int i = -1;
             // getResources().getIdentifier("image_name","res_folder_name", package_name);
 
 
             if(type.equals("H"))
-                r = mContext.getResources().getIdentifier("prev_hon","raw", mContext.getPackageName());
+                i = mContext.getResources().getIdentifier("prev_hon","raw", mContext.getPackageName());
             else if(type.equals("C"))
-                r = mContext.getResources().getIdentifier("prev_chief","raw", mContext.getPackageName());
+                i = mContext.getResources().getIdentifier("prev_chief","raw", mContext.getPackageName());
             else if(type.equals("S"))
-                r = mContext.getResources().getIdentifier("prev_pres","raw", mContext.getPackageName());
+                i = mContext.getResources().getIdentifier("prev_pres","raw", mContext.getPackageName());
 
 
-            InputStream inStream = mContext.getResources().openRawResource(r);
-            JSONObject obj = getJson(inStream);
-            JSONArray sheet = null;
+
+            InputStream inStream = mContext.getResources().openRawResource(i);
+            XSSFWorkbook wb = null;
             try
             {
-                sheet = obj.getJSONArray("Sheet1");
-            } catch (JSONException e)
+                wb = new XSSFWorkbook(inStream);
+                inStream.close();
+            } catch (IOException e)
             {
+                Log.d("Error", e.getMessage().toString());
                 e.printStackTrace();
             }
 
-            for (int i = 0; i < sheet.length(); i++)
+            Sheet sheet = wb.getSheetAt(0);
+
+            int count = 0;
+
+            //Also reads the first row of the excel file. i.e Name,Roll number etc
+            for (Iterator<Row> rit = sheet.rowIterator(); rit.hasNext(); )
             {
-//                Log.d("Siez :" , String.valueOf(sheet.length()));
-                JSONObject c = null;
-                try
-                {
-                    c = sheet.getJSONObject(i);
-                } catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
+                Row row = rit.next();
 
-                Iterator<?> keys = c.keys();
+                if(count == 0)row = rit.next();
 
-                HashMap<String, String> map = new HashMap<String, String>();
-                while (keys.hasNext())
-                {
-                    String key = (String) keys.next();
-//                    Log.d("key : ", key);
-                    try
-                    {
-                        String value = (String) c.get(key);
-                        map.put(key,value);
-//                        Log.d("Value Schedule : ", value);
+                row.getCell(0, Row.CREATE_NULL_AS_BLANK).setCellType(Cell.CELL_TYPE_STRING);
+                row.getCell(1, Row.CREATE_NULL_AS_BLANK).setCellType(Cell.CELL_TYPE_STRING);
+                row.getCell(2, Row.CREATE_NULL_AS_BLANK).setCellType(Cell.CELL_TYPE_STRING);
+                row.getCell(3, Row.CREATE_NULL_AS_BLANK).setCellType(Cell.CELL_TYPE_STRING);
 
-                    } catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
+                // Log.d("ExcelData", row.getCell(0, Row.CREATE_NULL_AS_BLANK).getStringCellValue());
 
-                if(type.equals("H") || type.equals("C"))
-                {
-                    Table_Prev_Rec g = new Table_Prev_Rec(
-                            map.get("Name"),
-                            map.get("ConNumber"),
-                            map.get("Designation"),
-                            map.get("Degree") , type) ;
+                Table_Prev_Rec g = new Table_Prev_Rec(
+                        row.getCell(1, Row.CREATE_NULL_AS_BLANK).getStringCellValue(),
+                        row.getCell(0, Row.CREATE_NULL_AS_BLANK).getStringCellValue(),
+                        row.getCell(2, Row.CREATE_NULL_AS_BLANK).getStringCellValue(),
+                        row.getCell(3, Row.CREATE_NULL_AS_BLANK).getStringCellValue() , type) ;
 
-                    db.addPrevRec(db.sqldb, g);
-                }
-                else
-                {
-                    Table_Prev_Rec g = new Table_Prev_Rec(
-                            map.get("Name"),
-                            map.get("Year"),"","","S");
-
-                    db.addPrevRec(db.sqldb, g);
-                }
-
-
-
-
+                db.addPrevRec(db.sqldb, g);
+                count++;
             }
+
         }
 
         private void parseGraduating(InputStream inStream)
         {
-            JSONObject obj = getJson(inStream);
-            JSONArray sheet = null;
+
+
+            AssetManager am = mContext.getAssets();
+            XSSFWorkbook wb = null;
             try
             {
-                sheet = obj.getJSONArray("Graduating Student 49");
-            } catch (JSONException e)
+                wb = new XSSFWorkbook(inStream);
+                inStream.close();
+            } catch (IOException e)
             {
+                Log.d("Error", e.getMessage().toString());
                 e.printStackTrace();
             }
 
-            for (int i = 0; i < sheet.length(); i++)
+            Sheet sheet1 = wb.getSheetAt(0);
+
+            Sheet sheet2 = wb.getSheetAt(1);
+            if (sheet1 == null)
             {
-//                Log.d("Siez :" , String.valueOf(sheet.length()));
-                JSONObject c = null;
-                try
-                {
-                    c = sheet.getJSONObject(i);
-                } catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
-
-                Iterator<?> keys = c.keys();
-
-                HashMap<String, String> map = new HashMap<String, String>();
-                while (keys.hasNext())
-                {
-                    String key = (String) keys.next();
-//                    Log.d("key : ", key);
-                    try
-                    {
-                        String value = (String) c.get(key);
-                        map.put(key,value);
-//                        Log.d("Value Schedule : ", value);
-
-                    } catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-
-                Table_Grad_Students g = new Table_Grad_Students();
-
-                g.setRoll(map.get("Roll Number"));
-                g.setName(map.get("Name"));
-                g.setProgram(map.get("Program"));
-                g.setDept(map.get("Dept."));
-                g.setAdvisers(map.get("Advisors"));
-                g.setDescription(map.get("Description"));
-
-                //Log.d("NAME OF THE STUDENT : ", g.getName());
-                db.addStudent1(db.sqldb, g);
-
+                return;
             }
+            if (sheet2 == null)
+            {
+                return;
+            }
+
+            insertGraduatingExcelToSqlite(sheet1);
+            insertAwardsExcelToSqlite(sheet2);
 
         }
 
-        private void parseAwards(InputStream inStream)
-        {
-            JSONObject obj = getJson(inStream);
-            JSONArray sheet = null;
-            try
-            {
-                sheet = obj.getJSONArray("Award");
-            } catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-
-            for (int i = 0; i < sheet.length(); i++)
-            {
-//                Log.d("Siez :" , String.valueOf(sheet.length()));
-                JSONObject c = null;
-                try
-                {
-                    c = sheet.getJSONObject(i);
-                } catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
-
-                Iterator<?> keys = c.keys();
-
-                HashMap<String, String> map = new HashMap<String, String>();
-                while (keys.hasNext())
-                {
-                    String key = (String) keys.next();
-//                    Log.d("key : ", key);
-                    try
-                    {
-                        String value = (String) c.get(key);
-                        map.put(key,value);
-//                        Log.d("Value Schedule : ", value);
-
-                    } catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-
-                Table_Awards g = new Table_Awards();
-
-
-                g.setRoll(map.get("Roll Number"));
-                g.setName(map.get("Name"));
-                g.setAward(map.get("Award"));
-                g.setDescription(map.get("Award Description"));
-                g.setProgram(map.get("Program"));
-                g.setDept(map.get("Department"));
-                g.setYear(map.get("Year"));
-                g.setComment(map.get("Comment"));
-
-                if(map.get("Picture") != null)
-                    g.setPicture(map.get("Picture"));
-                else
-                    g.setPicture("");
-                //Log.d("NAME OF THE STUDENT : ", g.getName());
-                db.addStudent2(db.sqldb, g);
-
-
-            }
-
-        }
 
         private void parseSchedule()
         {
-//            Log.d("Inside:", "doInback4");
-            int r = mContext.getResources().getIdentifier("schedule", "raw", mContext.getPackageName());
-            InputStream inStream = mContext.getResources().openRawResource(r);
-            JSONObject obj = getJson(inStream);
-            JSONArray sheet = null;
+
+            int i = mContext.getResources().getIdentifier("schedule","raw", mContext.getPackageName());
+            InputStream inStream = mContext.getResources().openRawResource(i);
+
+            Log.d("Inside:", "doInback5");
+//            XSSFWorkbook wb = null;
+            Sheet sheet1 = null;
             try
             {
-                sheet = obj.getJSONArray("Sheet1");
-            } catch (JSONException e)
+                Log.d("Inside:", "doInback6");
+                Workbook workbook = WorkbookFactory.create(inStream);
+                Log.d("Inside:", "doInback7");
+                sheet1 = workbook.getSheetAt(0);
+                Log.d("Inside:", "doInback8");
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            } catch (InvalidFormatException e)
             {
                 e.printStackTrace();
             }
+            Log.d("Inside ParseSch : ","1");
+//            try
+//            {
+//                wb = new XSSFWorkbook(inStream);
+//                Log.d("Inside ParseSch : ","1");
+//                inStream.close();
+//            } catch (IOException e)
+//            {
+//                Log.d("Error", e.getMessage().toString());
+//                e.printStackTrace();
+//            }
 
-            for (int i = 0; i < sheet.length(); i++)
-            {
-//                Log.d("Siez :" , String.valueOf(sheet.length()));
-                JSONObject c = null;
-                try
-                {
-                    c = sheet.getJSONObject(i);
-                } catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
+//            Sheet sheet1 = wb.getSheetAt(0);
+            Log.d("Inside ParseSch : ","1");
+//            if (sheet1 == null)
+//            {
+//                return;
+//            }
 
-                Iterator<?> keys = c.keys();
-
-                HashMap<String, String> map = new HashMap<String, String>();
-                while (keys.hasNext())
-                {
-                    String key = (String) keys.next();
-//                    Log.d("key : ", key);
-                    try
-                    {
-                        String value = (String) c.get(key);
-                        map.put(key,value);
-//                        Log.d("Value Schedule : ", value);
-
-                    } catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-                db.addEvent(db.sqldb, map.get("Event"),map.get("Venue"),map.get("Date"),map.get("Time"));
-
-            }
+            insertScheduleExcelToSqlite(sheet1);
         }
 
         private void parseLinks(InputStream inStream)
         {
 
-            JSONObject obj = getJson(inStream);
-            JSONArray sheet = null;
+            AssetManager am = mContext.getAssets();
+            XSSFWorkbook wb = null;
             try
             {
-                sheet = obj.getJSONArray("Sheet1");
-            } catch (JSONException e)
+                wb = new XSSFWorkbook(inStream);
+                inStream.close();
+            } catch (IOException e)
             {
+                Log.d("Error", e.getMessage().toString());
                 e.printStackTrace();
             }
 
-            for (int i = 0; i < sheet.length(); i++)
+            Sheet sheet1 = wb.getSheetAt(0);
+
+            if (sheet1 == null)
             {
-//                Log.d("Siez :" , String.valueOf(sheet.length()));
-                JSONObject c = null;
-                try
-                {
-                    c = sheet.getJSONObject(i);
-                } catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
-
-                Iterator<?> keys = c.keys();
-
-                HashMap<String, String> map = new HashMap<String, String>();
-                while (keys.hasNext())
-                {
-                    String key = (String) keys.next();
-//                    Log.d("key : ", key);
-                    try
-                    {
-                        String value = (String) c.get(key);
-                        map.put(key, value);
-//                        Log.d("Value Schedule : ", value);
-
-                    } catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-                db.addLink(db.sqldb, map.get("Name"), map.get("Link"));
+                return;
             }
+
+            insertLinksExcelToSqlite(sheet1);
         }
 
         private void parseContacts()
         {
-//            Log.d("Inside:", "doInback4");
-            int r = mContext.getResources().getIdentifier("taxi", "raw", mContext.getPackageName());
-            InputStream inStream = mContext.getResources().openRawResource(r);
-            JSONObject obj = getJson(inStream);
-            JSONArray sheet = null;
+
+            int i = mContext.getResources().getIdentifier("taxi","raw", mContext.getPackageName());
+            InputStream inStream = mContext.getResources().openRawResource(i);
+            XSSFWorkbook wb = null;
             try
             {
-                sheet = obj.getJSONArray("Sheet1");
-            } catch (JSONException e)
+                wb = new XSSFWorkbook(inStream);
+                inStream.close();
+            } catch (IOException e)
             {
+                Log.d("Error", e.getMessage().toString());
                 e.printStackTrace();
             }
 
-            for (int i = 0; i < sheet.length(); i++)
+            Sheet sheet1 = wb.getSheetAt(0);
+
+            if (sheet1 == null)
             {
-//                Log.d("Siez :" , String.valueOf(sheet.length()));
-                JSONObject c = null;
-                try
-                {
-                    c = sheet.getJSONObject(i);
-                } catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
-
-                Iterator<?> keys = c.keys();
-
-                HashMap<String, String> map = new HashMap<String, String>();
-                while (keys.hasNext())
-                {
-                    String key = (String) keys.next();
-//                    Log.d("key : ", key);
-                    try
-                    {
-                        String value = (String) c.get(key);
-                        map.put(key,value);
-//                        Log.d("Value Schedule : ", value);
-
-                    } catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-                Table_Contact g = new Table_Contact();
-                g.setName(map.get("Name"));
-                g.setNumber(map.get("Contact Number"));
-                g.setTransport(map.get("Transport"));
-                db.addContact(db.sqldb, g);
-
+                return;
             }
+
+            insertContactExcelToSqlite(sheet1);
         }
 
         private void parseHonDegrees()
         {
-//            Log.d("Inside:", "doInback4");
-            int r = mContext.getResources().getIdentifier("hon_degree", "raw", mContext.getPackageName());
-            InputStream inStream = mContext.getResources().openRawResource(r);
-            JSONObject obj = getJson(inStream);
-            JSONArray sheet = null;
+
+            int i = mContext.getResources().getIdentifier("hon_degree","raw", mContext.getPackageName());
+            InputStream inStream = mContext.getResources().openRawResource(i);
+
+            XSSFWorkbook wb = null;
             try
             {
-                sheet = obj.getJSONArray("Sheet1");
-            } catch (JSONException e)
+                wb = new XSSFWorkbook(inStream);
+                inStream.close();
+            } catch (IOException e)
             {
+                Log.d("Error", e.getMessage().toString());
                 e.printStackTrace();
             }
 
-            for (int i = 0; i < sheet.length(); i++)
+            Sheet sheet1 = wb.getSheetAt(0);
+
+            if (sheet1 == null)
             {
-//                Log.d("Siez :" , String.valueOf(sheet.length()));
-                JSONObject c = null;
-                try
-                {
-                    c = sheet.getJSONObject(i);
-                } catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
-
-                Iterator<?> keys = c.keys();
-
-                HashMap<String, String> map = new HashMap<String, String>();
-                while (keys.hasNext())
-                {
-                    String key = (String) keys.next();
-//                    Log.d("key : ", key);
-                    try
-                    {
-                        String value = (String) c.get(key);
-                        map.put(key,value);
-//                        Log.d("Value Schedule : ", value);
-
-                    } catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-
-                Table_Guest g = new Table_Guest();
-                g.setName(map.get("Name"));
-                g.setTitle(map.get("Title"));
-                g.setYear(map.get("Year"));
-                g.setPicture(map.get("Picture"));
-                g.setDescription(map.get("Description"));
-                g.setType("H");
-
-                if(g.getName().equals(""))continue;
-                db.addGuest(db.sqldb, g);
-
-
+                return;
             }
-        }
 
+            insertHonDegreeExcelToSqlite(sheet1);
+        }
 
         private void parseChiefGuests()
         {
 
-            //            Log.d("Inside:", "doInback4");
-            int r = mContext.getResources().getIdentifier("chief_guests", "raw", mContext.getPackageName());
-            InputStream inStream = mContext.getResources().openRawResource(r);
-            JSONObject obj = getJson(inStream);
-            JSONArray sheet = null;
+            int i = mContext.getResources().getIdentifier("chief_guests","raw", mContext.getPackageName());
+            InputStream inStream = mContext.getResources().openRawResource(i);
+            XSSFWorkbook wb = null;
             try
             {
-                sheet = obj.getJSONArray("Sheet1");
-            } catch (JSONException e)
+                wb = new XSSFWorkbook(inStream);
+                inStream.close();
+            } catch (IOException e)
             {
+                Log.d("Error", e.getMessage().toString());
                 e.printStackTrace();
             }
 
-            for (int i = 0; i < sheet.length(); i++)
+            Sheet sheet1 = wb.getSheetAt(0);
+
+            if (sheet1 == null)
             {
-//                Log.d("Siez :" , String.valueOf(sheet.length()));
-                JSONObject c = null;
-                try
-                {
-                    c = sheet.getJSONObject(i);
-                } catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
-
-                Iterator<?> keys = c.keys();
-
-                HashMap<String, String> map = new HashMap<String, String>();
-                while (keys.hasNext())
-                {
-                    String key = (String) keys.next();
-//                    Log.d("key : ", key);
-                    try
-                    {
-                        String value = (String) c.get(key);
-                        map.put(key,value);
-//                        Log.d("Value Schedule : ", value);
-
-                    } catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-
-                Table_Guest g = new Table_Guest();
-                g.setName(map.get("Name"));
-                g.setTitle(map.get("Title"));
-                g.setYear(map.get("Year"));
-                g.setPicture(map.get("Picture"));
-                g.setDescription(map.get("Description"));
-                g.setType("C");
-
-                if(g.getName().equals(""))continue;
-                db.addGuest(db.sqldb, g);
-
+                return;
             }
 
-
-
-
+            insertChiefGuestsExcelToSqlite(sheet1);
         }
 
         //----------------------------------------------------------------------------------------------------------------------------------------

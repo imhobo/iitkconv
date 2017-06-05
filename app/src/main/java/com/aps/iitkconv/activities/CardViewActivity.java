@@ -558,8 +558,6 @@ public class CardViewActivity extends MainActivity
                 results.add(obj);
         }
 
-//        DataObject obj= new DataObject("Previous Recipients");
-//        results.add(obj);
 
         return results;
     }

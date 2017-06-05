@@ -2,6 +2,9 @@ package com.aps.iitkconv.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.widget.TextView;
 
 import com.aps.iitconv.R;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -14,6 +17,7 @@ public class WebcastActivity extends MainActivity implements YouTubePlayer.OnIni
     private YouTubePlayer mPlayer;
     private String YouTubeKey = "AIzaSyAcRBR_oZDQmCl6AqaAe_9JXHjl--LbNCU";
     int ch = -1;
+    String url = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +32,11 @@ public class WebcastActivity extends MainActivity implements YouTubePlayer.OnIni
         MainActivity.setChoice(getIntent().getExtras().getInt("key"));
 
 
+        SharedPreferences mPrefs = getApplicationContext().getSharedPreferences("lastDataFetch", MODE_PRIVATE);
+        url = mPrefs.getString("FetchWebcast", String.valueOf(1));
         playerFragment =
                 (YouTubePlayerSupportFragment) getSupportFragmentManager().findFragmentById(R.id.youtube_player_fragment);
+
 
         playerFragment.initialize(YouTubeKey, this);
 
@@ -49,19 +56,10 @@ public class WebcastActivity extends MainActivity implements YouTubePlayer.OnIni
         //System controls will appear automatically
         mPlayer.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
 
-        SharedPreferences mPrefs = getApplicationContext().getSharedPreferences("lastDataFetch", MODE_PRIVATE);
-        String url = mPrefs.getString("FetchWebcast", String.valueOf(1));
 
         if (!wasRestored)
         {
-            if(url.equals("1"))
-                player.cueVideo("9rLZYyMbJic");
-            else
-                mPlayer.loadVideo(parseLink(url));
-        }
-        else
-        {
-            mPlayer.play();
+            mPlayer.cueVideo(url);
         }
     }
 

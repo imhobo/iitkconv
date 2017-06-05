@@ -21,8 +21,13 @@
     <string name="u9">hon_degree_epoch.txt</string>
     <string name="u10">chief_guests.xlsx</string>
     <string name="u11">chief_guests_epoch.txt</string>
-    <string name="u12">links.xlsx</string>
+    <string name="u12">links.json</string>
     <string name="u13">links_epoch.txt</string>
+
+    <string name="u14">students.json</string>
+    <string name="u15">awards.json</string>
+    <string name="u16">students_epoch.txt</string>
+    <string name="u17">awards_epoch.txt</string>
 
 
     <string name="TYPE_H">H</string>
