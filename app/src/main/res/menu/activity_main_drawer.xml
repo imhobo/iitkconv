@@ -35,7 +35,7 @@
         <item
             android:id="@+id/nav_honorary"
             android:icon="@drawable/ic_hon"
-            android:title="Honorary Degrees"/>
+            android:title="Honoris Causa"/>
 
             </menu>
     </item>

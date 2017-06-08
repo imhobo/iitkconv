@@ -194,8 +194,14 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ANNOUNCEMENTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SCHEDULE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_GUESTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_IMAGES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PREV);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LINKS);
+
         // Creating tables again
         onCreate(db);
+
     }
 
 

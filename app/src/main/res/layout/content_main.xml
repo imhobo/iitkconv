@@ -118,7 +118,7 @@
                     android:paddingTop="10sp"
                     android:drawablePadding="-5sp"
                     android:layout_marginRight="20dp"
-                    android:text="Honorary"></Button>
+                    android:text="Honoris Causa"></Button>
 
 
                 <Button

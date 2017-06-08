@@ -28,7 +28,7 @@ public class NostalgiaActivity extends MainActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private static String LOG_TAG = "NostalgiaActivity";
+    private static String TAG = "NostalgiaActivity";
     private Context ctx;
 
     @Override
@@ -75,8 +75,6 @@ public class NostalgiaActivity extends MainActivity {
                 .MyClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-                Log.d(LOG_TAG + ">>>>>>>", "" + position);
-
                 Intent intent = new Intent(ctx, GridLayoutActivity.class);
                 switch (position) {
                     case 0:
@@ -104,23 +102,23 @@ public class NostalgiaActivity extends MainActivity {
     public ArrayList<DataObject> getCats() {
         ArrayList<DataObject> result = new ArrayList<DataObject>();
         DataObject g = new DataObject("Institute");
-        Bitmap bitmp = ((BitmapDrawable) getResources().getDrawable(R.drawable.insti_teaser, null)).getBitmap();
+        Bitmap bitmp = ((BitmapDrawable) getResources().getDrawable(R.drawable.insti_teaser)).getBitmap();
         g.setmImg(bitmp);
         result.add(g);
         g = new DataObject("Kanpur Indo-American Program");
-        bitmp = ((BitmapDrawable) getResources().getDrawable(R.drawable.kiap_teaser, null)).getBitmap();
+        bitmp = ((BitmapDrawable) getResources().getDrawable(R.drawable.kiap_teaser)).getBitmap();
         g.setmImg(bitmp);
         result.add(g);
         g = new DataObject("Student activities");
-        bitmp = ((BitmapDrawable) getResources().getDrawable(R.drawable.stud_teaser, null)).getBitmap();
+        bitmp = ((BitmapDrawable) getResources().getDrawable(R.drawable.stud_teaser)).getBitmap();
         g.setmImg(bitmp);
         result.add(g);
         g = new DataObject("Memorium");
-        bitmp = ((BitmapDrawable) getResources().getDrawable(R.drawable.mem_teaser, null)).getBitmap();
+        bitmp = ((BitmapDrawable) getResources().getDrawable(R.drawable.mem_teaser)).getBitmap();
         g.setmImg(bitmp);
         result.add(g);
         g = new DataObject("Past Convocations");
-        bitmp = ((BitmapDrawable) getResources().getDrawable(R.drawable.old_teaser, null)).getBitmap();
+        bitmp = ((BitmapDrawable) getResources().getDrawable(R.drawable.old_teaser)).getBitmap();
         g.setmImg(bitmp);
         result.add(g);
         return result;
