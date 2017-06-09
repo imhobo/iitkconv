@@ -243,7 +243,16 @@ public class CardViewActivity extends MainActivity
 
                 else if(value == 9)
                 {
-                    String phone = db.getContacts().get(position).getNumber();
+                    if(position == 0 || position == 12 || position == 15)return;
+
+                    int tpos = -1;
+                    if(position>0 && position<12)
+                        tpos = position-1;
+                    else if(position == 13 || position == 14)
+                        tpos = position-2;
+                    else
+                        tpos = position-3;
+                    String phone = db.getContacts().get(tpos).getNumber();
                     Intent intent = new Intent(Intent.ACTION_CALL);
                     intent.setData(Uri.parse("tel:" + phone));
                     mContext.startActivity(intent);
@@ -527,6 +536,15 @@ public class CardViewActivity extends MainActivity
             //Log.d("getStudents2",String.valueOf(t.getId())+t.getEvent()+t.getName()+award+t.getTime()+t.getDept()+t.getProgram()+t.getYear());
             results.add(obj);
         }
+
+        DataObject obj= new DataObject("Volunteers","");
+        results.add(0,obj);
+        obj= new DataObject("Health Center & Security","");
+        results.add(12,obj);
+        obj= new DataObject("Taxi","");
+        results.add(15,obj);
+
+
         return results;
     }
 
@@ -671,11 +689,11 @@ public class CardViewActivity extends MainActivity
         }
 
 //        Previous Recipients for award
-//        if(awardNum == 0 && !hasSearchedAwards)
-//        {
-//            DataObject obj= new DataObject("Previous Recipients");
-//            results.add(obj);
-//        }
+        if(awardNum == 0 && !hasSearchedAwards)
+        {
+            DataObject obj= new DataObject("Previous Recipients");
+            results.add(obj);
+        }
 
         return results;
     }
@@ -897,7 +915,6 @@ public class CardViewActivity extends MainActivity
         else if(value==9)
         {
             this.setTitle("Contacts");
-            ArrayList<Table_Contact> contacts = (ArrayList<Table_Contact>) db.getContacts();
             mAdapter = new MyRecyclerViewAdapter(getContacts(), 9);
         }
 

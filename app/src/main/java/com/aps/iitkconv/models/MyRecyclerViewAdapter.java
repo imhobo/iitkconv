@@ -90,6 +90,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 t2 = (TextView) itemView.findViewById(R.id.textViewp2);
                 t3 = (TextView) itemView.findViewById(R.id.textViewp3);
                 t4 = (TextView) itemView.findViewById(R.id.textViewp4);
+
+                //For contacts heading
+                t5 = (TextView) itemView.findViewById(R.id.textViewHeader);
                 //Log.d("401","401");
             }
 
@@ -149,6 +152,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
             }
 
+
             Log.i(LOG_TAG, "Adding Listener");
             itemView.setOnClickListener(this);
         }
@@ -197,7 +201,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 || (val==30 && viewType == ITEM_TYPE_HEADER) || val == 10 || (val ==509 && viewType == ITEM_TYPE_HEADER) || (val ==519 && viewType == ITEM_TYPE_HEADER))
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_1, parent, false);
 
-        else if(val == 1 || val==401 || val == 31|| val ==9|| val == 51 || val == 501 || (val == 999 && viewType == ITEM_TYPE_PHD)
+        else if((val==9 && viewType == ITEM_TYPE_HEADER))
+        {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_header, parent, false);
+        }
+
+        else if(val == 1 || val==401 || val == 31|| (val ==9 && viewType == ITEM_TYPE_NORMAL)|| val == 51 || val == 501 || (val == 999 && viewType == ITEM_TYPE_PHD)
                 || (val == 1000 && viewType == ITEM_TYPE_NON_PIC_AWARD))
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_4, parent, false);
 
@@ -255,7 +264,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         else
         {
             Log.d("wrong val : ", mDataset.get(position).getmText9());
-            if((mDataset.get(position).getmText1()).equals("Previous Recipients") || (mDataset.get(position).getmText1()).equals("Previous Guests"))
+            if((mDataset.get(position).getmText1()).equals("Previous Recipients") || (mDataset.get(position).getmText1()).equals("Previous Guests") ||
+                    (val == 9 && (mDataset.get(position).getmText2()).equals("")))
             {
                 return ITEM_TYPE_HEADER;
             }
@@ -273,6 +283,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     {
 
         final int itemType = getItemViewType(position);
+        Log.d("ItemType : ", String.valueOf(itemType));
 
         if(val==3 || val==4 || val==40 ||val == 400|| val ==300)
         {
@@ -290,9 +301,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
             holder.t1.setText(mDataset.get(position).getmText1());
             holder.t2.setText(pre + mDataset.get(position).getmText2());
-
-            if(val == 9)
-                holder.t3.setText(mDataset.get(position).getmText3());
 
             //Choosing 1 out of the 5 colors from palette for the left tile in a card
             holder.tile.setBackgroundColor(Color.parseColor(palette.get(position%5)));
@@ -328,7 +336,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             holder.t5.setText(mDataset.get(position).getmText1());
         }
 
-        else if(val == 1 || val==401 || val == 51 || val == 501 || (val == 999 && itemType == ITEM_TYPE_PHD)  || val == 9)
+        else if((val==9 && itemType == ITEM_TYPE_HEADER))
+        {
+//            Log.d("headContact : ", "Here");
+            holder.t5.setText(mDataset.get(position).getmText1());
+        }
+
+        else if(val == 1 || val==401 || val == 51 || val == 501 || (val == 999 && itemType == ITEM_TYPE_PHD) || (val == 9 && itemType == ITEM_TYPE_NORMAL))
         {
             String p1 = "";
             String p2 = "";
@@ -388,10 +402,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
             }
 
-            else if(val == 9)
+            else if(val == 9 )
             {
+//                Log.d("nameContact : ", p1);
                 p2 = "Phone : ";
-                p3 = "Vehicle : ";
+
+                if(position<12)
+                    p3 = "Email : ";
+                else
+                    p3 = "Vehicle : ";
                 p4 = "CALL NOW";
 
                 p1 = p1 + mDataset.get(position).getmText1();
@@ -402,16 +421,24 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 s2 = new SpannableStringBuilder(p2);
                 s2.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 s3 = new SpannableStringBuilder(p3);
-                s3.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 10, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                if(position<12)
+                    s3.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                else
+                    s3.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 10, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
                 s4 = new SpannableStringBuilder(p4);
                 s4.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
+
+
+//                Log.d("nameContact : ", p1);
                 holder.t1.setText(p1);
                 holder.t2.setText(s2);
-                if(position>1)
-                    holder.t3.setText(s3);
-                else
+
+                if(position == 0 || (position >= 12 && position <= 15))
                     holder.t3.setText("");
+                else
+                    holder.t3.setText(s3);
                 holder.t4.setText(s4);
             }
 

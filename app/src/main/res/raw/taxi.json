@@ -1,94 +1,94 @@
 {
     "Sheet1": [
         {
-            "Contact Number": "0512 2597222",
-            "Name": "Health Center",
-            "Transport": ""
-        },
-        {
-            "Contact Number": "0512 2597999",
-            "Name": "Control Room (SIS)",
-            "Transport": ""
-        },
-        {
-            "Contact Number": "9936051842",
-            "Name": "TRIMUTRY TOUR & TRAVLES",
-            "Transport": "Taxi"
-        },
-        {
-            "Contact Number": "9335515647",
-            "Name": "AMIT TRAVELS",
-            "Transport": "Taxi"
-        },
-        {
-            "Contact Number": "9935543837",
-            "Name": "BALAJI TRAVELS",
-            "Transport": "Taxi"
-        },
-        {
-            "Contact Number": "9336217156",
-            "Name": "RAJPAL YADAV TRAVELS",
-            "Transport": "Taxi"
-        },
-        {
-            "Contact Number": "9336222326",
-            "Name": "BHANU TRAVELS",
-            "Transport": "Taxi"
-        },
-        {
-            "Contact Number": "8168251901",
-            "Name": "Pranshu Garg (Overall Student Coordinator, Convocation'17 / Acting President, Students' Gymkhana)",
-            "Email": "presidentsg@iitk.ac.in"
-        },
-        {
-            "Contact Number": "9151623254",
-            "Name": "Siddhant Naik (Coordinator, Auditorium Team / Acting Chairperson, Students' Senate) ",
-            "Email": "chair_ss@iitk.ac.in"
-        },
-        {
-            "Contact Number": "9453994643",
-            "Name": "Keshav Verma (Assistant Coordinator, Auditorium Team)",
-            "Email": "vkeshav@iitk.ac.in"
-        },
-        {
             "Contact Number": "7054113889",
             "Name": "Yash Bajaj (Coordinator, Accommodation Team (Hall 10, 5, VH, 3)) ",
-            "Email": "ybajaj@iitk.ac.in"
+            "Transport": "ybajaj@iitk.ac.in"
         },
         {
             "Contact Number": "7318019917",
             "Name": "Abhishek Singh (Assistant Coordinator, Accommodation Team (Hall 10, 5, VH, 3))",
-            "Email": "abhisgh@iitk.ac.in"
+            "Transport": "abhisgh@iitk.ac.in"
         },
         {
             "Contact Number": "9151621302",
             "Name": "Soumyadeep Datta (Coordinator, Accommodation Team (Hall 1, 2, 12)) ",
-            "Email": "sdatta@iitk.ac.in"
+            "Transport": "sdatta@iitk.ac.in"
         },
         {
             "Contact Number": "7754916185",
             "Name": "Dipendra Singh Mal (Assistant Coordinator, Accommodation Team (Hall 1, 2, 12))",
-            "Email": "mayam@iitk.ac.in"
+            "Transport": "mayam@iitk.ac.in"
         },
         {
             "Contact Number": "7844016235",
             "Name": "Maya Meena (Coordinator, Accommodation Team (Hall GHT, VH)) ",
-            "Email": "mayam@iitk.ac.in"
+            "Transport": "mayam@iitk.ac.in"
         },
         {
             "Contact Number": "8968564323",
             "Name": "Mansargun Kaur (Assistant Coordinator, Accommodation Team (Hall GHT, VH))",
-            "Email": "msargun@iitk.ac.in"
+            "Transport": "msargun@iitk.ac.in"
         },
         {
             "Contact Number": "9411844526",
             "Name": "Nilay Tiwari (Coordinator, Food and Catering) ",
-            "Email": "nilayt@iitk.ac.in"
+            "Transport": "nilayt@iitk.ac.in"
         },
         {
             "Contact Number": "7318018998",
             "Name": "Adhip Garg (Coordinator, Food and Catering)",
-            "Email": "adhipg@iitk.ac.in"
+            "Transport": "adhipg@iitk.ac.in"
+        },
+        {
+          "Contact Number": "8168251901",
+          "Name": "Pranshu Garg (Overall Student Coordinator, Convocation'17 / Acting President, Students' Gymkhana)",
+          "Transport": "presidentsg@iitk.ac.in"
+        },
+        {
+          "Contact Number": "9151623254",
+          "Name": "Siddhant Naik (Coordinator, Auditorium Team / Acting Chairperson, Students' Senate) ",
+          "Transport": "chair_ss@iitk.ac.in"
+        },
+        {
+          "Contact Number": "9453994643",
+          "Name": "Keshav Verma (Assistant Coordinator, Auditorium Team)",
+          "Transport": "vkeshav@iitk.ac.in"
+        },
+        {
+          "Contact Number": "0512 2597222",
+          "Name": "Health Center",
+          "Transport": ""
+        },
+        {
+          "Contact Number": "0512 2597999",
+          "Name": "Control Room (SIS)",
+          "Transport": ""
+        },
+        {
+          "Contact Number": "9936051842",
+          "Name": "TRIMUTRY TOUR & TRAVLES",
+          "Transport": "Taxi"
+        },
+        {
+          "Contact Number": "9335515647",
+          "Name": "AMIT TRAVELS",
+          "Transport": "Taxi"
+        },
+        {
+          "Contact Number": "9935543837",
+          "Name": "BALAJI TRAVELS",
+          "Transport": "Taxi"
+        },
+        {
+          "Contact Number": "9336217156",
+          "Name": "RAJPAL YADAV TRAVELS",
+          "Transport": "Taxi"
+        },
+        {
+          "Contact Number": "9336222326",
+          "Name": "BHANU TRAVELS",
+          "Transport": "Taxi"
         }
     ]
 }

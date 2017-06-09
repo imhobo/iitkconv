@@ -170,12 +170,14 @@ import static android.content.Context.MODE_PRIVATE;
                     return content;
                 }
 
+                db = DBHandler_Grad.getInstance(mContext);
+
 //                Log.d("Inside:", "doInback2");
                 SharedPreferences mPrefs = mContext.getSharedPreferences("lastDataFetch", MODE_PRIVATE);
 
                 String m1 = mPrefs.getString("FetchFormat", String.valueOf(1));
                 String m2 = mPrefs.getString("FetchSchedule", String.valueOf(1));
-                String m3 = mPrefs.getString("FetchTaxi", String.valueOf(1));
+                String m3 = mPrefs.getString("FetchContact", String.valueOf(1));
                 String m4 = mPrefs.getString("FetchWebcast", String.valueOf(1));
                 String m5 = mPrefs.getString("FetchHon", String.valueOf(1));
                 String m6 = mPrefs.getString("FetchChief", String.valueOf(1));
@@ -185,7 +187,7 @@ import static android.content.Context.MODE_PRIVATE;
                 String m10 = mPrefs.getString("FetchAwards", String.valueOf(1));
 
 
-                db = DBHandler_Grad.getInstance(mContext);
+
 
                 Log.d("Inside:", "doInback3");
 
@@ -202,9 +204,10 @@ import static android.content.Context.MODE_PRIVATE;
 
                 if(m3.equals("1"))
                 {
+                    db.deleteContacts();
                     parseContacts();
                     SharedPreferences.Editor mEditor = mPrefs.edit();
-                    mEditor.putString("FetchTaxi", "0").commit();
+                    mEditor.putString("FetchContact", "0").commit();
                     Log.d("Done:", "Contacts");
                 }
 
@@ -517,7 +520,7 @@ import static android.content.Context.MODE_PRIVATE;
             JSONArray sheet = null;
             try
             {
-                sheet = obj.getJSONArray("Graduating Student 49");
+                sheet = obj.getJSONArray("Graduating Student 50");
             } catch (JSONException e)
             {
                 e.printStackTrace();

@@ -5,6 +5,7 @@ package com.aps.iitkconv.models;
  */
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -16,6 +17,8 @@ import android.util.Pair;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class DBHandler_Grad extends SQLiteOpenHelper
 {
@@ -109,6 +112,7 @@ public class DBHandler_Grad extends SQLiteOpenHelper
     private static final String T9_KEY_LINK = "link";
 
 
+    static Context mContext = null;
 
 
     public static synchronized DBHandler_Grad getInstance(Context context)
@@ -117,6 +121,9 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         // Use the application context, which will ensure that you
         // don't accidentally leak an Activity's context.
         // See this article for more information: http://bit.ly/6LRzfx
+
+        mContext = context;
+
         if (sInstance == null) {
             sInstance = new DBHandler_Grad(context.getApplicationContext());
         }
@@ -126,6 +133,7 @@ public class DBHandler_Grad extends SQLiteOpenHelper
     public DBHandler_Grad(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
     }
 
     @Override
@@ -198,6 +206,18 @@ public class DBHandler_Grad extends SQLiteOpenHelper
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_IMAGES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PREV);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LINKS);
+
+        SharedPreferences mPrefs = mContext.getSharedPreferences("lastDataFetch", MODE_PRIVATE);
+
+        SharedPreferences.Editor mEditor = mPrefs.edit();
+        mEditor.putString("FetchTaxi", "0").commit();
+        mEditor.putString("FetchSchedule", "0").commit();
+        mEditor.putString("FetchHon", "0").commit();
+        mEditor.putString("FetchChief", "0").commit();
+        mEditor.putString("ParsePrev", "0").commit();
+        mEditor.putString("FetchStudents", "0").commit();
+        mEditor.putString("FetchAwards", "0").commit();
+        mEditor.putString("FetchLinks", "0").commit();
 
         // Creating tables again
         onCreate(db);
