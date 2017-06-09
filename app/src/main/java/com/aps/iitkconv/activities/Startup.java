@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.aps.iitconv.R;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by imhobo on 2/5/17.
@@ -32,6 +34,7 @@ public class Startup extends AppCompatActivity
     public void onCreate(Bundle saved)
     {
         super.onCreate(saved);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_startup);
 
         mContext = Startup.this;
