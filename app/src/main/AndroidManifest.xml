@@ -9,26 +9,26 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 
     <application
 
         android:allowBackup="true"
-        android:icon="@drawable/icon"
-        android:supportsRtl="true"
         android:configChanges="orientation"
-        android:screenOrientation="portrait"
         android:hardwareAccelerated="false"
+        android:icon="@drawable/icon"
         android:largeHeap="true"
+        android:screenOrientation="portrait"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name="com.aps.iitkconv.activities.Startup"
+            android:configChanges="orientation"
             android:hardwareAccelerated="true"
             android:label="@string/app_name"
-            android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -39,9 +39,9 @@
         </activity>
         <activity
             android:name="com.aps.iitkconv.activities.MainActivity"
+            android:configChanges="orientation"
             android:hardwareAccelerated="true"
             android:label="@string/app_name"
-            android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -50,18 +50,18 @@
         </activity>
         <activity
             android:name="com.aps.iitkconv.activities.CardViewActivity"
+            android:configChanges="orientation"
             android:hardwareAccelerated="true"
             android:label="@string/app_name"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable">
             </meta-data>
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
 
         </activity>
@@ -101,27 +101,27 @@
      See README(https://goo.gl/l4GJaQ) for more.
         -->
         <!--<meta-data-->
-            <!--android:name="com.google.firebase.messaging.default_notification_icon"-->
-            <!--android:resource="@drawable/ic_livetv"/>-->
+        <!--android:name="com.google.firebase.messaging.default_notification_icon"-->
+        <!--android:resource="@drawable/ic_livetv"/>-->
         <!--
              Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more.
         -->
         <!--<meta-data-->
-            <!--android:name="com.google.firebase.messaging.default_notification_color"-->
-            <!--android:resource="@color/colorAccent"/>-->
+        <!--android:name="com.google.firebase.messaging.default_notification_color"-->
+        <!--android:resource="@color/colorAccent"/>-->
         <!--<service-->
-            <!--android:name="com.aps.iitkconv.services.MyFirebaseMessagingService"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="true">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.google.firebase.MESSAGING_EVENT"/>-->
-            <!--</intent-filter>-->
+        <!--android:name="com.aps.iitkconv.services.MyFirebaseMessagingService"-->
+        <!--android:enabled="true"-->
+        <!--android:exported="true">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="com.google.firebase.MESSAGING_EVENT"/>-->
+        <!--</intent-filter>-->
         <!--</service>-->
         <!--<service android:name="com.aps.iitkconv.services.MyFirebaseInstanceIdService">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>-->
-            <!--</intent-filter>-->
+        <!--<intent-filter>-->
+        <!--<action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>-->
+        <!--</intent-filter>-->
         <!--</service>-->
 
         <activity
@@ -135,7 +135,7 @@
         </activity>
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="78d2caeb7c644636f0c0fb639c0298e0da562c9f" />
+            android:value="78d2caeb7c644636f0c0fb639c0298e0da562c9f"/>
     </application>
 
 </manifest>

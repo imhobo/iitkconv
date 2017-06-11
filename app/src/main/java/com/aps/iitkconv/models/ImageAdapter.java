@@ -14,14 +14,12 @@ import android.widget.ImageView;
 import com.aps.iitconv.R;
 
 public class ImageAdapter extends BaseAdapter {
-    private Context mContext;
-
-    // Keep all Images in array
-
     public Integer[] insti = {
             R.drawable.insti_1, R.drawable.insti_4, R.drawable.insti_teaser, R.drawable.insti_10,
             R.drawable.insti_5, R.drawable.insti_11, R.drawable.insti_12,
             R.drawable.insti_7, R.drawable.insti_2, R.drawable.insti_8, R.drawable.insti_3, R.drawable.insti_9};
+
+    // Keep all Images in array
     public Integer[] kiap = {R.drawable.kiap_6, R.drawable.kiap_teaser, R.drawable.kiap_2,
             R.drawable.kiap_3, R.drawable.kiap_4, R.drawable.kiap_5};
     public Integer[] stud = {R.drawable.stud_11, R.drawable.stud_17, R.drawable.stud_12,
@@ -33,8 +31,8 @@ public class ImageAdapter extends BaseAdapter {
             R.drawable.old_teaser, R.drawable.old_13, R.drawable.old_5, R.drawable.old_14,
             R.drawable.old_6, R.drawable.old_15, R.drawable.old_7};
     public Integer[] mem = {R.drawable.mem_1, R.drawable.mem_2, R.drawable.mem_teaser};
-
     public Integer[] use;
+    private Context mContext;
 
 
     // Constructor

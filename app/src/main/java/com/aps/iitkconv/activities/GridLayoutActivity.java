@@ -32,9 +32,8 @@ import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class GridLayoutActivity extends MainActivity {
 
-    Context ctx;
     final String TAG = "GridLayoutActivity";
-
+    Context ctx;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +74,7 @@ public class GridLayoutActivity extends MainActivity {
             tv1.setVisibility(View.VISIBLE);
             tv2.setVisibility(View.VISIBLE);
             tv3.setVisibility(View.VISIBLE);
-        //    tv4.setVisibility(View.VISIBLE);
+            //    tv4.setVisibility(View.VISIBLE);
             tv5.setVisibility(View.VISIBLE);
 
             tv1.setTextColor(Color.BLUE);
@@ -86,7 +85,7 @@ public class GridLayoutActivity extends MainActivity {
             CopyAssetsbrochure("mem_back_in_1960.pdf");
             CopyAssetsbrochure("mem_extracts_from_the_convocation_address_kelkar.pdf");
             CopyAssetsbrochure("mem_iitk_formative_years.pdf");
-        //    CopyAssetsbrochure("mem_kelkar.pdf");
+            //    CopyAssetsbrochure("mem_kelkar.pdf");
             CopyAssetsbrochure("mem_pk_kelkar.pdf");
 
             tv1.setOnClickListener(new View.OnClickListener() {

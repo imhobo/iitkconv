@@ -1,14 +1,11 @@
 package com.aps.iitkconv.models;
 
-import android.graphics.Bitmap;
-
 /**
  * Created by imhobo on 31/3/17.
  */
 
 
-public class Table_Awards
-{
+public class Table_Awards {
 
     private String roll;
     private String name;
@@ -21,11 +18,10 @@ public class Table_Awards
     private String picture;
 
 
-    public Table_Awards(String roll, String name, String award, String description, String program, String dept, String comment, String year, String picture)
-    {
+    public Table_Awards(String roll, String name, String award, String description, String program, String dept, String comment, String year, String picture) {
 
         this.roll = roll;
-        this.name= name;
+        this.name = name;
         this.award = award;
         this.description = description;
         this.program = program;
@@ -36,98 +32,80 @@ public class Table_Awards
 
     }
 
-    public Table_Awards()
-    {
+    public Table_Awards() {
 
     }
 
 
-    public String getRoll()
-    {
+    public String getRoll() {
         return roll;
     }
 
-    public void setRoll(String roll)
-    {
+    public void setRoll(String roll) {
         this.roll = roll;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getAward()
-    {
+    public String getAward() {
         return award;
     }
 
-    public void setAward(String award)
-    {
+    public void setAward(String award) {
         this.award = award;
     }
 
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description)
-    {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public String getProgram()
-    {
+    public String getProgram() {
         return program;
     }
 
-    public void setProgram(String program)
-    {
+    public void setProgram(String program) {
         this.program = program;
     }
 
-    public String getDept()
-    {
+    public String getDept() {
         return dept;
     }
 
-    public void setDept(String dept)
-    {
+    public void setDept(String dept) {
         this.dept = dept;
     }
 
-    public String getComment()
-    {
+    public String getComment() {
         return comment;
     }
 
-    public void setComment(String comment)
-    {
+    public void setComment(String comment) {
         this.comment = comment;
     }
 
-    public String getYear()
-    {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(String year)
-    {
+    public void setYear(String year) {
         this.year = year;
     }
-    public String getPicture()
-    {
+
+    public String getPicture() {
         return picture;
     }
 
-    public void setPicture(String img)
-    {
+    public void setPicture(String img) {
         this.picture = img;
     }
 

@@ -2,22 +2,19 @@ package com.aps.iitkconv.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
-import android.widget.TextView;
 
 import com.aps.iitconv.R;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 
-public class WebcastActivity extends MainActivity implements YouTubePlayer.OnInitializedListener{
+public class WebcastActivity extends MainActivity implements YouTubePlayer.OnInitializedListener {
 
-    private YouTubePlayerSupportFragment  playerFragment;
-    private YouTubePlayer mPlayer;
-    private String YouTubeKey = "AIzaSyAcRBR_oZDQmCl6AqaAe_9JXHjl--LbNCU";
     int ch = -1;
     String url = "";
+    private YouTubePlayerSupportFragment playerFragment;
+    private YouTubePlayer mPlayer;
+    private String YouTubeKey = "AIzaSyAcRBR_oZDQmCl6AqaAe_9JXHjl--LbNCU";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +54,7 @@ public class WebcastActivity extends MainActivity implements YouTubePlayer.OnIni
         mPlayer.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
 
 
-        if (!wasRestored)
-        {
+        if (!wasRestored) {
             mPlayer.cueVideo(url);
         }
     }
@@ -69,8 +65,7 @@ public class WebcastActivity extends MainActivity implements YouTubePlayer.OnIni
         mPlayer = null;
     }
 
-    protected String parseLink(String url)
-    {
+    protected String parseLink(String url) {
         String result;
         //32 characters before youtube links reach "v="
         result = url.substring(32);
@@ -78,8 +73,7 @@ public class WebcastActivity extends MainActivity implements YouTubePlayer.OnIni
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         MainActivity.setChoice(ch);
         finish();
     }

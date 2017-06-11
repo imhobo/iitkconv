@@ -5,61 +5,51 @@ package com.aps.iitkconv.models;
  */
 
 
-public class Table_Contact
-{
+public class Table_Contact {
 
     private String name;
     private String number;
     private String transport;
 
 
-    public Table_Contact(String name, String number, String transport)
-    {
+    public Table_Contact(String name, String number, String transport) {
 
 
-        this.name= name;
+        this.name = name;
         this.number = number;
         this.transport = transport;
 
 
     }
 
-    public Table_Contact()
-    {
-        
+    public Table_Contact() {
+
     }
 
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getNumber()
-    {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(String number)
-    {
+    public void setNumber(String number) {
         this.number = number;
     }
 
-    public String getTransport()
-    {
+    public String getTransport() {
         return transport;
     }
 
-    public void setTransport(String transport)
-    {
+    public void setTransport(String transport) {
         this.transport = transport;
     }
-
 
 
 }

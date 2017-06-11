@@ -5,8 +5,7 @@ package com.aps.iitkconv.models;
  */
 
 
-public class Table_Grad_Students
-{
+public class Table_Grad_Students {
 
     private String roll;
     private String name;
@@ -16,11 +15,10 @@ public class Table_Grad_Students
     private String dept;
 
 
-    public Table_Grad_Students(String roll, String name, String program, String dept, String advisors, String description)
-    {
+    public Table_Grad_Students(String roll, String name, String program, String dept, String advisors, String description) {
 
         this.roll = roll;
-        this.name= name;
+        this.name = name;
         this.advisers = advisors;
         this.description = description;
         this.program = program;
@@ -28,11 +26,10 @@ public class Table_Grad_Students
 
     }
 
-    public Table_Grad_Students(String roll, String name, String program, String dept )
-    {
+    public Table_Grad_Students(String roll, String name, String program, String dept) {
 
         this.roll = roll;
-        this.name= name;
+        this.name = name;
 
         this.advisers = "";
         this.description = "";
@@ -41,72 +38,58 @@ public class Table_Grad_Students
 
     }
 
-    public Table_Grad_Students()
-    {
-        
+    public Table_Grad_Students() {
+
     }
 
 
-    public String getRoll()
-    {
+    public String getRoll() {
         return roll;
     }
 
-    public void setRoll(String roll)
-    {
+    public void setRoll(String roll) {
         this.roll = roll;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getAdvisers()
-    {
+    public String getAdvisers() {
         return advisers;
     }
 
-    public void setAdvisers(String advisers)
-    {
+    public void setAdvisers(String advisers) {
         this.advisers = advisers;
     }
 
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description)
-    {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public String getProgram()
-    {
+    public String getProgram() {
         return program;
     }
 
-    public void setProgram(String program)
-    {
+    public void setProgram(String program) {
         this.program = program;
     }
 
-    public String getDept()
-    {
+    public String getDept() {
         return dept;
     }
 
-    public void setDept(String dept)
-    {
+    public void setDept(String dept) {
         this.dept = dept;
     }
-
 
 
 }

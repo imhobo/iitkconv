@@ -44,7 +44,7 @@ public class FullImageActivity extends MainActivity {
         // Selected image id
         pos = i.getExtras().getInt("id");
         category = i.getStringExtra(EXTRA_MESSAGE);
-        imageAdapter = new ImageAdapter(this,category);
+        imageAdapter = new ImageAdapter(this, category);
 
         ExtendedViewPager mViewPager = (ExtendedViewPager) findViewById(R.id.view_pager);
         mViewPager.setAdapter(new TouchImageAdapter(imageAdapter.use));
@@ -55,8 +55,7 @@ public class FullImageActivity extends MainActivity {
 
         private static Integer[] images;
 
-        TouchImageAdapter(Integer[] ims)
-        {
+        TouchImageAdapter(Integer[] ims) {
             images = ims;
         }
 
@@ -67,8 +66,7 @@ public class FullImageActivity extends MainActivity {
 
         @Override
         public View instantiateItem(ViewGroup container, int position) {
-            if(pos > position)
-            {
+            if (pos > position) {
                 position = pos;
                 pos = -1;
             }

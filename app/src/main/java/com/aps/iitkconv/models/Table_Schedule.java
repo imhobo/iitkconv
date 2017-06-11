@@ -5,8 +5,7 @@ package com.aps.iitkconv.models;
  */
 
 
-public class Table_Schedule
-{
+public class Table_Schedule {
 
     private String event;
     private String venue;
@@ -14,8 +13,7 @@ public class Table_Schedule
     private String time;
 
 
-    public Table_Schedule(String event, String venue, String date, String time)
-    {
+    public Table_Schedule(String event, String venue, String date, String time) {
 
         this.event = event;
         this.venue = venue;
@@ -23,49 +21,40 @@ public class Table_Schedule
         this.time = time;
     }
 
-    public Table_Schedule()
-    {
+    public Table_Schedule() {
 
     }
 
 
-    public String getEvent()
-    {
+    public String getEvent() {
         return event;
     }
 
-    public void setEvent(String event)
-    {
+    public void setEvent(String event) {
         this.event = event;
     }
 
-    public String getVenue()
-    {
+    public String getVenue() {
         return venue;
     }
 
-    public void setVenue(String venue)
-    {
+    public void setVenue(String venue) {
         this.venue = venue;
     }
 
-    public String getDate()
-    {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(String date)
-    {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public String getTime()
-    {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(String time)
-    {
+    public void setTime(String time) {
         this.time = time;
     }
 

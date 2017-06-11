@@ -33,21 +33,29 @@ import com.crashlytics.android.answers.ContentViewEvent;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
-{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    protected FrameLayout frameLayout;
-    private Context mContext;
     private static int curTab = -1;
-
-
+    protected FrameLayout frameLayout;
     ArrayList<Button> but;
     ArrayList<String> colors;
+    private Context mContext;
+
+    public static void clearChoice() {
+        curTab = -1;
+    }
+
+    public static int getChoice() {
+        return curTab;
+    }
+
+    public static void setChoice(int val) {
+        curTab = val;
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -57,10 +65,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Changing the action bar title
         this.setTitle(Html.fromHtml(getString(R.string.app_title)));
 
-        frameLayout = (FrameLayout)findViewById(R.id.content_frame);
+        frameLayout = (FrameLayout) findViewById(R.id.content_frame);
 //        frameLayout.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.exhort, null));
         getLayoutInflater().inflate(R.layout.content_main, frameLayout);
-
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -78,16 +85,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //Receive messages from GCM Firebase
         Bundle b = getIntent().getExtras();
-        if(b != null)
-        {
+        if (b != null) {
             String message = null;
             message = b.getString("message");
-            if(message != null)
-            {
-                Log.d("GCM Message",message);
+            if (message != null) {
+                Log.d("GCM Message", message);
                 DBHandler_Grad db = DBHandler_Grad.getInstance(this);
                 db.addAnnouncement(db.sqldb, message);
-                startDrawerActivity(CardViewActivity.class,2);
+                startDrawerActivity(CardViewActivity.class, 2);
             }
 
         }
@@ -116,9 +121,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         colors.add("#483C32");
         colors.add("#3b5998");
 
-        for(int i=0;i<9;i++)
-        {
-            GradientDrawable rippleDrawable = (GradientDrawable)but.get(i).getBackground(); // assumes bg is a RippleDrawable
+        for (int i = 0; i < 9; i++) {
+            GradientDrawable rippleDrawable = (GradientDrawable) but.get(i).getBackground(); // assumes bg is a RippleDrawable
             rippleDrawable.setColor(Color.parseColor(colors.get(i)));
             but.get(i).setTransformationMethod(null);
 
@@ -126,40 +130,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         Answers.getInstance().logContentView(new ContentViewEvent()
                 .putCustomAttribute("ActivityName", this.getClass().getSimpleName()));
 
-        for(int i=0;i<9;i++)
-        {
+        for (int i = 0; i < 9; i++) {
             final int finalI = i;
-            but.get(i).setOnTouchListener(new View.OnTouchListener()
-            {
+            but.get(i).setOnTouchListener(new View.OnTouchListener() {
                 @Override
-                public boolean onTouch(View v, MotionEvent event)
-                {
+                public boolean onTouch(View v, MotionEvent event) {
 
-                    GradientDrawable ri = (GradientDrawable)but.get(finalI).getBackground(); // assumes bg is a RippleDrawable
+                    GradientDrawable ri = (GradientDrawable) but.get(finalI).getBackground(); // assumes bg is a RippleDrawable
                     ri.setColorFilter(null);
 
-                    if(event.getAction() == MotionEvent.ACTION_DOWN)
-                    {
-                        GradientDrawable rippleDrawable = (GradientDrawable)but.get(finalI).getBackground(); // assumes bg is a RippleDrawable
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        GradientDrawable rippleDrawable = (GradientDrawable) but.get(finalI).getBackground(); // assumes bg is a RippleDrawable
                         rippleDrawable.setColorFilter(new LightingColorFilter(0xFF000000, 0xFFAA0000));
                     }
 
-                    if(event.getAction() == MotionEvent.ACTION_MOVE){
+                    if (event.getAction() == MotionEvent.ACTION_MOVE) {
 
 
-                        GradientDrawable rippleDrawable = (GradientDrawable)but.get(finalI).getBackground(); // assumes bg is a RippleDrawable
+                        GradientDrawable rippleDrawable = (GradientDrawable) but.get(finalI).getBackground(); // assumes bg is a RippleDrawable
                         rippleDrawable.setColorFilter(null);
 
                     }
-                    if (event.getAction() == MotionEvent.ACTION_UP)
-                    {
-                        GradientDrawable rippleDrawable = (GradientDrawable)but.get(finalI).getBackground(); // assumes bg is a RippleDrawable
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        GradientDrawable rippleDrawable = (GradientDrawable) but.get(finalI).getBackground(); // assumes bg is a RippleDrawable
                         rippleDrawable.setColorFilter(null);
 
                         if (finalI == 0)
@@ -178,8 +176,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             startDrawerActivity(CardViewActivity.class, 9);
                         else if (finalI == 7)
                             startDrawerActivity(MapsActivity.class, 6);
-                        else if (finalI == 8)
-                        {
+                        else if (finalI == 8) {
                             //Url for facebook group
                             String url = "https://www.facebook.com/Convocation-IIT-Kanpur-1350357441738753/";
                             Intent i = new Intent(Intent.ACTION_VIEW);
@@ -190,25 +187,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     return true;
                 }
 
-                });
+            });
 
 
-            }
+        }
 
 
-    }
-
-    public static void clearChoice()
-    {
-        curTab = -1;
-    }
-    public static int getChoice()
-    {
-        return curTab;
-    }
-    public static void setChoice(int val)
-    {
-        curTab = val;
     }
 
     @Override
@@ -245,25 +229,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item)
-    {
+    public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_schedule)
-        {
-            startDrawerActivity(CardViewActivity.class,1);
-        }
-
-        else if (id == R.id.nav_home && curTab !=-1)
-        {
+        if (id == R.id.nav_schedule) {
+            startDrawerActivity(CardViewActivity.class, 1);
+        } else if (id == R.id.nav_home && curTab != -1) {
             //startDrawerActivity(CardViewActivity.class,1);
 //            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 //            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //            startActivity(intent);
 
 //            finish();
-            startDrawerActivity(MainActivity.class,2);
+            startDrawerActivity(MainActivity.class, 2);
             curTab = -1;
         }
 /*
@@ -272,62 +251,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startDrawerActivity(CardViewActivity.class,2);
         }
 */
-        else if (id == R.id.nav_awards)
-        {
-            startDrawerActivity(CardViewActivity.class,3);
+        else if (id == R.id.nav_awards) {
+            startDrawerActivity(CardViewActivity.class, 3);
 
-        }
+        } else if (id == R.id.nav_grad) {
+            startDrawerActivity(CardViewActivity.class, 4);
 
-        else if (id == R.id.nav_grad)
-        {
-            startDrawerActivity(CardViewActivity.class,4);
+        } else if (id == R.id.nav_honorary) {
+            startDrawerActivity(CardViewActivity.class, 5);
 
-        }
+        } else if (id == R.id.nav_chief) {
+            startDrawerActivity(CardViewActivity.class, 50);
 
-        else if (id == R.id.nav_honorary)
-        {
-            startDrawerActivity(CardViewActivity.class,5);
+        } else if (id == R.id.nav_map) {
+            startDrawerActivity(MapsActivity.class, 6);
 
-        }
+        } else if (id == R.id.nav_webcast) {
+            startDrawerActivity(WebcastActivity.class, 7);
 
-        else if (id == R.id.nav_chief)
-        {
-            startDrawerActivity(CardViewActivity.class,50);
+        } else if (id == R.id.nav_nostalgia) {
+            startDrawerActivity(NostalgiaActivity.class, 8);
 
-        }
+        } else if (id == R.id.nav_useful) {
+            startDrawerActivity(CardViewActivity.class, 9);
 
-        else if (id == R.id.nav_map)
-        {
-            startDrawerActivity(MapsActivity.class,6);
+        } else if (id == R.id.nav_links) {
+            startDrawerActivity(CardViewActivity.class, 10);
 
-        }
-
-        else if (id == R.id.nav_webcast)
-        {
-            startDrawerActivity(WebcastActivity.class,7);
-
-        }
-
-        else if (id == R.id.nav_nostalgia)
-        {
-            startDrawerActivity(NostalgiaActivity.class,8);
-
-        }
-
-        else if (id == R.id.nav_useful)
-        {
-            startDrawerActivity(CardViewActivity.class,9);
-
-        }
-
-        else if (id == R.id.nav_links)
-        {
-            startDrawerActivity(CardViewActivity.class,10);
-
-        }
-
-        else if (id == R.id.feedback)
-        {
+        } else if (id == R.id.feedback) {
             Uri uri = Uri.parse("market://details?id=" + this.getPackageName());
             Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
             // To count with Play market backstack, After pressing back button,
@@ -349,8 +300,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    private void startDrawerActivity(final Class activity, final int val)
-    {
+    private void startDrawerActivity(final Class activity, final int val) {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         Handler handler = new Handler();
