@@ -22,7 +22,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class DBHandler_Grad extends SQLiteOpenHelper
 {
-
     private static DBHandler_Grad sInstance;
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "Database";

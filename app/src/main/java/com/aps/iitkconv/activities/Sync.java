@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -21,13 +20,9 @@ import com.aps.iitkconv.models.Table_Grad_Students;
 import com.aps.iitkconv.models.Table_Guest;
 import com.aps.iitkconv.models.Table_Prev_Rec;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,7 +32,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -68,8 +62,6 @@ import static android.content.Context.MODE_PRIVATE;
         public Sync(Context mContext)
         {
             this.mContext = mContext;
-            dialog = new ProgressDialog(mContext);
-
         }
 
         protected void checkForUpdates()
@@ -81,9 +73,14 @@ import static android.content.Context.MODE_PRIVATE;
         protected void onPreExecute()
         {
             super.onPreExecute();
-            dialog.setCancelable(false);
-            dialog.setMessage("Fetching data. Please wait...");
-            dialog.show();
+            if(dialog == null) {
+                dialog = new ProgressDialog(mContext);
+                dialog.setCancelable(false);
+                dialog.setIndeterminate(false);
+                dialog.setMessage("Fetching data. Please wait...");
+                if (!((Activity) mContext).isFinishing())
+                    dialog.show();
+            }
         }
 
         protected InputStream getContent(String u)
@@ -177,7 +174,7 @@ import static android.content.Context.MODE_PRIVATE;
 
                 String m1 = mPrefs.getString("FetchFormat", String.valueOf(1));
                 String m2 = mPrefs.getString("FetchSchedule", String.valueOf(1));
-                String m3 = mPrefs.getString("FetchContact", String.valueOf(1));
+                String m3 = mPrefs.getString("FetchContacts", String.valueOf(1));
                 String m4 = mPrefs.getString("FetchWebcast", String.valueOf(1));
                 String m5 = mPrefs.getString("FetchHon", String.valueOf(1));
                 String m6 = mPrefs.getString("FetchChief", String.valueOf(1));
@@ -207,7 +204,7 @@ import static android.content.Context.MODE_PRIVATE;
                     db.deleteContacts();
                     parseContacts();
                     SharedPreferences.Editor mEditor = mPrefs.edit();
-                    mEditor.putString("FetchContact", "0").commit();
+                    mEditor.putString("FetchContacts", "0").commit();
                     Log.d("Done:", "Contacts");
                 }
 
@@ -396,8 +393,9 @@ import static android.content.Context.MODE_PRIVATE;
 
         protected void onPostExecute(String content)
         {
+            if(!((Activity) mContext).isFinishing() && dialog != null && dialog.isShowing() )
+                dialog.dismiss();
 
-            dialog.dismiss();
             startMain();
         }
 

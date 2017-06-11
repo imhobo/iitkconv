@@ -28,6 +28,8 @@ import android.widget.FrameLayout;
 
 import com.aps.iitconv.R;
 import com.aps.iitkconv.models.DBHandler_Grad;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ContentViewEvent;
 
 import java.util.ArrayList;
 
@@ -127,7 +129,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume()
     {
         super.onResume();
-
+        Answers.getInstance().logContentView(new ContentViewEvent()
+                .putCustomAttribute("ActivityName", this.getClass().getSimpleName()));
 
         for(int i=0;i<9;i++)
         {

@@ -316,8 +316,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         else if(val == 69)
         {
-            holder.t1.setText(mDataset.get(position).getmText1());
-            holder.pic.setImageBitmap(mDataset.get(position).getmImg());
+            if(holder.t1 != null)
+                holder.t1.setText(mDataset.get(position).getmText1());
+            if(holder.pic != null)
+                holder.pic.setImageBitmap(mDataset.get(position).getmImg());
         }
 
         else if((val==5 && itemType == ITEM_TYPE_HEADER) || (val==50 && itemType == ITEM_TYPE_HEADER))
