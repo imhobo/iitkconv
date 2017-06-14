@@ -155,10 +155,10 @@ class Sync extends AsyncTask<String, Void, String> {
             SharedPreferences mPrefs = mContext.getSharedPreferences("lastDataFetch", MODE_PRIVATE);
 
             String m1 = mPrefs.getString("FetchFormat", String.valueOf(1));
-            String m2 = mPrefs.getString("FetchSchedule", String.valueOf(1));
-            String m3 = mPrefs.getString("FetchContacts", String.valueOf(1));
+            String m2 = mPrefs.getString("FetchSchedule3", String.valueOf(1));
+            String m3 = mPrefs.getString("FetchContacts1", String.valueOf(1));
             String m4 = mPrefs.getString("FetchWebcast", String.valueOf(1));
-            String m5 = mPrefs.getString("FetchHon", String.valueOf(1));
+            String m5 = mPrefs.getString("FetchHon1", String.valueOf(1));
             String m6 = mPrefs.getString("FetchChief", String.valueOf(1));
             String m7 = mPrefs.getString("ParsePrev", String.valueOf(1));
             String m8 = mPrefs.getString("FetchLinks", String.valueOf(1));
@@ -169,10 +169,11 @@ class Sync extends AsyncTask<String, Void, String> {
             Log.d("Inside:", "doInback3");
 
             if (m2.equals("1")) {
+                db.deleteSchedule();
                 parseSchedule();
                 Log.d("Inside:", "doInback4");
                 SharedPreferences.Editor mEditor = mPrefs.edit();
-                mEditor.putString("FetchSchedule", "0").commit();
+                mEditor.putString("FetchSchedule3", "0").commit();
                 Log.d("Done:", "Schedule");
 
             }
@@ -182,7 +183,7 @@ class Sync extends AsyncTask<String, Void, String> {
                 db.deleteContacts();
                 parseContacts();
                 SharedPreferences.Editor mEditor = mPrefs.edit();
-                mEditor.putString("FetchContacts", "0").commit();
+                mEditor.putString("FetchContacts1", "0").commit();
                 Log.d("Done:", "Contacts");
             }
 
@@ -197,7 +198,7 @@ class Sync extends AsyncTask<String, Void, String> {
                 insertImageList(imgList, mContext.getString(R.string.TYPE_H));
 
                 SharedPreferences.Editor mEditor = mPrefs.edit();
-                mEditor.putString("FetchHon", "0").commit();
+                mEditor.putString("FetchHon1", "0").commit();
                 Log.d("Done:", "Honorary");
             }
 

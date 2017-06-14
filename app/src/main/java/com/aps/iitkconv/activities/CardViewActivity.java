@@ -439,9 +439,9 @@ public class CardViewActivity extends MainActivity {
         DataObject obj = new DataObject("Volunteers", "");
         results.add(0, obj);
         obj = new DataObject("Health Center & Security", "");
-        results.add(12, obj);
+        results.add(13, obj);
         obj = new DataObject("Taxi", "");
-        results.add(15, obj);
+        results.add(16, obj);
 
 
         return results;
