@@ -7,7 +7,6 @@
     android:fillViewport="true">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:card_view="http://schemas.android.com/apk/res-auto"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:orientation="vertical">
@@ -17,7 +16,7 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src = "@drawable/cover">
+            android:src="@drawable/cover">
         </ImageView>
 
         <LinearLayout
@@ -100,38 +99,38 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:weightSum="2"
                 android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="2">
 
                 <Button
-                    android:layout_width="0dp"
-                    android:layout_height="90dp"
-                    android:background="@drawable/rounded_button"
-                    android:layout_weight="1"
-                    android:drawableTop="@drawable/honorary"
-                    android:textColor="#FFFFFF"
                     android:id="@+id/button5"
-                    android:paddingTop="10sp"
-                    android:drawablePadding="-5sp"
+                    android:layout_width="0dp"
+                    android:layout_height="90dp"
                     android:layout_marginRight="20dp"
-                    android:text="Honoris Causa"></Button>
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_button"
+                    android:drawablePadding="-5sp"
+                    android:drawableTop="@drawable/honorary"
+                    android:paddingTop="10sp"
+                    android:text="Honoris Causa"
+                    android:textColor="#FFFFFF"></Button>
 
 
                 <Button
+                    android:id="@+id/button6"
                     android:layout_width="0dp"
                     android:layout_height="90dp"
-                    android:background="@drawable/rounded_button"
-                    android:drawableTop="@drawable/gallery"
-                    android:textColor="#FFFFFF"
                     android:layout_weight="1"
-                    android:id="@+id/button6"
-                    android:paddingTop="10sp"
+                    android:background="@drawable/rounded_button"
                     android:drawablePadding="-5sp"
-                    android:text="Gallery"></Button>
+                    android:drawableTop="@drawable/gallery"
+                    android:paddingTop="10sp"
+                    android:text="Gallery"
+                    android:textColor="#FFFFFF"></Button>
 
 
             </LinearLayout>
@@ -139,12 +138,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:weightSum="2"
                 android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="2">
 
                 <Button
                     android:id="@+id/button7"
@@ -178,22 +177,21 @@
             android:id="@+id/button9"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_button"
-            android:drawablePadding="-10sp"
             android:drawableLeft="@drawable/facebook"
+            android:drawablePadding="-10sp"
             android:paddingLeft="20sp"
             android:paddingTop="5sp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
             android:text="Visit us on facebook"
 
             android:textColor="#FFFFFF"></Button>
 
 
-
     </LinearLayout>
 
-    </ScrollView>
+</ScrollView>

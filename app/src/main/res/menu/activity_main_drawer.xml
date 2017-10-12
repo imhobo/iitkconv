@@ -18,40 +18,40 @@
             android:icon="@drawable/ic_guests"
             android:title="Chief Guests"/>
 
-        </group>
+    </group>
 
 
     <item android:title="Reports and Medals">
         <menu>
 
-        <item
-            android:id="@+id/nav_awards"
-            android:icon="@drawable/ic_star"
-            android:title="Medals"/>
-        <item
-            android:id="@+id/nav_grad"
-            android:icon="@drawable/ic_graduate"
-            android:title="Graduating Degrees"/>
-        <item
-            android:id="@+id/nav_honorary"
-            android:icon="@drawable/ic_hon"
-            android:title="Honoris Causa"/>
+            <item
+                android:id="@+id/nav_awards"
+                android:icon="@drawable/ic_star"
+                android:title="Medals"/>
+            <item
+                android:id="@+id/nav_grad"
+                android:icon="@drawable/ic_graduate"
+                android:title="Graduating Degrees"/>
+            <item
+                android:id="@+id/nav_honorary"
+                android:icon="@drawable/ic_hon"
+                android:title="Honoris Causa"/>
 
-            </menu>
+        </menu>
     </item>
 
     <item android:title="Media">
         <menu>
 
-        <item
-            android:id="@+id/nav_webcast"
-            android:icon="@drawable/ic_livetv"
-            android:title="Webcast"/>
+            <item
+                android:id="@+id/nav_webcast"
+                android:icon="@drawable/ic_livetv"
+                android:title="Webcast"/>
 
-        <item
-            android:id="@+id/nav_nostalgia"
-            android:icon="@drawable/ic_photo"
-            android:title="Nostalgia"/>
+            <item
+                android:id="@+id/nav_nostalgia"
+                android:icon="@drawable/ic_photo"
+                android:title="Nostalgia"/>
 
         </menu>
     </item>

@@ -6,8 +6,8 @@ import android.os.Bundle;
 import com.aps.iitconv.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -19,8 +19,8 @@ import java.util.Map;
 
 public class MapsActivity extends MainActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
     int ch = -1;
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +35,12 @@ public class MapsActivity extends MainActivity implements OnMapReadyCallback {
         MainActivity.setChoice(getIntent().getExtras().getInt("key"));
 
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        // Obtain the MapFragment and get notified when the map is ready to be used.
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
     }
-
 
     /**
      * Manipulates the map once available.
@@ -58,19 +57,19 @@ public class MapsActivity extends MainActivity implements OnMapReadyCallback {
         IconGenerator iconFactory = new IconGenerator(this);
 
 
-        Map<LatLng,String> places = new HashMap<>();
+        Map<LatLng, String> places = new HashMap<>();
 
-        places.put(new LatLng(26.507527, 80.234566),"Visitor's Hostel");
-        places.put(new LatLng(26.512941, 80.235817),"Auditorium");
-        places.put(new LatLng(26.510820, 80.234165),"LH 18,19,20");
-        places.put(new LatLng(26.505257, 80.233660),"Health Centre");
-        places.put(new LatLng(26.510784, 80.246734),"IIT Gate");
-        places.put(new LatLng(26.505290, 80.227989),"Hall 8");
-        places.put(new LatLng(26.505717, 80.226873),"Hall 10,11");
+        places.put(new LatLng(26.507527, 80.234566), "Visitor's Hostel");
+        places.put(new LatLng(26.512941, 80.235817), "Auditorium");
+        places.put(new LatLng(26.510820, 80.234165), "LH 18,19,20");
+        places.put(new LatLng(26.505257, 80.233660), "Health Centre");
+        places.put(new LatLng(26.510784, 80.246734), "IIT Gate");
+        places.put(new LatLng(26.505290, 80.227989), "Hall 8");
+        places.put(new LatLng(26.505717, 80.226873), "Hall 10,11");
 
 
         for (Map.Entry<LatLng, String> pair : places.entrySet())
-            addIcon(iconFactory,pair.getValue(),pair.getKey());
+            addIcon(iconFactory, pair.getValue(), pair.getKey());
 
 
         LatLng iitk = new LatLng(26.512439, 80.232882);
@@ -97,8 +96,7 @@ public class MapsActivity extends MainActivity implements OnMapReadyCallback {
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         MainActivity.setChoice(ch);
         finish();
     }

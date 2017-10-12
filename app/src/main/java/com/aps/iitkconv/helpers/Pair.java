@@ -8,8 +8,7 @@ public class Pair<F, S> {
     private F first;
     private S second;
 
-    public Pair(F f, S s)
-    {
+    public Pair(F f, S s) {
         first = f;
         second = s;
     }

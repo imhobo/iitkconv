@@ -7,21 +7,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.aps.iitconv.R;
+import com.crashlytics.android.Crashlytics;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by imhobo on 2/5/17.
  */
 
-public class Startup extends AppCompatActivity
-{
-
-    private Context mContext;
+public class Startup extends AppCompatActivity {
 
     // Splash screen timer
     private static int SPLASH_TIME_OUT = 2000;
+    private Context mContext;
 
-    public Startup()
-    {
+    public Startup() {
         // this method fires only once per application start.
         // getApplicationContext returns null here
 
@@ -29,9 +29,9 @@ public class Startup extends AppCompatActivity
     }
 
     @Override
-    public void onCreate(Bundle saved)
-    {
+    public void onCreate(Bundle saved) {
         super.onCreate(saved);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_startup);
 
         mContext = Startup.this;
@@ -42,8 +42,7 @@ public class Startup extends AppCompatActivity
     }
 
 
-    protected void askForUpdates()
-    {
+    protected void askForUpdates() {
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 //        builder.setTitle("Update");
@@ -85,8 +84,7 @@ public class Startup extends AppCompatActivity
 
     }
 
-    protected void addDelay()
-    {
+    protected void addDelay() {
         new Handler().postDelayed(new Runnable() {
 
             /*

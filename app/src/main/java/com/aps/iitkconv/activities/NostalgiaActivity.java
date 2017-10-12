@@ -7,7 +7,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.aps.iitconv.R;
@@ -24,11 +23,11 @@ import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class NostalgiaActivity extends MainActivity {
 
+    private static String TAG = "NostalgiaActivity";
     int ch = -1;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private static String TAG = "NostalgiaActivity";
     private Context ctx;
 
     @Override

@@ -5,8 +5,7 @@ package com.aps.iitkconv.models;
  */
 
 
-public class Table_Prev_Rec
-{
+public class Table_Prev_Rec {
 
     private String name;
     private String designation;
@@ -14,8 +13,7 @@ public class Table_Prev_Rec
     private String comment;
     private String type;
 
-    public Table_Prev_Rec(String name, String designation, String convo_num, String comment, String type)
-    {
+    public Table_Prev_Rec(String name, String designation, String convo_num, String comment, String type) {
         this.name = name;
         this.designation = designation;
         this.convo_num = convo_num;
@@ -23,53 +21,43 @@ public class Table_Prev_Rec
         this.type = type;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getDesignation()
-    {
+    public String getDesignation() {
         return designation;
     }
 
-    public void setDesignation(String designation)
-    {
+    public void setDesignation(String designation) {
         this.designation = designation;
     }
 
-    public String getConvo_num()
-    {
+    public String getConvo_num() {
         return convo_num;
     }
 
-    public void setConvo_num(String convo_num)
-    {
+    public void setConvo_num(String convo_num) {
         this.convo_num = convo_num;
     }
 
-    public String getComment()
-    {
+    public String getComment() {
         return comment;
     }
 
-    public void setComment(String comment)
-    {
+    public void setComment(String comment) {
         this.comment = comment;
     }
 
-    public String getType()
-    {
+    public String getType() {
         return type;
     }
 
-    public void setType(String type)
-    {
+    public void setType(String type) {
         this.type = type;
     }
 }
